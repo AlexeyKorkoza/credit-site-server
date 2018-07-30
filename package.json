@@ -5,7 +5,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack:build": "webpack -p",
     "webpack:watch": "webpack -d --watch",
-    "dev:watch": "babel-watch ./backend/server.js"
+    "dev:watch": "babel-watch ./backend/server.js",
+    "migrate": "sequelize db:migrate",
+    "migrate:undo": "sequelize db:migrate:undo",
+    "migrate:create": "sequelize migration:create"
   },
   "repository": {
     "type": "git",
@@ -30,12 +33,14 @@
     "express": "^4.16.3",
     "immutability-helper": "^2.6.4",
     "moment": "^2.22.1",
+    "pg": "^7.4.3",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "sequelize": "^4.38.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
