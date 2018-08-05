@@ -35,6 +35,11 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             defaultValue: false,
         },
+        input_count: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defaultValue: 0,
+        },
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
