@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(255),
             allowNull: false,
         },
-        is_blocked: {
+        is_removed: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
