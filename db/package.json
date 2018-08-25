@@ -1,11 +1,8 @@
 {
-  "name": "credit-site-root",
+  "name": "credit-site-db",
   "version": "0.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "webpack:build": "webpack -p",
-    "webpack:watch": "webpack -d --watch",
-    "dev:watch": "babel-watch ./backend/server.js",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo",
     "migrate:create": "sequelize migration:create"
@@ -23,12 +20,11 @@
     "url": "https://github.com/AlexeyKorkoza/credit-site/issues"
   },
   "homepage": "https://github.com/AlexeyKorkoza/credit-site#readme",
-  "devDependencies": {
-    "babel-eslint": "^8.2.2",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb": "^15.0.1",
-    "eslint-plugin-import": "^2.3.0",
-    "eslint-plugin-jsx-a11y": "^5.0.3",
-    "eslint-plugin-react": "^7.0.1"
+  "dependencies": {
+    "config": "^2.0.1",
+    "pg": "^7.4.3",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.38.0",
+    "sequelize-cli": "^4.1.1"
   }
 }
