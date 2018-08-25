@@ -1,7 +1,10 @@
 .idea/
 .vscode/
-**/node_modules
-*.log
-logs
-npm-debug.log
-frontend/public
+node_modules
+.env$
+*/dist/*
+*/config/local.json
+*/*/dist/*
+*/*/config/local.json
+yarn.lock*
+backend/public/build/*

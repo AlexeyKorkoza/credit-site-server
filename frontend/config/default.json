@@ -1,0 +1,8 @@
+{
+  "api": {
+    "url": "http://localhost:8080/api"
+  },
+  "app": {
+    "env": "development"
+  }
+}

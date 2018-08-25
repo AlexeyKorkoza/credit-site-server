@@ -23,6 +23,10 @@ const plugins = [
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     new ExtractTextPlugin({ filename: 'app.css', allChunks: true }),
     new webpack.optimize.AggressiveMergingPlugin(),
+    new webpack.DefinePlugin({
+        NODE_ENV: JSON.stringify(environment),
+        API_URL: JSON.stringify(`${config.api.url}`),
+    })
 ];
 
 if (environment === 'production') {
@@ -53,15 +57,15 @@ if (environment === 'production') {
 }
 
 module.exports = {
-    context: __dirname + '/frontend/src',
+    context: __dirname + '/src',
     watchOptions: {
         poll: true,
     },
     entry: './index.js',
 
     output: {
-        path: __dirname + '/frontend/public',
-        publicPath: '/frontend/public/',
+        path: __dirname + './../backend/public/build',
+        publicPath: './../backend/public/build',
         filename: 'app.js',
     },
 
