@@ -7,5 +7,18 @@
   "paths": {
     "views": "./backend/views",
     "public": "./backend/public"
+  },
+  "db": {
+    "database": "credit_site",
+    "username": "postgres",
+    "password": "linux"
+  },
+  "crypto": {
+    "algorithm": "aes-256-ctr",
+    "password": "dvLR6BLxW88J7Gr2"
+  },
+  "jwt": {
+    "secretKey": "je428eWB96wfS97m",
+    "algorithm": "RS256"
   }
 }
