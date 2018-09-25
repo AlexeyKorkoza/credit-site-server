@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
+        refresh_token: {
+            type: DataTypes.TEXT,
+            defaultValue: null,
+        },
         createdAt: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
