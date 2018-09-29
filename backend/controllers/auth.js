@@ -1,3 +1,5 @@
+import config from 'config';
+
 import { buildToken, buildExpiresIn } from '../helpers/jwt';
 import { encryptor } from '../helpers/crypto';
 import { getModel } from '../services/models';
@@ -55,7 +57,7 @@ const logIn = (req, res) => {
             }
 
             const accessToken = buildToken({ user_id: user.id, role });
-            const expiresIn = buildExpiresIn(30);
+            const expiresIn = buildExpiresIn(config.jwt.accessTokenExpiresIn);
             const refreshToken = buildToken({ user_id: user.id });
 
             if (role === 'manager') {
@@ -102,7 +104,7 @@ const updateRefreshToken = (req, res) => {
 
             const newRefreshToken = buildToken({ user_id: id });
             const newAccessToken = buildToken({ user_id: id, role }, false);
-            const expiresIn = buildExpiresIn(30);
+            const expiresIn = buildExpiresIn(config.jwt.accessTokenExpiresIn);
 
             const data = {
                 refresh_token: newRefreshToken,
