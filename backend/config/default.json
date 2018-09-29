@@ -20,6 +20,7 @@
   "jwt": {
     "secretKey": "je428eWB96wfS97m",
     "algorithm": "RS256",
-    "expiresIn": "60d"
+    "expiresIn": "60d",
+    "accessTokenExpiresIn": 30
   }
 }
