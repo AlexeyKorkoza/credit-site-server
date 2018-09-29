@@ -1,13 +1,8 @@
 import { buildToken, buildExpiresIn } from '../helpers/jwt';
 import { encryptor } from '../helpers/crypto';
-import { admin, manager } from '../models';
+import { getModel } from '../services/models';
 
 const logIn = (req, res) => {
-    const models = {
-        admin,
-        manager,
-    };
-
     const { login, password, role } = req.body;
 
     if (!login || !password || !role) {
@@ -16,7 +11,7 @@ const logIn = (req, res) => {
         });
     }
 
-    const model = models[role];
+    const model = getModel(role);
     if (!model) {
         return res.status(400).json({
             message: 'You have chosen incorrect role',
@@ -84,6 +79,51 @@ const logIn = (req, res) => {
         });
 };
 
+const updateRefreshToken = (req, res) => {
+    const id = req.user.user_id;
+    const { role, refreshToken } = req.body;
+    const model = getModel(role);
+
+    const query = {
+        where: {
+            id,
+            refresh_token: refreshToken,
+        },
+    };
+
+    return model.findOne(query)
+        .then(result => {
+            if (!result) {
+                return res.status(404).json({
+                    ok: 0,
+                    message: 'User is not found',
+                });
+            }
+
+            const newRefreshToken = buildToken({ user_id: id });
+            const newAccessToken = buildToken({ user_id: id, role }, false);
+            const expiresIn = buildExpiresIn(30);
+
+            const data = {
+                refresh_token: newRefreshToken,
+            };
+
+            return model.update(data, query)
+                .then(() => res.status(200).json({
+                    ok: 1,
+                    refreshToken: newRefreshToken,
+                    accessToken: newAccessToken,
+                    expiresIn,
+                })
+            );
+        })
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
 export {
     logIn,
+    updateRefreshToken,
 };
