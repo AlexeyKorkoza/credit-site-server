@@ -9,6 +9,7 @@ const logIn = (req, res) => {
 
     if (!login || !password || !role) {
         return res.status(400).json({
+            ok: 0,
             message: 'Required parameters are empty',
         });
     }
@@ -16,6 +17,7 @@ const logIn = (req, res) => {
     const model = getModel(role);
     if (!model) {
         return res.status(400).json({
+            ok: 0,
             message: 'You have chosen incorrect role',
         });
     }
@@ -30,6 +32,7 @@ const logIn = (req, res) => {
         .then(user => {
             if (!user) {
                 return res.status(400).json({
+                    ok: 0,
                     message: `${model} is not found`,
                 });
             }
@@ -47,11 +50,13 @@ const logIn = (req, res) => {
 
                     return manager.update(query, data)
                         .then(() => res.status(400).json({
+                            ok: 0,
                             message: 'Password are not compared',
                         }));
                 }
 
                 return res.status(400).json({
+                    ok: 0,
                     message: 'Password are not compared',
                 });
             }
@@ -67,6 +72,7 @@ const logIn = (req, res) => {
                 );
                 return model.update(query, data)
                     .then(() => res.status(200).json({
+                        ok: 1,
                         accessToken,
                         refreshToken,
                         expiresIn,
@@ -74,6 +80,7 @@ const logIn = (req, res) => {
             }
 
             return res.status(200).json({
+                ok: 1,
                 accessToken,
                 refreshToken,
                 expiresIn,
