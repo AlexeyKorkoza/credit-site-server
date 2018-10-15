@@ -1,0 +1,1 @@
+import express from 'express';import {    editClients,} from '../../controllers/api/clients';const route = express.Route();route.put('/clients', editClients);export default route;
