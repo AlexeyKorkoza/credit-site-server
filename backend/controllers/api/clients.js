@@ -1,11 +1,14 @@
-import { makeUpdatingOfClient } from '../../core/clients';
+import {
+    makeUpdatingOfClient,
+    makeRemovingOfClient,
+} from '../../core/clients';
 
 /**
  * @param req
  * @param res
  * @returns {Promise.<T>|*}
  */
-const editClients = (req, res) => {
+const editClient = (req, res) => {
     // TODO @Add validation
 
     const { id: adminId } = req.user;
@@ -23,6 +26,27 @@ const editClients = (req, res) => {
         }));
 };
 
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
+const removeClient = (req, res) => {
+    const { id: adminId } = req.user;
+    const { id: clientId } = req.params;
+
+    return makeRemovingOfClient(adminId, clientId)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Client was removed',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
 export {
-    editClients,
+    editClient,
+    removeClient,
 };

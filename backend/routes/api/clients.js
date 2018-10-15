@@ -1,1 +1,1 @@
-import express from 'express';import {    editClients,} from '../../controllers/api/clients';const route = express.Route();route.put('/clients', editClients);export default route;
+import express from 'express';import {    editClient,    removeClient,} from '../../controllers/api/clients';const route = express.Route();route.put('/clients/:id', editClient);route.delete('/clients/:id', removeClient);export default route;

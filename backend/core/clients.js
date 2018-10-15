@@ -32,6 +32,26 @@ const makeUpdatingOfClient = (adminId, clientId, body) => {
     return client.update(data, query);
 };
 
+/**
+ * @param adminId
+ * @param clientId
+ */
+const makeRemovingOfClient = (adminId, clientId) => {
+    const query = {
+        where: {
+            id: clientId,
+        },
+    };
+
+    const data = {
+        admin_id: adminId,
+        is_removed: true,
+    };
+
+    return client.update(data, query);
+};
+
 export {
     makeUpdatingOfClient,
+    makeRemovingOfClient,
 };
