@@ -1,5 +1,6 @@
 import { getModel } from '../../services/models';
 import { checkOldPasswords } from '../../services/passwords';
+import { makeBlockingOfManager } from '../../core/managers';
 
 const updateProfileManager = (req, res) => {
     const {
@@ -106,7 +107,28 @@ const changePassword = (req, res) => {
         }));
 };
 
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
+const blockManager = (req, res) => {
+    const { id: adminId } = req.user;
+    const { id: managerId } = req.body;
+
+    return makeBlockingOfManager(adminId, managerId)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Manager was blocked',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
 export {
     updateProfileManager,
     changePassword,
+    blockManager,
 };
