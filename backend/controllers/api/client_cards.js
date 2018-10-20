@@ -1,4 +1,4 @@
-import { makeUpdatingTerritorialCoefficient } from '../../core/client_cards';
+import { makeUpdatingTerritorialCoefficient } from '../../business/client_cards';
 
 const updateTerritorialCoefficient = (req, res) => {
     const { id } = req.params;
