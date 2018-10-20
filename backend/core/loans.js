@@ -26,6 +26,25 @@ const makeUpdating = (id, body) => {
     return Loan.update(data, query);
 };
 
+const makeUpdatingIssueLoan = (id, body) => {
+    const {
+        dateIssue,
+    } = body;
+
+    const query = {
+        where: {
+            id,
+        },
+    };
+
+    const data = {
+        data_issue: dateIssue,
+    };
+
+    return Loan.update(data, query);
+};
+
 export {
     makeUpdating,
+    makeUpdatingIssueLoan,
 };
