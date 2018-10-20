@@ -1,6 +1,6 @@
 import { getModel } from '../../services/models';
 import { checkOldPasswords } from '../../services/passwords';
-import { makeBlockingOfManager } from '../../core/managers';
+import { makeBlockingOfManager } from '../../business/managers';
 
 const updateProfileManager = (req, res) => {
     const {

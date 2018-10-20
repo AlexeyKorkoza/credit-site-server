@@ -1,7 +1,7 @@
 import {
     makeUpdatingOfClient,
     makeRemovingOfClient,
-} from '../../core/clients';
+} from '../../business/clients';
 
 /**
  * @param req

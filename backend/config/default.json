@@ -22,5 +22,9 @@
     "algorithm": "RS256",
     "expiresIn": "60d",
     "accessTokenExpiresIn": 30
+  },
+  "logger": {
+    "level": "info",
+    "name": "backend"
   }
 }
