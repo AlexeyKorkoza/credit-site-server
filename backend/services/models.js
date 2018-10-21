@@ -1,9 +1,9 @@
-import { admin, manager, client } from '../models';
+import { Admin, Manager, Client } from '../models';
 
 const models = {
-    admin,
-    manager,
-    client,
+    admin: Admin,
+    manager: Manager,
+    client: Client,
 };
 
 const getModel = role => models[role];
