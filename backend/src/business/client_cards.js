@@ -1,4 +1,4 @@
-import { ClientCard } from '../models';
+import { ClientCard } from '../models/index';
 
 const makeUpdatingTerritorialCoefficient = (id, surchargeFactor) => {
     const query = {
