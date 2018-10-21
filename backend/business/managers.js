@@ -1,4 +1,4 @@
-import { manager } from '../models';
+import { Manager } from '../models';
 
 /**
  * @param adminId
@@ -16,7 +16,7 @@ const makeBlockingOfManager = (adminId, managerId) => {
         admin_id: adminId,
     };
 
-    return manager.update(data, query);
+    return Manager.update(data, query);
 };
 
 export {
