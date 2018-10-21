@@ -1,4 +1,4 @@
-import { client } from '../models';
+import { Client } from '../models';
 
 /**
  * @param adminId
@@ -29,7 +29,7 @@ const makeUpdatingOfClient = (adminId, clientId, body) => {
         },
     };
 
-    return client.update(data, query);
+    return Client.update(data, query);
 };
 
 /**
@@ -48,7 +48,7 @@ const makeRemovingOfClient = (adminId, clientId) => {
         is_removed: true,
     };
 
-    return client.update(data, query);
+    return Client.update(data, query);
 };
 
 export {
