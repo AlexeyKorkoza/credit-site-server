@@ -64,8 +64,8 @@ module.exports = {
     entry: './index.js',
 
     output: {
-        path: __dirname + './../backend/public/build',
-        publicPath: './../backend/public/build',
+        path: __dirname + './../backend/src/public/build',
+        publicPath: './../backend/src/public/build',
         filename: 'app.js',
     },
 

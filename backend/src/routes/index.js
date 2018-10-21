@@ -1,7 +1,7 @@
 import express from 'express';
 
 import auth from './auth';
-import api from './api';
+import api from './api/index';
 
 const route = express();
 
