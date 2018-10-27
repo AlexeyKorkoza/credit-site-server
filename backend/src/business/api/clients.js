@@ -1,4 +1,4 @@
-import { Client } from '../models/index';
+import { Client } from '../../models/index';
 
 /**
  * @param adminId

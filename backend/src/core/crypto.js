@@ -1,5 +1,5 @@
 import config from 'config';
-import crypto from 'backend/src/helpers/crypto';
+import crypto from 'backend/src/core/crypto';
 
 const algorithm = config.crypto.algorithm;
 const passwordCrypto = config.crypto.password;
