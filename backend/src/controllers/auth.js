@@ -1,8 +1,12 @@
-import config from 'config';
-
-import { buildToken, buildExpiresIn } from '../utils/jwt';
-import { encryptor } from '../core/crypto';
-import { getModel } from '../services/models';
+import { buildTokens } from '../utils/jwt';
+import { comparePasswords } from '../utils/passwords';
+import {
+    authManager,
+    findRecordOnLogin,
+    findRecordOnRefreshToken,
+    makeUpdatingRefreshToken,
+    increaseInputCount,
+} from '../business/api/managers';
 
 const logIn = (req, res) => {
     const { login, password, role } = req.body;
@@ -14,44 +18,26 @@ const logIn = (req, res) => {
         });
     }
 
-    const model = getModel(role);
-    if (!model) {
-        return res.status(400).json({
-            ok: 0,
-            message: 'You have chosen incorrect role',
-        });
-    }
-
-    const query = {
-        where: {
-            login,
-        },
-    };
-
-    return model.findOne(query)
+    return findRecordOnLogin(login, role)
         .then(user => {
             if (!user) {
                 return res.status(400).json({
                     ok: 0,
-                    message: `${model} is not found`,
+                    message: `${role} is not found`,
                 });
             }
 
-            const isPasswordCompare = user.password === encryptor(password);
+            const isPasswordCompare = comparePasswords(user.password, password);
             if (!isPasswordCompare) {
                 if (role === 'manager') {
-                    const data = Object.assign({},
-                        user,
-                        { input_count: user.input_count + 1 },
-                    );
-                    if (data.input_count > 4) {
-                        data.is_blocked = true;
-                    }
-
-                    return manager.update(query, data)
+                    return increaseInputCount(login, user)
                         .then(() => res.status(400).json({
                             ok: 0,
                             message: 'Password are not compared',
+                        }))
+                        .catch(err => res.status(500).json({
+                            ok: 0,
+                            message: err.message,
                         }));
                 }
 
@@ -61,21 +47,18 @@ const logIn = (req, res) => {
                 });
             }
 
-            const accessToken = buildToken({ user_id: user.id, role });
-            const expiresIn = buildExpiresIn(config.jwt.accessTokenExpiresIn);
-            const refreshToken = buildToken({ user_id: user.id });
-
+            const { accessToken, expiresIn, refreshToken } = buildTokens(user, role);
             if (role === 'manager') {
-                const data = Object.assign({},
-                    user,
-                    { input_count: 0 },
-                );
-                return model.update(query, data)
+                return authManager(user, login)
                     .then(() => res.status(200).json({
                         ok: 1,
                         accessToken,
                         refreshToken,
                         expiresIn,
+                    }))
+                    .catch(err => res.status(500).json({
+                        ok: 0,
+                        message: err.message,
                     }));
             }
 
@@ -85,39 +68,29 @@ const logIn = (req, res) => {
                 refreshToken,
                 expiresIn,
             });
-        });
+        })
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
 };
 
 const updateRefreshToken = (req, res) => {
-    const id = req.user.user_id;
+    const user = req.user;
     const { role, refreshToken } = req.body;
-    const model = getModel(role);
 
-    const query = {
-        where: {
-            id,
-            refresh_token: refreshToken,
-        },
-    };
-
-    return model.findOne(query)
+    return findRecordOnRefreshToken(user, refreshToken, role)
         .then(result => {
             if (!result) {
                 return res.status(404).json({
                     ok: 0,
-                    message: 'User is not found',
+                    message: `${role} is not found`,
                 });
             }
 
-            const newRefreshToken = buildToken({ user_id: id });
-            const newAccessToken = buildToken({ user_id: id, role }, false);
-            const expiresIn = buildExpiresIn(config.jwt.accessTokenExpiresIn);
+            const { accessToken: newAccessToken, expiresIn, refreshToken: newRefreshToken } = buildTokens(user, role);
 
-            const data = {
-                refresh_token: newRefreshToken,
-            };
-
-            return model.update(data, query)
+            return makeUpdatingRefreshToken(user, refreshToken, newRefreshToken, role)
                 .then(() => res.status(200).json({
                     ok: 1,
                     refreshToken: newRefreshToken,
