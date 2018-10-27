@@ -1,4 +1,4 @@
-import { Loan } from '../models/index';
+import { Loan } from '../../models/index';
 
 const makeUpdating = (id, body) => {
     const {

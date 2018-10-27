@@ -1,7 +1,7 @@
 import config from 'config';
 
-import { buildToken, buildExpiresIn } from '../helpers/jwt';
-import { encryptor } from '../helpers/crypto';
+import { buildToken, buildExpiresIn } from '../utils/jwt';
+import { encryptor } from '../core/crypto';
 import { getModel } from '../services/models';
 
 const logIn = (req, res) => {
