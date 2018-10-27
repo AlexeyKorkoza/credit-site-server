@@ -1,7 +1,7 @@
 import {
     makeUpdating,
     makeUpdatingIssueLoan,
-} from '../../business/loans';
+} from '../../business/api/loans';
 
 const updateLoan = (req, res) => {
     const { id } = req.params;

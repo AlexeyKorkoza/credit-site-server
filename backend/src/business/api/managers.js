@@ -1,4 +1,4 @@
-import { Manager } from '../models/index';
+import { Manager } from '../../models/index';
 
 /**
  * @param adminId
