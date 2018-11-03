@@ -1,4 +1,27 @@
-import { makeUpdatingTerritorialCoefficient } from '../../business/api/client_cards';
+import {
+    makeUpdatingClientCard,
+    makeUpdatingTerritorialCoefficient,
+} from '../../business/api/client_cards';
+
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
+const updateClientCard = (req, res) => {
+    const { id } = req.params;
+
+    // TODO Add validation
+    return makeUpdatingClientCard(id, req.body)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Client card was updated',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
 
 const updateTerritorialCoefficient = (req, res) => {
     const { id } = req.params;
@@ -16,5 +39,6 @@ const updateTerritorialCoefficient = (req, res) => {
 };
 
 export {
+    updateClientCard,
     updateTerritorialCoefficient,
 };

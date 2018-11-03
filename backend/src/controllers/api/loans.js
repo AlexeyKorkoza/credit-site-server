@@ -1,7 +1,22 @@
 import {
+    makeCreating,
     makeUpdating,
     makeUpdatingIssueLoan,
 } from '../../business/api/loans';
+
+const createLoan = (req, res) => {
+    // @TODO validation data
+
+    return makeCreating(req.body)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Loan was created',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
 
 const updateLoan = (req, res) => {
     const { id } = req.params;
@@ -38,6 +53,7 @@ const updateIssueLoan = (req, res) => {
 };
 
 export {
+    createLoan,
     updateLoan,
     updateIssueLoan,
 };
