@@ -1,7 +1,28 @@
 import {
+    makeCreatingOfClient,
     makeUpdatingOfClient,
+    makeMarkingDeletionOfClient,
     makeRemovingOfClient,
 } from '../../business/api/clients';
+
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
+const addClient = (req, res) => {
+    // TODO @Add validation
+
+    return makeCreatingOfClient(req.body)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Client was created',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
 
 /**
  * @param req
@@ -31,6 +52,27 @@ const editClient = (req, res) => {
  * @param res
  * @returns {Promise.<T>|*}
  */
+const markDeletionClient = (req, res) => {
+    const { id } = req.params;
+
+    // TODO validation data
+
+    return makeMarkingDeletionOfClient(id, req.body)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Client was marked for deletion',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
 const removeClient = (req, res) => {
     const { id: adminId } = req.user;
     const { id: clientId } = req.params;
@@ -47,6 +89,8 @@ const removeClient = (req, res) => {
 };
 
 export {
+    addClient,
     editClient,
+    markDeletionClient,
     removeClient,
 };
