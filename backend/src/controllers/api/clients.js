@@ -1,7 +1,27 @@
 import {
+    makeCreatingOfClient,
     makeUpdatingOfClient,
     makeRemovingOfClient,
 } from '../../business/api/clients';
+
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
+const addClient = (req, res) => {
+    // TODO @Add validation
+
+    return makeCreatingOfClient(req.body)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Client was created',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
 
 /**
  * @param req
@@ -47,6 +67,7 @@ const removeClient = (req, res) => {
 };
 
 export {
+    addClient,
     editClient,
     removeClient,
 };
