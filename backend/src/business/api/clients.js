@@ -1,6 +1,30 @@
 import { Client } from '../../models/index';
 
 /**
+ * @param body
+ * @returns {data}
+ */
+const makeCreatingOfClient = body => {
+    const {
+        name,
+        passportData: passport_data,
+        phone,
+        email,
+        territory,
+    } = body;
+
+    const data = {
+        name,
+        passport_data,
+        phone,
+        email,
+        territory,
+    };
+
+    return Client.create(data);
+};
+
+/**
  * @param adminId
  * @param clientId
  * @param body
@@ -52,6 +76,7 @@ const makeRemovingOfClient = (adminId, clientId) => {
 };
 
 export {
+    makeCreatingOfClient,
     makeUpdatingOfClient,
     makeRemovingOfClient,
 };
