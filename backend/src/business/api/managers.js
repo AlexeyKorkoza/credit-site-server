@@ -1,4 +1,35 @@
-import { Manager } from '../../models/index';
+import { Manager } from '../../models';
+
+/**
+ * @param managerId
+ * @param body
+ */
+const makeUpdatingManagerAttributes = (managerId, body) => {
+    const query = {
+        where: {
+            id: managerId,
+        },
+    };
+
+    const {
+        fullName: full_name,
+        territory,
+        phone,
+        login,
+        password,
+        email,
+    } = body;
+    const data = {
+        full_name,
+        territory,
+        phone,
+        login,
+        password,
+        email,
+    };
+
+    return Manager.update(data, query);
+};
 
 /**
  * @param adminId
@@ -53,6 +84,7 @@ const authManager = (user, login) => {
 };
 
 export {
+    makeUpdatingManagerAttributes,
     makeBlockingOfManager,
     increaseInputCount,
     authManager,

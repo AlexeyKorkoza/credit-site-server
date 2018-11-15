@@ -1,6 +1,26 @@
 import { getModel } from '../../services/models';
 import { checkOldPasswords } from '../../services/passwords';
-import { makeBlockingOfManager } from '../../business/api/managers';
+import { makeBlockingOfManager, makeUpdatingManagerAttributes } from '../../business/api/managers';
+
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
+const updateAttributesManager = (req, res) => {
+    const { id } = req.params;
+    const body = req.body;
+
+    return makeUpdatingManagerAttributes(id, body)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Manager`s attributes is updated',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
 
 const updateProfileManager = (req, res) => {
     const {
@@ -128,6 +148,7 @@ const blockManager = (req, res) => {
 };
 
 export {
+    updateAttributesManager,
     updateProfileManager,
     changePassword,
     blockManager,
