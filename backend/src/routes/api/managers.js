@@ -1,6 +1,7 @@
 import express from 'express';
 
 import {
+    updateAttributesManager,
     updateProfileManager,
     changePassword,
     blockManager,
@@ -8,6 +9,7 @@ import {
 
 const route = express.Router();
 
+route.put('/managers/:id', updateAttributesManager);
 route.put('/managers/update-profile', updateProfileManager);
 route.put('/managers/change-password', changePassword);
 route.put('/managers/block', blockManager);
