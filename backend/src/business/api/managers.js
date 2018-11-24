@@ -83,9 +83,73 @@ const authManager = (user, login) => {
     return Manager.update(query, data);
 };
 
+/**
+ * @param id
+ * @returns {Promise.<Model>}
+ */
+const findManager = id => {
+    const query = {
+        where: {
+            id,
+        },
+        plain: true,
+    };
+
+    return Manager.findOne(query);
+};
+
+/**
+ * @param data
+ * @param id
+ */
+const updateManagerPassword = (data, id) => {
+    const query = {
+        where: {
+            id,
+        },
+    };
+
+    return Manager.update(data, query);
+};
+
+/**
+ * @param body
+ * @param id
+ */
+const makeUpdatingProfileManager = (body, id) => {
+    const {
+        fullName,
+        territory,
+        phone,
+        login,
+        role,
+        email,
+        isBlocked,
+    } = body;
+
+    const data = {
+        full_name: fullName,
+        territory,
+        phone,
+        login,
+        email,
+        isBlocked,
+    };
+    const query = {
+        where: {
+            id,
+        },
+    };
+
+    return Manager.update(data, query);
+};
+
 export {
     makeUpdatingManagerAttributes,
     makeBlockingOfManager,
     increaseInputCount,
     authManager,
+    findManager,
+    updateManagerPassword,
+    makeUpdatingProfileManager,
 };
