@@ -1,6 +1,14 @@
-import { getModel } from '../../services/models';
-import { checkOldPasswords } from '../../services/passwords';
-import { makeBlockingOfManager, makeUpdatingManagerAttributes } from '../../business/api/managers';
+import {
+    comparePasswords,
+    encryptPassword,
+} from '../../utils/passwords';
+import {
+    makeBlockingOfManager,
+    makeUpdatingManagerAttributes,
+    findManager,
+    updateManagerPassword,
+    makeUpdatingProfileManager,
+} from '../../business/api/managers';
 
 /**
  * @param req
@@ -22,36 +30,18 @@ const updateAttributesManager = (req, res) => {
         }));
 };
 
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
 const updateProfileManager = (req, res) => {
-    const {
-        fullName,
-        territory,
-        phone,
-        login,
-        role,
-        email,
-        isBlocked,
-    } = req.body;
+    const data = req.body;
     const { id } = req.user;
 
     // @TODO Add validation
 
-    const model = getModel(role);
-    const data = {
-        full_name: fullName,
-        territory,
-        phone,
-        login,
-        email,
-        isBlocked,
-    };
-    const query = {
-        where: {
-            id,
-        },
-    };
-
-    return model.update(data, query)
+    return makeUpdatingProfileManager(data, id)
         .then(result => {
             if (result) {
                 return res.status(200).json({
@@ -71,24 +61,18 @@ const updateProfileManager = (req, res) => {
         }));
 };
 
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<TResult>}
+ */
 const changePassword = (req, res) => {
     const { oldPassword, newPassword } = req.body;
     const { id, role } = req.user;
 
     // @TODO Add validation
 
-    const model = getModel(role);
-    const data = {
-        password: newPassword,
-    };
-    const query = {
-        where: {
-            id,
-        },
-        plain: true,
-    };
-
-    return model.findOne(query)
+    return findManager(id)
         .then(result => {
             if (!result) {
                 return res.status(400).json({
@@ -98,7 +82,7 @@ const changePassword = (req, res) => {
             }
 
             const { password } = result;
-            const isCompare = checkOldPasswords(oldPassword, password);
+            const isCompare = comparePasswords(oldPassword, password);
             if (!isCompare) {
                 return res.status(400).json({
                     ok: 0,
@@ -106,7 +90,11 @@ const changePassword = (req, res) => {
                 });
             }
 
-            return model.update(data, query);
+            const data = {
+                password: encryptPassword(newPassword),
+            };
+
+            return updateManagerPassword(data, id);
         })
         .then(result => {
             if (result) {
