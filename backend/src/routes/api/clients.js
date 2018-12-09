@@ -16,13 +16,19 @@ route.post('/clients',
     authMiddleware.isManager,
     addClient);
 
-route.put('/clients/:id', editClient);
+route.put('/clients/:id',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    editClient);
 
 route.put('/clients/:id/deletion',
     jwtMiddleware,
     authMiddleware.isManager,
     markDeletionClient);
 
-route.delete('/clients/:id', removeClient);
+route.delete('/clients/:id',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    removeClient);
 
 export default route;

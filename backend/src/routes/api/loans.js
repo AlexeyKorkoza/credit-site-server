@@ -15,8 +15,14 @@ route.post('/loans',
     authMiddleware.isManager,
     createLoan);
 
-route.put('/loans/:id', updateLoan);
+route.put('/loans/:id',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    updateLoan);
 
-route.put('/loans/:id/issue', updateIssueLoan);
+route.put('/loans/:id/issue',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    updateIssueLoan);
 
 export default route;
