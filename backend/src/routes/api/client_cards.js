@@ -14,6 +14,9 @@ route.put('/client-cards/:id/',
     authMiddleware.isManager,
     updateClientCard);
 
-route.put('/client-cards/:id/coefficient', updateTerritorialCoefficient);
+route.put('/client-cards/:id/coefficient',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    updateTerritorialCoefficient);
 
 export default route;
