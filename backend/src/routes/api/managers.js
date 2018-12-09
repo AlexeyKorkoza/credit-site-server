@@ -6,12 +6,15 @@ import {
     changePassword,
     blockManager,
 } from '../../controllers/api/managers';
-import { jwtMiddleware } from "../../middlewares/jwt";
+import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
 const route = express.Router();
 
-route.put('/managers/:id', updateAttributesManager);
+route.put('/managers/:id',
+    jwtMiddleware,
+    authMiddleware.isManager,
+    updateAttributesManager);
 
 route.put('/managers/update-profile',
     jwtMiddleware,
