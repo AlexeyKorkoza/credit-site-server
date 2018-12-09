@@ -4,10 +4,16 @@ import {
     updateClientCard,
     updateTerritorialCoefficient,
 } from '../../controllers/api/client_cards';
+import { jwtMiddleware } from '../../middlewares/jwt';
+import authMiddleware from '../../middlewares/auth';
 
 const route = express.Route();
 
-route.put('/client-cards/:id/', updateClientCard);
+route.put('/client-cards/:id/',
+    jwtMiddleware,
+    authMiddleware.isManager,
+    updateClientCard);
+
 route.put('/client-cards/:id/coefficient', updateTerritorialCoefficient);
 
 export default route;
