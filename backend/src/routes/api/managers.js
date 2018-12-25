@@ -1,4 +1,4 @@
-import express from 'express';
+import { Router } from 'express';
 
 import {
     updateAttributesManager,
@@ -9,26 +9,26 @@ import {
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
-const route = express.Router();
+const router = Router();
 
-route.put('/managers/:id',
+router.put('/managers/:id',
     jwtMiddleware,
     authMiddleware.isManager,
     updateAttributesManager);
 
-route.put('/managers/update-profile',
+router.put('/managers/update-profile',
     jwtMiddleware,
     authMiddleware.isAdmin,
     updateProfileManager);
 
-route.put('/managers/change-password',
+router.put('/managers/change-password',
     jwtMiddleware,
     authMiddleware.isAdmin,
     changePassword);
 
-route.put('/managers/block',
+router.put('/managers/block',
     jwtMiddleware,
     authMiddleware.isAdmin,
     blockManager);
 
-export default route;
+export default router;
