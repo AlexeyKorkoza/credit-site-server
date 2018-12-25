@@ -18,5 +18,5 @@ app.get('/', (req, res) => res.render('index'));
 app.listen(
     config.app.port,
     config.app.host,
-    () => console.log(`Listen on http://${config.app.host}:${config.app.port}`)
+    () => console.log(`Listen to http://${config.app.host}:${config.app.port}`)
 );

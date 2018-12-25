@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:watch": "babel-watch ./index.js"
+    "dev:watch": "babel-watch ./src/index.js"
   },
   "repository": {
     "type": "git",

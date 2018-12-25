@@ -9,9 +9,11 @@
     "public": "./backend/public"
   },
   "db": {
+    "dialect": "postgres",
     "database": "credit_site",
     "username": "postgres",
-    "password": "linux"
+    "password": "linux",
+    "host": "127.0.0.1"
   },
   "crypto": {
     "algorithm": "aes-256-ctr",
