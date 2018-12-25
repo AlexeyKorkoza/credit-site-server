@@ -1,16 +1,20 @@
 import express from 'express';
 import cors from 'cors';
 import config from 'config';
+import path from 'path';
+import bodyParser from 'body-parser';
 
-import routes from './routes/index';
+import routes from './routes';
 
 const app = express();
 
-app.use('/public', express.static(config.paths.public));
-app.set('view engine', 'ejs');
-app.set('views', config.paths.views);
-
+app.use(bodyParser.json());
 app.use(cors());
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, config.paths.views));
+app.use('/public', express.static(__dirname + config.paths.public));
+
 app.use('/', routes);
 
 app.get('/', (req, res) => res.render('index'));
