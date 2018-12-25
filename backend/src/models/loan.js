@@ -34,13 +34,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         },
+    }, {
+        tableName: 'loans',
+        timestamps: false,
+        paranoid: false,
     });
 
     Loan.associate = models => {
         Loan.belongsTo(models.Admin, {
+            as: 'admins',
             foreignKey: 'admin_id',
         });
         Loan.belongsTo(models.Manager, {
+            as: 'managers',
             foreignKey: 'manager_id',
         });
     };

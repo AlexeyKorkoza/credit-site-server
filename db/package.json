@@ -5,7 +5,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo",
-    "migrate:create": "sequelize migration:create"
+    "migrate:create": "sequelize migration:create",
+    "seed": "sequelize db:seed:all",
+    "seed:undo": "db:seed:undo:all"
   },
   "repository": {
     "type": "git",

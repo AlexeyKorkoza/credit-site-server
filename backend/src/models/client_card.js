@@ -38,10 +38,15 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         },
+    }, {
+        tableName: 'client_cards',
+        timestamps: false,
+        paranoid: false,
     });
 
     ClientCard.associate = models => {
         ClientCard.belongsTo(models.Client, {
+            as: 'clients',
             foreignKey: 'client_id',
         });
     };
