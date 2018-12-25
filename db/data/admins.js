@@ -1,0 +1,1 @@
+const admins = [    {        login: 'alex',        password: '8a14a780c9',        refresh_token: null,    },];module.exports = admins;

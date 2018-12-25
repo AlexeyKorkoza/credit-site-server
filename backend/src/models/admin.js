@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.DATE,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         },
+    }, {
+        tableName: 'admins',
+        timestamps: false,
+        paranoid: false,
     });
 
     return Admin;
