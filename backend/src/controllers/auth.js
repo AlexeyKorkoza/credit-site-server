@@ -29,10 +29,7 @@ const logIn = (req, res) => {
                 });
             }
 
-            console.log('user', user);
-            console.log('password', password);
             const isPasswordCompare = comparePasswords(user.password, password);
-            console.log('isPasswordCompare', isPasswordCompare);
             if (!isPasswordCompare) {
                 if (role === 'manager') {
                     return increaseInputCount(login, user)
