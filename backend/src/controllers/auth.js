@@ -2,11 +2,13 @@ import { buildTokens } from '../utils/jwt';
 import { comparePasswords } from '../utils/passwords';
 import {
     authManager,
+    increaseInputCount,
+} from '../business/api/managers';
+import {
     findRecordOnLogin,
     findRecordOnRefreshToken,
     makeUpdatingRefreshToken,
-    increaseInputCount,
-} from '../business/api/managers';
+} from '../business/auth';
 
 const logIn = (req, res) => {
     const { login, password, role } = req.body;
@@ -27,7 +29,10 @@ const logIn = (req, res) => {
                 });
             }
 
+            console.log('user', user);
+            console.log('password', password);
             const isPasswordCompare = comparePasswords(user.password, password);
+            console.log('isPasswordCompare', isPasswordCompare);
             if (!isPasswordCompare) {
                 if (role === 'manager') {
                     return increaseInputCount(login, user)
