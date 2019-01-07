@@ -1,6 +1,7 @@
 import { buildTokens } from '../utils/jwt';
 import { comparePasswords } from '../utils/passwords';
 import {
+    makeBlockingOfManager,
     authManager,
     increaseInputCount,
 } from '../business/api/managers';
@@ -29,14 +30,34 @@ const logIn = (req, res) => {
                 });
             }
 
+            if (role === 'manager' && user.is_blocked === true) {
+                return res.status(400).json({
+                    ok: 0,
+                    message: 'Record was blocked',
+                });
+            }
+
             const isPasswordCompare = comparePasswords(user.password, password);
             if (!isPasswordCompare) {
                 if (role === 'manager') {
                     return increaseInputCount(login, user)
-                        .then(() => res.status(400).json({
-                            ok: 0,
-                            message: 'Password are not compared',
-                        }))
+                        .then(result => {
+                            const data = result[1].dataValues;
+                            const { input_count: inputCount, id } = data;
+
+                            if (inputCount === 5) {
+                                return makeBlockingOfManager(null, id)
+                                    .then(() => res.status(400).json({
+                                        ok: 0,
+                                        message: 'Record has just been blocked',
+                                    }));
+                            }
+
+                            return res.status(400).json({
+                                ok: 0,
+                                message: 'Password are not compared',
+                            })
+                        })
                         .catch(err => res.status(500).json({
                             ok: 0,
                             message: err.message,
