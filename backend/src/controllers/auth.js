@@ -52,6 +52,7 @@ const logIn = (req, res) => {
             const { accessToken, expiresIn, refreshToken } = buildTokens(user, role);
             if (role === 'manager') {
                 return authManager(user, login)
+                    .then(() => makeUpdatingRefreshToken(user, '', refreshToken, role))
                     .then(() => res.status(200).json({
                         ok: 1,
                         accessToken,
@@ -64,12 +65,15 @@ const logIn = (req, res) => {
                     }));
             }
 
-            return res.status(200).json({
-                ok: 1,
-                accessToken,
-                refreshToken,
-                expiresIn,
-            });
+            return makeUpdatingRefreshToken(user, '', refreshToken, role)
+                .then(() => {
+                    return res.status(200).json({
+                        ok: 1,
+                        accessToken,
+                        refreshToken,
+                        expiresIn,
+                    });
+                });
         })
         .catch(err => res.status(500).json({
             ok: 0,
