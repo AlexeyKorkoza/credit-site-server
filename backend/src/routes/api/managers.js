@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import {
+    createNewManager,
     updateAttributesManager,
     updateProfileManager,
     changePassword,
@@ -10,6 +11,11 @@ import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
 const router = Router();
+
+router.post('/managers',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    createNewManager);
 
 router.put('/managers/:id',
     jwtMiddleware,

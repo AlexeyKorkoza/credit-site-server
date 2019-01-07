@@ -3,12 +3,34 @@ import {
     encryptPassword,
 } from '../../utils/passwords';
 import {
+    makeCreatingOfManager,
     makeBlockingOfManager,
     makeUpdatingManagerAttributes,
     findManager,
     updateManagerPassword,
     makeUpdatingProfileManager,
 } from '../../business/api/managers';
+
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
+const createNewManager = (req, res) => {
+    // @TODO Add validation
+
+    const { user_id: admin_id } = req.user;
+
+    return makeCreatingOfManager(admin_id, req.body)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Manager was created',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
 
 /**
  * @param req
@@ -136,6 +158,7 @@ const blockManager = (req, res) => {
 };
 
 export {
+    createNewManager,
     updateAttributesManager,
     updateProfileManager,
     changePassword,

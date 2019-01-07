@@ -1,6 +1,33 @@
 import { Manager } from '../../models';
 
 /**
+ * @param adminId
+ * @param body
+ * @returns {data}
+ */
+const makeCreatingOfManager = (adminId, body) => {
+    const {
+        fullName: full_name,
+        territory,
+        phone,
+        login,
+        password,
+        email,
+    } = body;
+    const data = {
+        full_name,
+        territory,
+        phone,
+        login,
+        password,
+        email,
+        admin_id: adminId,
+    };
+
+    return Manager.create(data);
+};
+
+/**
  * @param managerId
  * @param body
  */
@@ -145,6 +172,7 @@ const makeUpdatingProfileManager = (body, id) => {
 };
 
 export {
+    makeCreatingOfManager,
     makeUpdatingManagerAttributes,
     makeBlockingOfManager,
     increaseInputCount,
