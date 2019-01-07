@@ -1,4 +1,9 @@
+import sequelize from 'sequelize';
+
 import { Manager } from '../../models';
+import { encryptor } from '../../core/crypto';
+
+const { Op } = sequelize;
 
 /**
  * @param adminId
@@ -23,6 +28,8 @@ const makeCreatingOfManager = (adminId, body) => {
         email,
         admin_id: adminId,
     };
+
+    data.password = encryptor(data.password);
 
     return Manager.create(data);
 };
@@ -62,7 +69,7 @@ const makeUpdatingManagerAttributes = (managerId, body) => {
  * @param adminId
  * @param managerId
  */
-const makeBlockingOfManager = (adminId, managerId) => {
+const makeBlockingOfManager = (adminId = null, managerId) => {
     const query = {
         where: {
             id: managerId,
@@ -71,8 +78,11 @@ const makeBlockingOfManager = (adminId, managerId) => {
 
     const data = {
         is_blocked: true,
-        admin_id: adminId,
     };
+
+    if (adminId) {
+        data.admin_id = adminId;
+    }
 
     return Manager.update(data, query);
 };
@@ -82,6 +92,8 @@ const increaseInputCount = (login, user) => {
         where: {
             login,
         },
+        returning: true,
+        plain: true,
     };
 
     const data = Object.assign({},
@@ -92,7 +104,7 @@ const increaseInputCount = (login, user) => {
         data.is_blocked = true;
     }
 
-    return Manager.update(query, data);
+    return Manager.update(data, query);
 };
 
 const authManager = (user, login) => {
@@ -107,7 +119,7 @@ const authManager = (user, login) => {
         { input_count: 0 },
     );
 
-    return Manager.update(query, data);
+    return Manager.update(data, query);
 };
 
 /**
