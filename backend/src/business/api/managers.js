@@ -1,9 +1,5 @@
-import sequelize from 'sequelize';
-
 import { Manager } from '../../models';
 import { encryptor } from '../../core/crypto';
-
-const { Op } = sequelize;
 
 /**
  * @param adminId
