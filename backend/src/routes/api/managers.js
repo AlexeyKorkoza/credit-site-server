@@ -22,17 +22,17 @@ router.put('/managers/:id',
     authMiddleware.isManager,
     updateAttributesManager);
 
-router.put('/managers/update-profile',
+router.put('/managers/:id/update-profile',
     jwtMiddleware,
     authMiddleware.isAdmin,
     updateProfileManager);
 
-router.put('/managers/change-password',
+router.put('/managers/:id/change-password',
     jwtMiddleware,
     authMiddleware.isAdmin,
     changePassword);
 
-router.put('/managers/block',
+router.put('/managers/:id/block-manager',
     jwtMiddleware,
     authMiddleware.isAdmin,
     blockManager);
