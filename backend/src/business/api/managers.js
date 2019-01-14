@@ -157,9 +157,7 @@ const makeUpdatingProfileManager = (body, id) => {
         territory,
         phone,
         login,
-        role,
         email,
-        isBlocked,
     } = body;
 
     const data = {
@@ -168,7 +166,6 @@ const makeUpdatingProfileManager = (body, id) => {
         phone,
         login,
         email,
-        isBlocked,
     };
     const query = {
         where: {
