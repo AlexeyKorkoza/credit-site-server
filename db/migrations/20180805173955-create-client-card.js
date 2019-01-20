@@ -33,11 +33,11 @@ module.exports = {
                     as: 'client_id',
                 },
             },
-            createdAt: {
+            created_at: {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
             },
-            updatedAt: {
+            updated_at: {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
             },

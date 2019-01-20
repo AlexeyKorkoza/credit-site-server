@@ -2,9 +2,10 @@ import { Client } from '../../models/index';
 
 /**
  * @param body
+ * @param managerId
  * @returns {data}
  */
-const makeCreatingOfClient = body => {
+const makeCreatingOfClient = (body, managerId) => {
     const {
         name,
         passportData: passport_data,
@@ -19,6 +20,7 @@ const makeCreatingOfClient = body => {
         phone,
         email,
         territory,
+        manager_id: managerId,
     };
 
     return Client.create(data);
@@ -59,21 +61,23 @@ const makeUpdatingOfClient = (adminId, clientId, body) => {
 /**
  * @param id
  * @param body
+ * @param managerId
  */
-const makeMarkingDeletionOfClient = (id, body) => {
-  const query = {
-      where: {
-          id,
-      },
-  };
+const makeMarkingDeletionOfClient = (id, body, managerId) => {
+    const query = {
+        where: {
+            id,
+        },
+    };
 
-  const { isRemoved } = body;
+    const { isRemoved } = body;
 
-  const data = {
-      is_removed: isRemoved,
-  };
+    const data = {
+        is_removed: isRemoved,
+        manager_id: managerId,
+    };
 
-  return Client.update(data, query);
+    return Client.update(data, query);
 };
 
 

@@ -26,21 +26,27 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.FLOAT,
             allowNull: false,
         },
-        createdAt: {
+        created_at: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         },
-        updatedAt: {
+        updated_at: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         },
+    }, {
+        tableName: 'loans',
+        timestamps: false,
+        paranoid: false,
     });
 
     Loan.associate = models => {
         Loan.belongsTo(models.Admin, {
+            as: 'admins',
             foreignKey: 'admin_id',
         });
         Loan.belongsTo(models.Manager, {
+            as: 'managers',
             foreignKey: 'manager_id',
         });
     };

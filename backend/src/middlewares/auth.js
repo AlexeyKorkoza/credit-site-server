@@ -11,33 +11,34 @@ const authMiddleware = {
     },
     isManager: (req, res, next) => {
         const { role } = req.user;
-        if (role =! 'manager') {
-            return res.status(403).json({
-                ok: 0,
-                err: 'Access is forbidden',
-            });
+        if (role === 'manager') {
+            return next();
         }
-        return next();
+
+        return res.status(403).json({
+            ok: 0,
+            err: 'Access is forbidden',
+        });
     },
     isAdmin: (req, res, next) => {
         const { role } = req.user;
-        if (role =! 'admin') {
-            return res.status(403).json({
-                ok: 0,
-                err: 'Access is forbidden',
-            });
+        if (role === 'admin') {
+            return next();
         }
-        return next();
+        return res.status(403).json({
+            ok: 0,
+            err: 'Access is forbidden',
+        });
     },
     isUser: (req, res, next) => {
         const { role } = req.user;
-        if (role =! 'user') {
-            return res.status(403).json({
-                ok: 0,
-                err: 'Access is forbidden',
-            });
+        if (role === 'user') {
+            return next();
         }
-        return next();
+        return res.status(403).json({
+            ok: 0,
+            err: 'Access is forbidden',
+        });
     },
 };
 

@@ -1,4 +1,4 @@
-import express from 'express';
+import { Router } from 'express';
 
 import {
     addClient,
@@ -9,26 +9,26 @@ import {
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
-const route = express.Route();
+const router = Router();
 
-route.post('/clients',
+router.post('/clients',
     jwtMiddleware,
     authMiddleware.isManager,
     addClient);
 
-route.put('/clients/:id',
+router.put('/clients/:id',
     jwtMiddleware,
     authMiddleware.isAdmin,
     editClient);
 
-route.put('/clients/:id/deletion',
+router.put('/clients/:id/deletion',
     jwtMiddleware,
     authMiddleware.isManager,
     markDeletionClient);
 
-route.delete('/clients/:id',
+router.delete('/clients/:id',
     jwtMiddleware,
     authMiddleware.isAdmin,
     removeClient);
 
-export default route;
+export default router;

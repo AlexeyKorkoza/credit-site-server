@@ -7,4 +7,4 @@ node_modules
 */*/dist/*
 */*/config/local.json
 yarn.lock*
-backend/public/build/*
+backend/src/public/build/*

@@ -5,13 +5,15 @@
     "host": "127.0.0.1"
   },
   "paths": {
-    "views": "./backend/views",
-    "public": "./backend/public"
+    "views": "views",
+    "public": "/public"
   },
   "db": {
+    "dialect": "postgres",
     "database": "credit_site",
     "username": "postgres",
-    "password": "linux"
+    "password": "linux",
+    "host": "127.0.0.1"
   },
   "crypto": {
     "algorithm": "aes-256-ctr",
@@ -19,7 +21,7 @@
   },
   "jwt": {
     "secretKey": "je428eWB96wfS97m",
-    "algorithm": "RS256",
+    "algorithm": "HS256",
     "expiresIn": "60d",
     "accessTokenExpiresIn": 30
   },

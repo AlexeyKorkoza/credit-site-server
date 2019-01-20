@@ -30,18 +30,23 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(50),
             allowNull: false,
         },
-        createdAt: {
+        created_at: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         },
-        updatedAt: {
+        updated_at: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         },
+    }, {
+        tableName: 'client_cards',
+        timestamps: false,
+        paranoid: false,
     });
 
     ClientCard.associate = models => {
         ClientCard.belongsTo(models.Client, {
+            as: 'clients',
             foreignKey: 'client_id',
         });
     };

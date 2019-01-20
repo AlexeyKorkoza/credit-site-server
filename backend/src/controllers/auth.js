@@ -1,12 +1,15 @@
 import { buildTokens } from '../utils/jwt';
 import { comparePasswords } from '../utils/passwords';
 import {
+    makeBlockingOfManager,
     authManager,
+    increaseInputCount,
+} from '../business/api/managers';
+import {
     findRecordOnLogin,
     findRecordOnRefreshToken,
     makeUpdatingRefreshToken,
-    increaseInputCount,
-} from '../business/api/managers';
+} from '../business/auth';
 
 const logIn = (req, res) => {
     const { login, password, role } = req.body;
@@ -27,14 +30,34 @@ const logIn = (req, res) => {
                 });
             }
 
+            if (role === 'manager' && user.is_blocked === true) {
+                return res.status(400).json({
+                    ok: 0,
+                    message: 'Record was blocked',
+                });
+            }
+
             const isPasswordCompare = comparePasswords(user.password, password);
             if (!isPasswordCompare) {
                 if (role === 'manager') {
                     return increaseInputCount(login, user)
-                        .then(() => res.status(400).json({
-                            ok: 0,
-                            message: 'Password are not compared',
-                        }))
+                        .then(result => {
+                            const data = result[1].dataValues;
+                            const { input_count: inputCount, id } = data;
+
+                            if (inputCount === 5) {
+                                return makeBlockingOfManager(null, id)
+                                    .then(() => res.status(400).json({
+                                        ok: 0,
+                                        message: 'Record has just been blocked',
+                                    }));
+                            }
+
+                            return res.status(400).json({
+                                ok: 0,
+                                message: 'Password are not compared',
+                            })
+                        })
                         .catch(err => res.status(500).json({
                             ok: 0,
                             message: err.message,
@@ -50,6 +73,7 @@ const logIn = (req, res) => {
             const { accessToken, expiresIn, refreshToken } = buildTokens(user, role);
             if (role === 'manager') {
                 return authManager(user, login)
+                    .then(() => makeUpdatingRefreshToken(user, '', refreshToken, role))
                     .then(() => res.status(200).json({
                         ok: 1,
                         accessToken,
@@ -62,12 +86,15 @@ const logIn = (req, res) => {
                     }));
             }
 
-            return res.status(200).json({
-                ok: 1,
-                accessToken,
-                refreshToken,
-                expiresIn,
-            });
+            return makeUpdatingRefreshToken(user, '', refreshToken, role)
+                .then(() => {
+                    return res.status(200).json({
+                        ok: 1,
+                        accessToken,
+                        refreshToken,
+                        expiresIn,
+                    });
+                });
         })
         .catch(err => res.status(500).json({
             ok: 0,

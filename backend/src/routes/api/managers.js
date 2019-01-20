@@ -1,6 +1,7 @@
-import express from 'express';
+import { Router } from 'express';
 
 import {
+    createNewManager,
     updateAttributesManager,
     updateProfileManager,
     changePassword,
@@ -9,26 +10,31 @@ import {
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
-const route = express.Router();
+const router = Router();
 
-route.put('/managers/:id',
+router.post('/managers',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    createNewManager);
+
+router.put('/managers/:id',
     jwtMiddleware,
     authMiddleware.isManager,
     updateAttributesManager);
 
-route.put('/managers/update-profile',
+router.put('/managers/:id/update-profile',
     jwtMiddleware,
     authMiddleware.isAdmin,
     updateProfileManager);
 
-route.put('/managers/change-password',
+router.put('/managers/:id/change-password',
     jwtMiddleware,
     authMiddleware.isAdmin,
     changePassword);
 
-route.put('/managers/block',
+router.put('/managers/:id/block-manager',
     jwtMiddleware,
     authMiddleware.isAdmin,
     blockManager);
 
-export default route;
+export default router;

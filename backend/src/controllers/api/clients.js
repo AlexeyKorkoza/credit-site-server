@@ -13,7 +13,9 @@ import {
 const addClient = (req, res) => {
     // TODO @Add validation
 
-    return makeCreatingOfClient(req.body)
+    const { user_id: managerId } = req.user;
+
+    return makeCreatingOfClient(req.body, managerId)
         .then(() => res.status(200).json({
             ok: 1,
             message: 'Client was created',
@@ -32,7 +34,7 @@ const addClient = (req, res) => {
 const editClient = (req, res) => {
     // TODO @Add validation
 
-    const { id: adminId } = req.user;
+    const { user_id: adminId } = req.user;
     const { id: clientId } = req.params;
     const client = req.body;
 
@@ -54,10 +56,11 @@ const editClient = (req, res) => {
  */
 const markDeletionClient = (req, res) => {
     const { id } = req.params;
+    const { user_id: managerId } = req.user;
 
     // TODO validation data
 
-    return makeMarkingDeletionOfClient(id, req.body)
+    return makeMarkingDeletionOfClient(id, req.body, managerId)
         .then(() => res.status(200).json({
             ok: 1,
             message: 'Client was marked for deletion',
