@@ -44,18 +44,23 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.TEXT,
             defaultValue: null,
         },
-        createdAt: {
+        created_at: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         },
-        updatedAt: {
+        updated_at: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.literal('CURRENT_TIMESTAMP'),
+            defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
         },
+    }, {
+        tableName: 'managers',
+        timestamps: false,
+        paranoid: false,
     });
 
     Manager.associate = models => {
         Manager.belongsTo(models.Admin, {
+            as: 'admins',
             foreignKey: 'admin_id',
         });
     };

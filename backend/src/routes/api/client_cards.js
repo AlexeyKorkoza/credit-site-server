@@ -1,4 +1,4 @@
-import express from 'express';
+import { Router } from 'express';
 
 import {
     updateClientCard,
@@ -7,16 +7,16 @@ import {
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
-const route = express.Route();
+const router = Router();
 
-route.put('/client-cards/:id/',
+router.put('/client-cards/:id/',
     jwtMiddleware,
     authMiddleware.isManager,
     updateClientCard);
 
-route.put('/client-cards/:id/coefficient',
+router.put('/client-cards/:id/coefficient',
     jwtMiddleware,
     authMiddleware.isAdmin,
     updateTerritorialCoefficient);
 
-export default route;
+export default router;

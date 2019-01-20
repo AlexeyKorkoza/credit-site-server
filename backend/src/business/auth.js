@@ -36,13 +36,13 @@ const makeUpdatingRefreshToken = (user, refreshToken, newRefreshToken, role) => 
 
     const query = {
         where: {
-            id: user.user_id,
-            refresh_token: refreshToken,
+            id: user.id,
+            refresh_token: refreshToken || null,
         },
     };
 
     const data = {
-        refresh_token: newRefreshToken,
+        refresh_token: newRefreshToken || null,
     };
 
     return model.update(data, query);

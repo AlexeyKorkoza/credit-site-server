@@ -3,12 +3,34 @@ import {
     encryptPassword,
 } from '../../utils/passwords';
 import {
+    makeCreatingOfManager,
     makeBlockingOfManager,
     makeUpdatingManagerAttributes,
     findManager,
     updateManagerPassword,
     makeUpdatingProfileManager,
 } from '../../business/api/managers';
+
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
+const createNewManager = (req, res) => {
+    // @TODO Add validation
+
+    const { user_id: admin_id } = req.user;
+
+    return makeCreatingOfManager(admin_id, req.body)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Manager was created',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
 
 /**
  * @param req
@@ -36,12 +58,13 @@ const updateAttributesManager = (req, res) => {
  * @returns {Promise.<T>|*}
  */
 const updateProfileManager = (req, res) => {
+    const { id: managerId } = req.params;
     const data = req.body;
-    const { id } = req.user;
+    const { role } = req.user;
 
     // @TODO Add validation
 
-    return makeUpdatingProfileManager(data, id)
+    return makeUpdatingProfileManager(data, managerId)
         .then(result => {
             if (result) {
                 return res.status(200).json({
@@ -67,12 +90,14 @@ const updateProfileManager = (req, res) => {
  * @returns {Promise.<TResult>}
  */
 const changePassword = (req, res) => {
+    const { id: managerId } = req.params;
     const { oldPassword, newPassword } = req.body;
-    const { id, role } = req.user;
+    const { role } = req.user;
 
     // @TODO Add validation
+    // @Todo Fix this error as password is bad: Can't set headers after they are sent.
 
-    return findManager(id)
+    return findManager(managerId)
         .then(result => {
             if (!result) {
                 return res.status(400).json({
@@ -82,7 +107,7 @@ const changePassword = (req, res) => {
             }
 
             const { password } = result;
-            const isCompare = comparePasswords(oldPassword, password);
+            const isCompare = comparePasswords(password, oldPassword);
             if (!isCompare) {
                 return res.status(400).json({
                     ok: 0,
@@ -94,7 +119,7 @@ const changePassword = (req, res) => {
                 password: encryptPassword(newPassword),
             };
 
-            return updateManagerPassword(data, id);
+            return updateManagerPassword(data, managerId);
         })
         .then(result => {
             if (result) {
@@ -122,7 +147,7 @@ const changePassword = (req, res) => {
  */
 const blockManager = (req, res) => {
     const { id: adminId } = req.user;
-    const { id: managerId } = req.body;
+    const { id: managerId } = req.params;
 
     return makeBlockingOfManager(adminId, managerId)
         .then(() => res.status(200).json({
@@ -136,6 +161,7 @@ const blockManager = (req, res) => {
 };
 
 export {
+    createNewManager,
     updateAttributesManager,
     updateProfileManager,
     changePassword,

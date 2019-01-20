@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:watch": "babel-watch ./index.js"
+    "dev:watch": "babel-watch ./src/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "homepage": "https://github.com/AlexeyKorkoza/credit-site#readme",
   "dependencies": {
     "babel-runtime": "^6.26.0",
+    "body-parser": "^1.18.3",
     "bunyan": "^1.8.12",
     "config": "^1.30.0",
     "cors": "^2.8.4",

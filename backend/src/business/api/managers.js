@@ -1,4 +1,34 @@
 import { Manager } from '../../models';
+import { encryptor } from '../../core/crypto';
+
+/**
+ * @param adminId
+ * @param body
+ * @returns {data}
+ */
+const makeCreatingOfManager = (adminId, body) => {
+    const {
+        fullName: full_name,
+        territory,
+        phone,
+        login,
+        password,
+        email,
+    } = body;
+    const data = {
+        full_name,
+        territory,
+        phone,
+        login,
+        password,
+        email,
+        admin_id: adminId,
+    };
+
+    data.password = encryptor(data.password);
+
+    return Manager.create(data);
+};
 
 /**
  * @param managerId
@@ -35,7 +65,7 @@ const makeUpdatingManagerAttributes = (managerId, body) => {
  * @param adminId
  * @param managerId
  */
-const makeBlockingOfManager = (adminId, managerId) => {
+const makeBlockingOfManager = (adminId = null, managerId) => {
     const query = {
         where: {
             id: managerId,
@@ -44,8 +74,11 @@ const makeBlockingOfManager = (adminId, managerId) => {
 
     const data = {
         is_blocked: true,
-        admin_id: adminId,
     };
+
+    if (adminId) {
+        data.admin_id = adminId;
+    }
 
     return Manager.update(data, query);
 };
@@ -55,6 +88,8 @@ const increaseInputCount = (login, user) => {
         where: {
             login,
         },
+        returning: true,
+        plain: true,
     };
 
     const data = Object.assign({},
@@ -65,7 +100,7 @@ const increaseInputCount = (login, user) => {
         data.is_blocked = true;
     }
 
-    return Manager.update(query, data);
+    return Manager.update(data, query);
 };
 
 const authManager = (user, login) => {
@@ -80,7 +115,7 @@ const authManager = (user, login) => {
         { input_count: 0 },
     );
 
-    return Manager.update(query, data);
+    return Manager.update(data, query);
 };
 
 /**
@@ -122,9 +157,7 @@ const makeUpdatingProfileManager = (body, id) => {
         territory,
         phone,
         login,
-        role,
         email,
-        isBlocked,
     } = body;
 
     const data = {
@@ -133,7 +166,6 @@ const makeUpdatingProfileManager = (body, id) => {
         phone,
         login,
         email,
-        isBlocked,
     };
     const query = {
         where: {
@@ -145,6 +177,7 @@ const makeUpdatingProfileManager = (body, id) => {
 };
 
 export {
+    makeCreatingOfManager,
     makeUpdatingManagerAttributes,
     makeBlockingOfManager,
     increaseInputCount,
