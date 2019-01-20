@@ -2,9 +2,10 @@ import { Client } from '../../models/index';
 
 /**
  * @param body
+ * @param managerId
  * @returns {data}
  */
-const makeCreatingOfClient = body => {
+const makeCreatingOfClient = (body, managerId) => {
     const {
         name,
         passportData: passport_data,
@@ -19,6 +20,7 @@ const makeCreatingOfClient = body => {
         phone,
         email,
         territory,
+        manager_id: managerId,
     };
 
     return Client.create(data);

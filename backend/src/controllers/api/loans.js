@@ -7,7 +7,9 @@ import {
 const createLoan = (req, res) => {
     // @TODO validation data
 
-    return makeCreating(req.body)
+    const { user_id: managerId } = req.user;
+
+    return makeCreating(req.body, managerId)
         .then(() => res.status(200).json({
             ok: 1,
             message: 'Loan was created',
@@ -21,10 +23,11 @@ const createLoan = (req, res) => {
 const updateLoan = (req, res) => {
     const { id } = req.params;
     const data = req.body;
+    const { user_id: adminId } = req.user;
 
     // @TODO Validation data
 
-    return makeUpdating(id, data)
+    return makeUpdating(id, data, adminId)
         .then(() => res.status(200).json({
             ok: 1,
             message: 'Loan was updated',
@@ -38,10 +41,11 @@ const updateLoan = (req, res) => {
 const updateIssueLoan = (req, res) => {
     const { id } = req.params;
     const data = req.body;
+    const { user_id: adminId } = req.user;
 
     // @TODO Validation data
 
-    return makeUpdatingIssueLoan(id, data)
+    return makeUpdatingIssueLoan(id, data, adminId)
         .then(() => res.status(200).json({
             ok: 1,
             message: 'Date issue was updated',
