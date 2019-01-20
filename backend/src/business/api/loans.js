@@ -1,6 +1,11 @@
 import { Loan } from '../../models/index';
 
-const makeCreating = body => {
+/**
+ * @param body
+ * @param managerId
+ * @returns {data}
+ */
+const makeCreating = (body, managerId) => {
     const {
         amount,
         coefficient,
@@ -12,15 +17,21 @@ const makeCreating = body => {
     const data = {
         amount,
         coefficient,
-        data_issue: dateIssue,
+        date_issue: dateIssue,
         date_maturity: dateMaturity,
         total_repayment_amount: totalRepaymentAmount,
+        manager_id: managerId,
     };
 
     return Loan.create(data);
 };
 
-const makeUpdating = (id, body) => {
+/**
+ * @param id
+ * @param body
+ * @param adminId
+ */
+const makeUpdating = (id, body, adminId) => {
     const {
         amount,
         coefficient,
@@ -41,12 +52,18 @@ const makeUpdating = (id, body) => {
         data_issue: dateIssue,
         date_maturity: dateMaturity,
         total_repayment_amount: totalRepaymentAmount,
+        admin_id: adminId,
     };
 
     return Loan.update(data, query);
 };
 
-const makeUpdatingIssueLoan = (id, body) => {
+/**
+ * @param id
+ * @param body
+ * @param adminId
+ */
+const makeUpdatingIssueLoan = (id, body, adminId) => {
     const {
         dateIssue,
     } = body;
@@ -58,7 +75,8 @@ const makeUpdatingIssueLoan = (id, body) => {
     };
 
     const data = {
-        data_issue: dateIssue,
+        date_issue: dateIssue,
+        admin_id: adminId,
     };
 
     return Loan.update(data, query);
