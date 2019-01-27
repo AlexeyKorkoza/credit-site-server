@@ -9,6 +9,7 @@ import {
     findRecordOnLogin,
     findRecordOnRefreshToken,
     makeUpdatingRefreshToken,
+    updateUserRecord,
 } from '../business/auth';
 
 const logIn = (req, res) => {
@@ -132,7 +133,28 @@ const updateRefreshToken = (req, res) => {
         }));
 };
 
+/**
+ * Log out from application
+ * @param req
+ * @param res
+ * @return {Promise.<TResult>}
+ */
+const logOut = (req, res) => {
+    const { user_id: id, role } = req.user;
+
+    return updateUserRecord(id, role)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: `${role} is logged out`,
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
 export {
     logIn,
     updateRefreshToken,
+    logOut,
 };
