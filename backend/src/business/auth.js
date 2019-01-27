@@ -48,8 +48,29 @@ const makeUpdatingRefreshToken = (user, refreshToken, newRefreshToken, role) => 
     return model.update(data, query);
 };
 
+/**
+ * Delete an user's refresh token from his record
+ * @param id
+ * @param role
+ * @returns {Promise}
+ */
+const updateUserRecord = (id, role) => {
+    const query = {
+        id,
+    };
+
+    const data = {
+        refresh_token: null,
+    };
+
+    const model = models[role];
+
+    return model.update(data, query);
+};
+
 export {
     findRecordOnLogin,
     findRecordOnRefreshToken,
     makeUpdatingRefreshToken,
+    updateUserRecord,
 };
