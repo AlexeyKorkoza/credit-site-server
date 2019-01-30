@@ -18,7 +18,7 @@ router.post('/clients',
 
 router.put('/clients/:id',
     jwtMiddleware,
-    authMiddleware.isAdmin,
+    authMiddleware.isManagerOrAdmin,
     editClient);
 
 router.put('/clients/:id/deletion',
