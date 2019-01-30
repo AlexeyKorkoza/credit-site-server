@@ -3,6 +3,7 @@ import {
     makeUpdatingOfClient,
     makeMarkingDeletionOfClient,
     makeRemovingOfClient,
+    findClientOnManager,
 } from '../../business/api/clients';
 
 /**
@@ -34,11 +35,29 @@ const addClient = (req, res) => {
 const editClient = (req, res) => {
     // TODO @Add validation
 
-    const { user_id: adminId } = req.user;
+    // userId - manager or admin`s id
+    const { user_id: userId, role } = req.user;
     const { id: clientId } = req.params;
     const client = req.body;
 
-    return makeUpdatingOfClient(adminId, clientId, client)
+    return Promise.resolve(null)
+        .then(() => {
+            if (role === 'manager') {
+                return findClientOnManager(clientId, userId);
+            }
+
+            return null;
+        })
+        .then(result => {
+            if (!result) {
+                return res.status(400).json({
+                    ok: 0,
+                    message: 'Client was not created of this manager',
+                });
+            }
+
+            return makeUpdatingOfClient(userId, clientId, client, role);
+        })
         .then(() => res.status(200).json({
             ok: 1,
             message: 'Client was updated',

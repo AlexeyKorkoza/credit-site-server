@@ -40,6 +40,17 @@ const authMiddleware = {
             err: 'Access is forbidden',
         });
     },
+    isManagerOrAdmin: (req, res, next) => {
+        const { role } = req.user;
+        if (role === 'admin' || role === 'manager') {
+            return next();
+        }
+
+        return res.status(403).json({
+            ok: 0,
+            err: 'Access is forbidden',
+        });
+    },
 };
 
 export default authMiddleware;

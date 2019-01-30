@@ -1,4 +1,4 @@
-import { Client } from '../../models/index';
+import { Client } from '../../models';
 
 /**
  * @param body
@@ -27,11 +27,12 @@ const makeCreatingOfClient = (body, managerId) => {
 };
 
 /**
- * @param adminId
+ * @param userId
  * @param clientId
  * @param body
+ * @param role
  */
-const makeUpdatingOfClient = (adminId, clientId, body) => {
+const makeUpdatingOfClient = (userId, clientId, body, role) => {
     const {
         name,
         passportData: passport_data,
@@ -46,8 +47,13 @@ const makeUpdatingOfClient = (adminId, clientId, body) => {
         phone,
         email,
         territory,
-        admin_id: adminId,
     };
+
+    if (role === 'manager') {
+        data.manager_id = userId;
+    } else {
+        data.admin_id = userId;
+    }
 
     const query = {
         where: {
@@ -100,9 +106,26 @@ const makeRemovingOfClient = (adminId, clientId) => {
     return Client.update(data, query);
 };
 
+/**
+ * @param clientId
+ * @param managerId
+ * @return {Promise.<Model>}
+ */
+const findClientOnManager = (clientId, managerId) => {
+    const query = {
+        where: {
+            id: clientId,
+            manager_id: managerId,
+        },
+    };
+
+    return Client.findOne(query);
+};
+
 export {
     makeCreatingOfClient,
     makeUpdatingOfClient,
     makeMarkingDeletionOfClient,
     makeRemovingOfClient,
+    findClientOnManager,
 };
