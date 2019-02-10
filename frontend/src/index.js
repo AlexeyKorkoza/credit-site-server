@@ -8,11 +8,9 @@ import { Provider } from 'react-redux';
 import App from './components/App';
 import configureStore from './configureStore';
 
-const store = configureStore();
+// const store = configureStore();
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
-  document.getElementById("root")
+  <App />,
+  document.getElementById('root')
 );
