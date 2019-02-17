@@ -7,8 +7,17 @@ const Authentication = props => {
     return (
         <Modal>
             <ModalContent>
-                <Input value={props.login} onChange={props.onChange} />
-                <Input value={props.password} onChange={props.onChange} />
+                <Input
+                    name="login"
+                    value={props.login}
+                    onChange={props.onInputChange}
+                />
+                <Input
+                    type="password"
+                    name="password"
+                    value={props.password}
+                    onChange={props.onInputChange}
+                />
                 <ReactSelect
                     value={props.selectedRole}
                     onChange={props.onSelectChange}
