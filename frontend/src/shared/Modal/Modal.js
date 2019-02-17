@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Modal = styled.div`
-    display: none; /* Hidden by default */
+    // display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
     left: 0;

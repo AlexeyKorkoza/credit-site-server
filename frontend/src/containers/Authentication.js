@@ -7,6 +7,7 @@ import { setItem } from '../core/localStorage';
 class Authentication extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             login: '',
             password: '',
@@ -22,15 +23,19 @@ class Authentication extends Component {
                 },
             ],
         };
+
         this.onInputChange = this.onInputChange.bind(this);
         this.onSelectChange = this.onSelectChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     onInputChange(e) {
-        const value = e.target.value;
-        console.log('E', e);
-        // this.setState({ name: value });
+        const target = e.target;
+        const { value, name } = target;
+
+        this.setState({
+            [name]: value,
+        });
     }
 
     onSelectChange(selectedRole) {
@@ -46,10 +51,12 @@ class Authentication extends Component {
             selectedRole,
         } = this.state;
 
+        const { value: role } = selectedRole;
+
         const data = {
             login,
             password,
-            selectedRole,
+            role,
         };
 
         const key = 'user';
@@ -62,10 +69,19 @@ class Authentication extends Component {
     }
 
     render() {
+        const {
+            login,
+            password,
+            selectedRole,
+            roles,
+        } = this.state;
 
         return (
             <AuthenticationForm
-                data={this.state}
+                login={login}
+                password={password}
+                selectedRole={selectedRole}
+                roles={roles}
                 onInputChange={this.onInputChange}
                 onSelectChange={this.onSelectChange}
                 onSubmit={this.onSubmit}
