@@ -1,42 +1,40 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
-import Authentication from '../containers/Authentication';
-import { getItem } from '../core/localStorage';
+import { getDataAuthUser } from '../services/localDb';
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isAuthUser: false,
+            isAuthUser: true,
         };
     }
 
     componentDidMount() {
-        this.checkUserCredentials();
+        const data = getDataAuthUser();
+
+        if (!data) {
+            this.updateUserState(false);
+        }
     }
 
-    checkUserCredentials() {
-        const key = 'user';
-        const data = getItem(key, true);
-
-        if (data) {
-            this.setState({
-                isAuthUser: true,
-            });
-        }
+    updateUserState(isAuthUser) {
+        this.setState({
+            isAuthUser,
+        });
     }
 
     render() {
         const { isAuthUser } = this.state;
 
-        console.log('isAuthUser', isAuthUser);
+        if (!isAuthUser) {
+            return <Redirect to={'/auth'} />;
+        }
+
         return (
             <div>
-                {
-                    !isAuthUser
-                    ? <Authentication />
-                    : <h1>Hello world</h1>
-                }
+                <h1>Hello world</h1>
             </div>
         );
     }

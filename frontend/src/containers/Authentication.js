@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import { logIn } from '../api/authentication';
 import AuthenticationForm from '../components/Authentication';
-import { setItem } from '../core/localStorage';
+import { authUser, getDataAuthUser } from '../services/localDb';
 
 class Authentication extends Component {
     constructor(props) {
@@ -22,11 +23,16 @@ class Authentication extends Component {
                     value: 'manager',
                 },
             ],
+            isActiveModal: false,
         };
 
         this.onInputChange = this.onInputChange.bind(this);
         this.onSelectChange = this.onSelectChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        this.isAuthUser();
     }
 
     onInputChange(e) {
@@ -59,13 +65,22 @@ class Authentication extends Component {
             role,
         };
 
-        const key = 'user';
-
         logIn(data)
             .then(result => {
-                setItem(key, result, true);
+                authUser(result);
+                this.props.history.push('/');
             })
             .catch(error => console.error('error', error.stack));
+    }
+
+    isAuthUser() {
+        const data = getDataAuthUser();
+
+        if (!data) {
+            this.setState({
+                isActiveModal: true,
+            });
+        }
     }
 
     render() {
@@ -74,6 +89,7 @@ class Authentication extends Component {
             password,
             selectedRole,
             roles,
+            isActiveModal,
         } = this.state;
 
         return (
@@ -85,9 +101,10 @@ class Authentication extends Component {
                 onInputChange={this.onInputChange}
                 onSelectChange={this.onSelectChange}
                 onSubmit={this.onSubmit}
+                isActiveModal={isActiveModal}
             />
         );
     }
 }
 
-export default Authentication;
+export default withRouter(Authentication);

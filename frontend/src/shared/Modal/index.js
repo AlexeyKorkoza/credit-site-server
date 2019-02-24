@@ -1,6 +1,7 @@
-import { Modal, ModalContent } from './Modal';
+import { Modal, ModalContent, ModalItem } from './Modal';
 
 export {
     Modal,
     ModalContent,
+    ModalItem,
 };
