@@ -51,20 +51,25 @@ Authentication.defaultProps = {
     selectedRole: {},
     roles: [],
     isActiveModal: false,
-    onInputChange: PropTypes.func(),
-    onSelectChange: PropTypes.func(),
-    onSubmit: PropTypes.func(),
+    onInputChange: PropTypes.func,
+    onSelectChange: PropTypes.func,
+    onSubmit: PropTypes.func,
 };
 
 Authentication.propTypes = {
-    login: PropTypes.string(),
-    password: PropTypes.string(),
+    login: PropTypes.string,
+    password: PropTypes.string,
     selectedRole: PropTypes.shape(),
-    roles: PropTypes.arrayOf(),
-    isActiveModal: PropTypes.bool(),
-    onInputChange: PropTypes.func(),
-    onSelectChange: PropTypes.func(),
-    onSubmit: PropTypes.func(),
+    roles: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string,
+            value: PropTypes.string,
+        })
+    ),
+    isActiveModal: PropTypes.bool,
+    onInputChange: PropTypes.func,
+    onSelectChange: PropTypes.func,
+    onSubmit: PropTypes.func,
 };
 
 export default Authentication;
