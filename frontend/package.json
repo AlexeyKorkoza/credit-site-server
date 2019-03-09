@@ -22,7 +22,6 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-runtime": "^6.26.0",
-    "bootstrap": "^3.3.7",
     "config": "^1.30.0",
     "immutability-helper": "^2.6.4",
     "moment": "^2.22.1",

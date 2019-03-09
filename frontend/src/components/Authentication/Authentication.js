@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 
-import { Button, Input, Modal, ModalContent, ModalItem } from '../../shared';
+import { Button, Input, Modal, ModalContent, ModalItem, H1 } from '../../shared';
 
 const Authentication = props => {
     const { isActiveModal } = props;
@@ -10,9 +10,13 @@ const Authentication = props => {
         <Modal isActiveModal={isActiveModal}>
             <ModalContent>
                 <ModalItem>
+                    <H1>Log in credit site system</H1>
+                </ModalItem>
+                <ModalItem>
                     <Input
                         name="login"
                         value={props.login}
+                        placeholder="Login ..."
                         onChange={props.onInputChange}
                     />
                 </ModalItem>
@@ -20,6 +24,7 @@ const Authentication = props => {
                     <Input
                         type="password"
                         name="password"
+                        placeholder="Password ..."
                         value={props.password}
                         onChange={props.onInputChange}
                     />
