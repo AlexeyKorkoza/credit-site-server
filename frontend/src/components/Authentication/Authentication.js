@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactSelect from 'react-select';
+import PropTypes from 'prop-types';
 
 import { Button, Input, Modal, ModalContent, ModalItem, H1 } from '../../shared';
 
@@ -42,6 +43,28 @@ const Authentication = props => {
             </ModalContent>
         </Modal>
     );
+};
+
+Authentication.defaultProps = {
+    login: '',
+    password: '',
+    selectedRole: {},
+    roles: [],
+    isActiveModal: false,
+    onInputChange: PropTypes.func(),
+    onSelectChange: PropTypes.func(),
+    onSubmit: PropTypes.func(),
+};
+
+Authentication.propTypes = {
+    login: PropTypes.string(),
+    password: PropTypes.string(),
+    selectedRole: PropTypes.shape(),
+    roles: PropTypes.arrayOf(),
+    isActiveModal: PropTypes.bool(),
+    onInputChange: PropTypes.func(),
+    onSelectChange: PropTypes.func(),
+    onSubmit: PropTypes.func(),
 };
 
 export default Authentication;
