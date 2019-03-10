@@ -1,7 +1,8 @@
-import { Modal, ModalContent, ModalItem } from './Modal';
+import { Modal, ModalContainer, ModalContent, ModalItem } from './Modal';
 
 export {
     Modal,
+    ModalContainer,
     ModalContent,
     ModalItem,
 };
