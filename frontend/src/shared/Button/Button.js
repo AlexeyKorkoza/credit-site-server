@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-    padding: 10px;
+    padding: 0.5em;
     text-align: center;
     font-size: 14pt;
     border-radius: 5px;
@@ -10,6 +10,16 @@ const Button = styled.button`
     cursor: pointer;
     border: none;
     width: 100%;
+    
+    :hover {
+       outline: none;
+       border: none;
+    }
+    
+    :focus {
+       outline: none;
+       border: none;
+    }
     `;
 
 export default Button;

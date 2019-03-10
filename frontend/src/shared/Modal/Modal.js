@@ -7,9 +7,17 @@ const Modal = styled.div`
     left: 0;
     top: 0;
     width: 100%;
+    height: 100%;
     overflow: auto;
     background-color: #1e1e2e;
     `;
+
+const ModalContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+`;
 
 const ModalContent = styled.div`
     display: flex;
@@ -17,19 +25,22 @@ const ModalContent = styled.div`
     justify-content: space-between;
     align-items: stretch;
     background-color: #212941;
-    margin: 15% auto;
+    margin: 0 auto;
     padding: 20px;
-    width: 30%;
+    width: 40%;
     height: 300px;
     border-radius: 5px;
     `;
 
 const ModalItem = styled.div`
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
 `;
 
 export {
     Modal,
+    ModalContainer,
     ModalContent,
     ModalItem,
 };
