@@ -6,10 +6,11 @@ import {
     logOut,
 } from '../controllers/auth';
 import { jwtMiddleware } from '../middlewares/jwt';
+import validator from '../validator';
 
 const route = express();
 
-route.post('/login', logIn);
+route.post('/login', validator.login, logIn);
 route.put('/refresh-token', jwtMiddleware, updateRefreshToken);
 route.get('/logout', jwtMiddleware, logOut);
 

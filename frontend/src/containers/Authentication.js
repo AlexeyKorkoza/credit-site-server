@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import SimpleReactValidator from 'simple-react-validator';
 
 import { logIn } from '../api/authentication';
 import AuthenticationForm from '../components/Authentication';
@@ -8,6 +9,8 @@ import { authUser, getDataAuthUser } from '../services/localDb';
 class Authentication extends Component {
     constructor(props) {
         super(props);
+
+        this.validator = new SimpleReactValidator();
 
         this.state = {
             login: '',
@@ -24,6 +27,7 @@ class Authentication extends Component {
                 },
             ],
             isActiveModal: false,
+            isShowErrorMessages: false,
         };
 
         this.onInputChange = this.onInputChange.bind(this);
@@ -51,12 +55,23 @@ class Authentication extends Component {
     }
 
     onSubmit() {
+        if (!this.validator.allValid()) {
+            this.validator.showMessages();
+            this.setState({
+                isShowErrorMessages: true,
+            });
+            return;
+        }
+
+        this.setState({
+            isShowErrorMessages: false,
+        });
+
         const {
             login,
             password,
             selectedRole,
         } = this.state;
-
         const { value: role } = selectedRole;
 
         const data = {
@@ -102,6 +117,7 @@ class Authentication extends Component {
                 onSelectChange={this.onSelectChange}
                 onSubmit={this.onSubmit}
                 isActiveModal={isActiveModal}
+                validator={this.validator}
             />
         );
     }
