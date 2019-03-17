@@ -2,10 +2,10 @@ import React from 'react';
 import ReactSelect from 'react-select';
 import PropTypes from 'prop-types';
 
-import { Button, Input, Modal, ModalContainer, ModalContent, ModalItem, H1, Error } from '../../shared';
+import { Button, Input, Modal, ModalContainer, ModalContent, ModalItem, H1 } from '../../shared';
 
 const Authentication = props => {
-    const { isActiveModal } = props;
+    const { isActiveModal, validator } = props;
 
     return (
         <Modal isActiveModal={isActiveModal}>
@@ -20,8 +20,9 @@ const Authentication = props => {
                             value={props.login}
                             placeholder="Login ..."
                             onChange={props.onInputChange}
+                            required
                         />
-                        {/*<Error></Error>*/}
+                        {validator.message('login', props.login, 'required')}
                     </ModalItem>
                     <ModalItem>
                         <Input
@@ -30,16 +31,19 @@ const Authentication = props => {
                             placeholder="Password ..."
                             value={props.password}
                             onChange={props.onInputChange}
+                            required
                         />
-                        {/*<Error></Error>*/}
+                        {/* @TODO Check password length (min 8 symbols) */}
+                        {validator.message('password', props.password, 'required')}
                     </ModalItem>
                     <ModalItem>
                         <ReactSelect
                             value={props.selectedRole}
                             onChange={props.onSelectChange}
                             options={props.roles}
+                            placeholder={'Select Role ...'}
                         />
-                        {/*<Error></Error>*/}
+                        {validator.message('role', props.selectedRole, 'required')}
                     </ModalItem>
                     <ModalItem>
                         <Button onClick={props.onSubmit}>Log In</Button>
@@ -59,6 +63,7 @@ Authentication.defaultProps = {
     onInputChange: PropTypes.func,
     onSelectChange: PropTypes.func,
     onSubmit: PropTypes.func,
+    validator: PropTypes.shape(),
 };
 
 Authentication.propTypes = {
@@ -75,6 +80,7 @@ Authentication.propTypes = {
     onInputChange: PropTypes.func,
     onSelectChange: PropTypes.func,
     onSubmit: PropTypes.func,
+    validator: PropTypes.shape(),
 };
 
 export default Authentication;
