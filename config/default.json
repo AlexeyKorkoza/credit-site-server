@@ -5,7 +5,7 @@
     "host": "127.0.0.1"
   },
   "paths": {
-    "views": "views",
+    "views": "/views",
     "public": "/public"
   },
   "db": {
