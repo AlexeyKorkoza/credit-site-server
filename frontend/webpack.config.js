@@ -18,7 +18,6 @@ const plugins = [
             rimraf.sync(compiler.options.output.path);
         },
     },
-    new webpack.ContextReplacementPlugin(/moment[\\]locale$/, /en/),
     new MiniCssExtractPlugin({ filename: 'app.css', allChunks: true }),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.DefinePlugin({
@@ -90,15 +89,6 @@ module.exports = [
                         loader: 'raw',
                     },
                     exclude: /node_modules/,
-                },
-                {
-                    test: /\.scss$/,
-                    use: [
-                        'style-loader',
-                        MiniCssExtractPlugin.loader,
-                        'css-loader',
-                        'sass-loader',
-                    ],
                 },
                 {
                     test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
