@@ -1,3 +1,5 @@
+import { validationResult } from 'express-validator/check';
+
 import { buildTokens } from '../utils/jwt';
 import { comparePasswords } from '../utils/passwords';
 import {
@@ -13,14 +15,12 @@ import {
 } from '../business/auth';
 
 const logIn = (req, res) => {
-    const { login, password, role } = req.body;
-
-    if (!login || !password || !role) {
-        return res.status(400).json({
-            ok: 0,
-            message: 'Required parameters are empty',
-        });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ ok: 0, errors: errors.array() });
     }
+
+    const { login, password, role } = req.body;
 
     return findRecordOnLogin(login, role)
         .then(user => {
