@@ -1,107 +1,115 @@
-const config = require('config');
-const path = require('path');
 const webpack = require('webpack');
 const rimraf = require('rimraf');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const config = require('config');
+const path = require('path');
+
+const {
+    api: {
+        url: apiUrl,
+    },
+} = config;
 
 const environment = config.app.env || 'development';
 const plugins = [
     {
-        apply: (compiler) => {
-            rimraf.sync(compiler.options.output.path)
-        }
+        apply: compiler => {
+            rimraf.sync(compiler.options.output.path);
+        },
     },
-    new webpack.optimize.CommonsChunkPlugin({
-        async: true,
-        children: true,
-        minChunks: 4
-    }),
-    new webpack.ProvidePlugin({
-        moment: 'moment',
-    }),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-    new ExtractTextPlugin({ filename: 'app.css', allChunks: true }),
+    new webpack.ContextReplacementPlugin(/moment[\\]locale$/, /en/),
+    new MiniCssExtractPlugin({ filename: 'app.css', allChunks: true }),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.DefinePlugin({
         NODE_ENV: JSON.stringify(environment),
-        API_URL: JSON.stringify(`${config.api.url}`),
-    })
+        API_URL: JSON.stringify(`${apiUrl}`),
+    }),
 ];
 
+const optimization = {};
+
 if (environment === 'production') {
-    plugins.concat([
-        new webpack.LoaderOptionsPlugin({
-            minimize: true
-        }),
+    optimization.minimizer = [
         new UglifyJsPlugin({
+            sourceMap: true,
             uglifyOptions: {
-                compress: {
-                    drop_console: true,
+                compressor: {
                     warnings: false,
-                    conditionals: true,
-                    unused: true,
-                    comparisons: true,
-                    sequences: true,
-                    dead_code: true,
-                    evaluate: true,
-                    if_return: true,
-                    join_vars: true
                 },
-                output: {
-                    comments: false
-                }
-            }
-        })
-    ])
+            },
+        }),
+    ];
 }
 
-module.exports = {
-    context: __dirname + '/src',
-    watchOptions: {
-        poll: true,
+module.exports = [
+    {
+        context: path.join(__dirname, '/src'),
+        entry: './index.js',
+        output: {
+            path: path.join(__dirname, './../src/public/build'),
+            publicPath: '/public/build/',
+            filename: 'app.js',
+        },
+        optimization,
+        plugins,
+        module: {
+            rules: [
+                {
+                    test: /\.css$/,
+                    use: [{
+                        loader: MiniCssExtractPlugin.loader,
+                    },
+                        'css-loader',
+                    ],
+                },
+                {
+                    test: /\.jsx?$/,
+                    exclude: /(node_modules)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                '@babel/preset-env',
+                                '@babel/preset-react',
+                            ],
+                        },
+                    },
+                },
+                {
+                    test: /\.js$/,
+                    include: path.join(__dirname, '/frontend'),
+                    use: {
+                        loader: 'babel-loader?presets[]=env,presets[]=react',
+                    },
+                    exclude: /node_modules/,
+                },
+                {
+                    test: /\.html$/,
+                    use: {
+                        loader: 'raw',
+                    },
+                    exclude: /node_modules/,
+                },
+                {
+                    test: /\.scss$/,
+                    use: [
+                        'style-loader',
+                        MiniCssExtractPlugin.loader,
+                        'css-loader',
+                        'sass-loader',
+                    ],
+                },
+                {
+                    test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
+                    use: {
+                        loader: 'file-loader?name=assets/[name].[hash].[ext]',
+                    },
+                },
+            ],
+        },
+        resolve: {
+            extensions: ['*', '.js', '.jsx'],
+        },
     },
-    entry: './index.js',
-
-    output: {
-        path: __dirname + './../src/public/build',
-        publicPath: './../src/public/build',
-        filename: 'app.js',
-    },
-
-    resolve: {
-        extensions: ['.js', '.jsx'],
-    },
-
-    plugins,
-
-    module: {
-        rules: [
-            {
-                test: /\.jsx?$/,
-                exclude: /(node_modules)/,
-                loader: "babel-loader",
-                options: {
-                    presets: ["env", "react"]
-                }
-            },
-            {
-                test: /\.scss$/,
-                loader: ExtractTextPlugin.extract(
-                    'css-loader!sass-loader'
-                ),
-            },
-            {
-                test: /\.css$/,
-                loader: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader"
-                }),
-            },
-            {
-                test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-                loader: 'file-loader?name=assets/[name].[hash].[ext]'
-            },
-        ]
-    }
-};
+];
