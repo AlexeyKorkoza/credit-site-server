@@ -4,6 +4,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:watch": "babel-watch ./src",
+    "eslint:backend": "eslint src",
+    "eslint:frontend": "eslint frontend/src",
     "migrate": "sequelize db:migrate",
     "migrate:undo": "sequelize db:migrate:undo",
     "migrate:create": "sequelize migration:create"
