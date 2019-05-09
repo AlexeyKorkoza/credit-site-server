@@ -1,23 +1,21 @@
 import styled from 'styled-components';
 
 const Menu = styled.div`
-  width: 100%;
-  background-color: rgb(36, 41, 46);
+  width: 70px;
+  background-color: #3F4357;
 `;
 
 Menu.List = styled.div`
-  margin: 0 auto;
-  width: 80%;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  height: 100vh;
 `;
 
-Menu.Navigation = styled.div`
-  display: flex;
+Menu.Navigation = styled(Menu.List)`
 `;
 
 Menu.Navigation.Item = styled.div`
-  padding: 20px 15px;
+  padding: 10px;
   
   a {
     color: #fff;
@@ -33,16 +31,12 @@ Menu.Navigation.Item = styled.div`
   }
 `;
 
-Menu.Dropdown = styled.div`
-`;
-
-Menu.Dropdown.List = styled.div`
-  display: flex;
-  flex-direction: column;
+Menu.Dropdown = styled(Menu.List)`
+  justify-content: flex-end;
 `;
 
 Menu.Dropdown.Item = styled.div`
-  color: red;
+  padding: 10px;
 `;
 
 export default Menu;
