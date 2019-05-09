@@ -80,6 +80,7 @@ const logIn = (req, res) => {
                         accessToken,
                         refreshToken,
                         expiresIn,
+                        role,
                     }))
                     .catch(err => res.status(500).json({
                         ok: 0,
@@ -94,6 +95,7 @@ const logIn = (req, res) => {
                         accessToken,
                         refreshToken,
                         expiresIn,
+                        role,
                     });
                 });
         })
