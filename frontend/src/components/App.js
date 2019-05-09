@@ -1,7 +1,21 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
+
+import Menu from './Menu';
 
 import { getDataAuthUser } from '../services/localDb';
+
+const Page = styled.div`
+  display: flex;
+  background: #6B5B95;
+`;
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+  }
+`;
 
 class App extends Component {
     constructor(props) {
@@ -32,10 +46,15 @@ class App extends Component {
             return <Redirect to={'/auth'} />;
         }
 
+        const { role } = getDataAuthUser();
+
         return (
-            <div>
-                <h1>Hello world</h1>
-            </div>
+            <Page>
+                <Menu
+                  role={role}
+                />
+                <GlobalStyle />
+            </Page>
         );
     }
 }
