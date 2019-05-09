@@ -1,16 +1,27 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import Menu from './Menu';
 
 import { getDataAuthUser } from '../services/localDb';
+
+const Page = styled.div`
+  display: flex;
+  background: #6B5B95;
+`;
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+  }
+`;
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isAuthUser: true,
-            isActiveDropDown: false,
         };
     }
 
@@ -28,16 +39,8 @@ class App extends Component {
         });
     }
 
-    onClickDropdown() {
-        const { isActiveDropDown } = this.state;
-
-        this.setState({
-            isActiveDropDown: !!isActiveDropDown,
-        })
-    }
-
     render() {
-        const { isAuthUser, isActiveDropDown } = this.state;
+        const { isAuthUser } = this.state;
 
         if (!isAuthUser) {
             return <Redirect to={'/auth'} />;
@@ -46,13 +49,12 @@ class App extends Component {
         const { role } = getDataAuthUser();
 
         return (
-            <div>
+            <Page>
                 <Menu
                   role={role}
-                  onClickDropdown={this.onClickDropdown}
-                  isActiveDropDown={isActiveDropDown}
                 />
-            </div>
+                <GlobalStyle />
+            </Page>
         );
     }
 }

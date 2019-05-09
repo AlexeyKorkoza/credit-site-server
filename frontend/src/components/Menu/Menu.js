@@ -2,21 +2,30 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import Menu from './styles';
-import { Profile } from './icons';
+import {
+    Client,
+    Loan,
+    Logout,
+    Manager,
+    Profile,
+} from './icons';
 
 const menuItems = [
     {
         link: '/clients',
         label: 'Clients',
+        icon: Client,
     },
     {
         link: '/loans',
         label: 'Loans',
+        icon: Loan,
     },
     {
         link: '/managers',
         label: 'Managers',
         role: 'admin',
+        icon: Manager,
     },
 ];
 
@@ -24,10 +33,12 @@ const dropdownItems = [
     {
         link: '/profile',
         label: 'Profile',
+        icon: Profile,
     },
     {
         link: '/logout',
         label: 'Log Out',
+        icon: Logout,
     },
 ];
 
@@ -36,39 +47,39 @@ export default props => {
         <Menu>
             <Menu.List>
                 <Menu.Navigation>
-                {menuItems.map((item, index) => {
-                    if (props.role === item.role) {
+                    {menuItems.map((item, index) => {
+                        const { icon: Icon } = item;
+                        if (props.role === item.role) {
+                            return (
+                                <Menu.Navigation.Item>
+                                    <Link key={index} to={item.link}>
+                                        <Icon />
+                                    </Link>
+                                </Menu.Navigation.Item>
+                            );
+                        }
+
                         return (
                             <Menu.Navigation.Item>
-                                <Link key={index} to={item.link}>{item.label}</Link>
+                                <Link key={index} to={item.link}>
+                                    <Icon />
+                                </Link>
                             </Menu.Navigation.Item>
                         );
-                    }
-
-                    return (
-                        <Menu.Navigation.Item>
-                            <Link key={index} to={item.link}>{item.label}</Link>
-                        </Menu.Navigation.Item>
-                    );
-                })}
+                    })}
                 </Menu.Navigation>
                 <Menu.Dropdown>
-                    <Profile onClick={props.onClickDropdown} />
-                    {props && props.isActiveDropDown
-                        ? (
-                            <Menu.Dropdown.List>
-                                {dropdownItems.map((item, index) => {
-                                    return (
-                                        <Menu.Dropdown.Item>
-                                            <Link key={index} to={item.link}>{item.label}</Link>
-                                        </Menu.Dropdown.Item>
-                                    );
-                                })}
-                            </Menu.Dropdown.List>
-                        )
-                        :
-                        null
-                    }
+                    {dropdownItems.map((item, index) => {
+                        const { icon: Icon } = item;
+
+                        return (
+                            <Menu.Dropdown.Item>
+                                <Link key={index} to={item.link}>
+                                    <Icon />
+                                </Link>
+                            </Menu.Dropdown.Item>
+                        );
+                    })}
                 </Menu.Dropdown>
             </Menu.List>
         </Menu>

@@ -4,11 +4,12 @@ const Profile = () => (
   <svg
     version="1.1"
     id="Layer_1"
+    height="50px"
+    width="50px"
     xmlns="http://www.w3.org/2000/svg"
     x="0px"
     y="0px"
     viewBox="0 0 508 508"
-    style={{background: "red", padding: "10px"}}
     xmlSpace="preserve"
   >
     <circle fill='#FD8469' cx="254" cy="254" r="254" />
