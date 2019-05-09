@@ -16,26 +16,13 @@ Menu.Navigation = styled(Menu.List)`
 
 Menu.Navigation.Item = styled.div`
   padding: 10px;
-  
-  a {
-    color: #fff;
-    font-size: 21px;
-    line-height: 1.5px;
-    outline: none;
-    text-decoration: none;
-    
-    &:hover {
-      outline: none;
-      color: #808080;
-    }
-  }
 `;
 
 Menu.Dropdown = styled(Menu.List)`
   justify-content: flex-end;
 `;
 
-Menu.Dropdown.Item = styled.div`
+Menu.Dropdown.Item = styled(Menu.Navigation.Item)`
   padding: 10px;
 `;
 
