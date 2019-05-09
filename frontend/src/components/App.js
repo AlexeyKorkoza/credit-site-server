@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import Menu from './Menu';
+
 import { getDataAuthUser } from '../services/localDb';
 
 class App extends Component {
@@ -8,6 +10,7 @@ class App extends Component {
         super(props);
         this.state = {
             isAuthUser: true,
+            isActiveDropDown: false,
         };
     }
 
@@ -25,16 +28,30 @@ class App extends Component {
         });
     }
 
+    onClickDropdown() {
+        const { isActiveDropDown } = this.state;
+
+        this.setState({
+            isActiveDropDown: !!isActiveDropDown,
+        })
+    }
+
     render() {
-        const { isAuthUser } = this.state;
+        const { isAuthUser, isActiveDropDown } = this.state;
 
         if (!isAuthUser) {
             return <Redirect to={'/auth'} />;
         }
 
+        const { role } = getDataAuthUser();
+
         return (
             <div>
-                <h1>Hello world</h1>
+                <Menu
+                  role={role}
+                  onClickDropdown={this.onClickDropdown}
+                  isActiveDropDown={isActiveDropDown}
+                />
             </div>
         );
     }

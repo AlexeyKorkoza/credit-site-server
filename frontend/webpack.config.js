@@ -18,7 +18,10 @@ const plugins = [
             rimraf.sync(compiler.options.output.path);
         },
     },
-    new MiniCssExtractPlugin({ filename: 'app.css', allChunks: true }),
+    new MiniCssExtractPlugin({
+        filename: 'app.css',
+        allChunks: true
+    }),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.DefinePlugin({
         NODE_ENV: JSON.stringify(environment),
@@ -95,6 +98,20 @@ module.exports = [
                     use: {
                         loader: 'file-loader?name=assets/[name].[hash].[ext]',
                     },
+                },
+                {
+                    test: /\.svg$/,
+                    use: [
+                        {
+                            loader: 'babel-loader'
+                        },
+                        {
+                            loader: 'react-svg-loader',
+                            options: {
+                                jsx: true,
+                            },
+                        }
+                    ],
                 },
             ],
         },
