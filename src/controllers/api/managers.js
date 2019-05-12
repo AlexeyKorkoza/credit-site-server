@@ -160,10 +160,26 @@ const blockManager = (req, res) => {
         }));
 };
 
+const getManagerData = (req, res) => {
+    // const { id: managerId } = req.user;
+    const { id: managerId } = req.params;
+
+    return findManager(managerId)
+        .then(manager => res.status(200).json({
+            ok: 1,
+            manager,
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
 export {
     createNewManager,
     updateAttributesManager,
     updateProfileManager,
     changePassword,
     blockManager,
+    getManagerData,
 };

@@ -6,11 +6,17 @@ import {
     updateProfileManager,
     changePassword,
     blockManager,
+    getManagerData,
 } from '../../controllers/api/managers';
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
 const router = Router();
+
+router.get('/managers/:id/manager',
+    jwtMiddleware,
+    authMiddleware.isManager,
+    getManagerData);
 
 router.post('/managers',
     jwtMiddleware,
