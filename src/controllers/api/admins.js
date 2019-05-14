@@ -33,52 +33,14 @@ const getAdminData = (req, res) => {
  */
 const updateAdminData = (req, res) => {
     const { id: adminId } = req.params;
-    const {
-        login,
-        oldPassword,
-        newPassword,
-        confirmNewPassword,
-    } = req.body;
+    const { login } = req.body;
 
-    if (oldPassword && newPassword && confirmNewPassword) {
-        if (newPassword !== confirmNewPassword) {
-            return res.status(400)
-                .json({
-                    ok: 0,
-                    message: 'New Password and Confirmation New Password are different',
-                });
-        }
-
-        return findAdminData(adminId)
-            .then(admin => {
-                const { password } = admin;
-
-                const isComparedPasswords = comparePasswords(oldPassword, password);
-                if (!isComparedPasswords) {
-                    return res.status(400)
-                        .json({
-                            ok: 0,
-                            message: 'Old Password is incorrect',
-                        });
-                }
-
-                const data = {
-                    login,
-                    password: encryptor(newPassword),
-                };
-
-                return makeUpdatingAdmin(adminId, data)
-                    .then(admin => res.status(200)
-                        .json({
-                            ok: 1,
-                            admin,
-                        }))
-                    .catch(err => res.status(500)
-                        .json({
-                            ok: 0,
-                            message: err.message,
-                        }));
-            })
+    if (!login) {
+        return res.status(422)
+            .json({
+                ok: 0,
+                message: 'Enter your login',
+            });
     }
 
     const data = {
@@ -98,7 +60,69 @@ const updateAdminData = (req, res) => {
             }));
 };
 
+/**
+ * @param req
+ * @param res
+ * @return {Promise<T | never>|*}
+ */
+const changeAdminPassword = (req, res) => {
+    const { id: adminId } = req.params;
+    const {
+        oldPassword,
+        newPassword,
+        confirmNewPassword,
+    } = req.body;
+
+    // TODO Add validations for passwords
+    if (!oldPassword || newPassword || confirmNewPassword) {
+        return res.status(422)
+            .json({
+                ok: 0,
+                message: 'Enter required parameters',
+            });
+    }
+
+    if (newPassword !== confirmNewPassword) {
+        return res.status(400)
+            .json({
+                ok: 0,
+                message: 'New Password and Confirmation New Password are different',
+            });
+    }
+
+    return findAdminData(adminId)
+        .then(admin => {
+            const { password } = admin;
+
+            const isComparedPasswords = comparePasswords(oldPassword, password);
+            if (!isComparedPasswords) {
+                return res.status(400)
+                    .json({
+                        ok: 0,
+                        message: 'Old Password is incorrect',
+                    });
+            }
+
+            const data = {
+                password: encryptor(newPassword),
+            };
+
+            return makeUpdatingAdmin(adminId, data)
+                .then(admin => res.status(200)
+                    .json({
+                        ok: 1,
+                        admin,
+                    }))
+                .catch(err => res.status(500)
+                    .json({
+                        ok: 0,
+                        message: err.message,
+                    }));
+        });
+};
+
 export {
     getAdminData,
     updateAdminData,
+    changeAdminPassword,
 };

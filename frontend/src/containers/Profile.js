@@ -19,6 +19,22 @@ export default class Profile extends Component {
         this.setState({ role });
     }
 
+    onChangeInput = e => {
+
+    };
+
+    onSave = () => {
+
+    };
+
+    onChangePassword = () => {
+
+    };
+
+    onChangeTerritory = () => {
+
+    };
+
     render() {
         const { role } = this.state;
 
@@ -26,11 +42,15 @@ export default class Profile extends Component {
             return null;
         }
 
-        console.log('this.state', this.state);
         const Component = roles[role];
 
         return (
-            <Component />
+          <Component
+            onSave={this.onSave}
+            onChangePassword={this.onChangePassword}
+            onChangeTerritory={this.onChangeTerritory}
+            onChangeInput={this.onChangeInput}
+          />
         );
     }
 }

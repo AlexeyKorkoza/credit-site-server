@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Card = styled.div`
     display: flex;
     flex-direction: column;
-    width: 50%;
+    align-items: start;
     background-color: #3F4357;
     padding: 20px;
     margin: 20px;
@@ -12,12 +12,21 @@ const Card = styled.div`
     border-radius: .2857rem;
     `;
 
+Card.List = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+`;
+
 Card.Item = styled.div`
   display: flex;
+  align-items: baseline;
+  margin: 5px 0;
 `;
 
 Card.Item.Label = styled.label`
   color: grey;
+  margin-right: 10px;
 `;
 
 export default Card;

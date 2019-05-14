@@ -35,7 +35,7 @@ router.put('/managers/:id/update-profile',
 
 router.put('/managers/:id/change-password',
     jwtMiddleware,
-    authMiddleware.isAdmin,
+    authMiddleware.isManagerOrAdmin,
     changePassword);
 
 router.put('/managers/:id/block-manager',
