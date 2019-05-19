@@ -7,6 +7,15 @@ const Admin = props => {
         onSave,
         onChangeInput,
         onChangePassword,
+        data: {
+        data: {
+        data: {
+        data: {
+            login,
+            oldPassword,
+            newPassword,
+            confirmNewPassword,
+        },
     } = props;
 
     return (
@@ -14,7 +23,13 @@ const Admin = props => {
         <Card>
           <Card.Item>
             <Card.Item.Label>Login</Card.Item.Label>
-            <Input />
+            <Input
+              name="login"
+              value={login}
+              onChange={onChangeInput}
+              placeholder='Login...'
+              required
+            />
           </Card.Item>
           <Card.Item>
             <Button onClick={onSave}>Save</Button>
@@ -23,15 +38,30 @@ const Admin = props => {
         <Card>
           <Card.Item>
             <Card.Item.Label>Old Password</Card.Item.Label>
-            <Input type="password" />
+            <Input
+              type="password"
+              name="oldPassword"
+              value={oldPassword}
+              onChange={onChangeInput}
+            />
           </Card.Item>
           <Card.Item>
             <Card.Item.Label>New Password</Card.Item.Label>
-            <Input type="password" />
+            <Input
+              type="password"
+              name="newPassword"
+              value={newPassword}
+              onChange={onChangeInput}
+            />
           </Card.Item>
           <Card.Item>
             <Card.Item.Label>Confirm New Password</Card.Item.Label>
-            <Input type="password" />
+            <Input
+              type="password"
+              name="login"
+              value={confirmNewPassword}
+              onChange={onChangeInput}
+            />
           </Card.Item>
           <Card.Item>
             <Button onClick={onChangePassword}>Change Password</Button>

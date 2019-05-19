@@ -127,10 +127,26 @@ const findManager = id => {
         where: {
             id,
         },
+        attributes: [
+          'full_name',
+          'territory',
+          'phone',
+          'login',
+          'email',
+        ],
         plain: true,
     };
 
-    return Manager.findOne(query);
+    return Manager.findOne(query)
+        .then(result => {
+            return {
+                fullName: result.full_name,
+                territory: result.territory,
+                phone: result.phone,
+                login: result.login,
+                email: result.email,
+            }
+        })
 };
 
 /**

@@ -9,6 +9,13 @@ const findAdminData = id => {
         where: {
             id,
         },
+        attributes: [
+            'full_name',
+            'territory',
+            'phone',
+            'login',
+            'email',
+        ],
         plain: true,
     };
 
