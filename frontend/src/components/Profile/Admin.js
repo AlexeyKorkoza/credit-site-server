@@ -8,9 +8,6 @@ const Admin = props => {
         onChangeInput,
         onChangePassword,
         data: {
-        data: {
-        data: {
-        data: {
             login,
             oldPassword,
             newPassword,
