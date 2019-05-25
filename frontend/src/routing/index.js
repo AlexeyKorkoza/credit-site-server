@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 
+import PrivateRouter from './private';
 import App from '../components/App';
 import Menu from '../components/Menu';
 import { Authentication, Profile } from '../containers';
@@ -12,9 +13,9 @@ const routing = (
             <Menu />
             <Page>
                 <GlobalStyle />
-                <Route exact path="/" component={App} />
                 <Route path="/auth" component={Authentication} />
-                <Route path="/profile" component={Profile} />
+                <PrivateRouter exact path="/" component={App} />
+                <PrivateRouter path="/profile" component={Profile} />
             </Page>
         </Wrapper>
     </Router>

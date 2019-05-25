@@ -167,7 +167,7 @@ const getManagerData = (req, res) => {
     return findManager(managerId)
         .then(manager => res.status(200).json({
             ok: 1,
-            manager,
+            data: manager,
         }))
         .catch(err => res.status(500).json({
             ok: 0,

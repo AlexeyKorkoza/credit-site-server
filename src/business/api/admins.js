@@ -10,11 +10,7 @@ const findAdminData = id => {
             id,
         },
         attributes: [
-            'full_name',
-            'territory',
-            'phone',
             'login',
-            'email',
         ],
         plain: true,
     };

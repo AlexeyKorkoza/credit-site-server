@@ -4,7 +4,8 @@ import config from 'config';
 const jwtMiddleware = (req, res, next) => {
     const secretKey = config.jwt.secretKey;
     const algorithm = config.jwt.algorithm;
-    const { accessToken } = req.body;
+    const accessToken = req.headers['access-token'];
+
     jwt.verify(accessToken, secretKey, algorithm, (err, decoded) => {
         if (err) {
             return res.status(400).json({

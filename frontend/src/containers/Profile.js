@@ -16,6 +16,14 @@ const rolesComponents = {
 export default class Profile extends Component {
     state = {
         role: '',
+        fullName: '',
+        territory: '',
+        phone: '',
+        login: '',
+        email: '',
+        oldPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
     };
 
     componentDidMount() {
@@ -25,7 +33,9 @@ export default class Profile extends Component {
 
         getProfileUser(role, id)
             .then(result => {
-                this.setState({ ...result });
+                const { data } = result;
+
+                this.setState({ ...data });
             });
     }
 
@@ -38,7 +48,13 @@ export default class Profile extends Component {
         });
     };
 
-    onSave = () => {
+    onSave = event => {
+        event.preventDefault();
+
+        if (!event.target.checkValidity()) {
+            return;
+        }
+
         const { role, id, login } = this.state;
 
         let body = {
@@ -62,7 +78,9 @@ export default class Profile extends Component {
         return updateProfileUser(role, id, body);
     };
 
-    onChangePassword = () => {
+    onChangePassword = event => {
+        event.preventDefault();
+
         const {
             role,
             id,
@@ -73,10 +91,12 @@ export default class Profile extends Component {
 
         if (!oldPassword && !newPassword && !confirmNewPassword) {
             // enter passwords
+            return;
         }
 
         if (newPassword !== confirmNewPassword) {
             // don't equal
+            return;
         }
 
         const body = {

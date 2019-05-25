@@ -1,4 +1,4 @@
-import ky from 'ky';
+import sender from './sender';
 
 const routes = {
     'admin': '/admins',
@@ -17,8 +17,7 @@ const getProfileUser = (role, id) => {
 
     const route = routes[role];
 
-    return ky.get(`${API_URL}${route}/${id}`)
-        .then(result => result.json())
+    return sender(`${API_URL}/api/v1${route}/${id}`, 'get')
         .catch(err => console.error(err.message, 'getProfileUser'));
 };
 
@@ -35,9 +34,8 @@ const updateProfileUser = (role, id, body) => {
 
     const route = routes[role];
 
-    return ky.put(`${API_URL}${route}/${id}`, { json: body })
-        .then(result => result.json())
-        .catch(err => console.error(err.message, 'getProfileUser'));
+    return sender(`${API_URL}/api/v1${route}/${id}`, 'put', body)
+        .catch(err => console.error(err.message, 'updateProfileUser'));
 };
 
 /**
@@ -53,9 +51,8 @@ const updatePasswordsProfileUser = (role, id, body) => {
 
     const route = routes[role];
 
-    return ky.put(`${API_URL}${route}/${id}/change-password`, { json: body })
-        .then(result => result.json())
-        .catch(err => console.error(err.message, 'getProfileUser'));
+    return sender(`${API_URL}/api/v1${route}/${id}/change-password`, 'put', body)
+        .catch(err => console.error(err.message, 'updatePasswordsProfileUser'));
 };
 
 export {

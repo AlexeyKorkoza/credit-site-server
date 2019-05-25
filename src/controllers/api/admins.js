@@ -14,10 +14,10 @@ const getAdminData = (req, res) => {
     const { id: adminId } = req.params;
 
     return findAdminData(adminId)
-        .then(manager => res.status(200)
+        .then(admin => res.status(200)
             .json({
                 ok: 1,
-                manager,
+                data: admin,
             }))
         .catch(err => res.status(500)
             .json({
@@ -74,7 +74,7 @@ const changeAdminPassword = (req, res) => {
     } = req.body;
 
     // TODO Add validations for passwords
-    if (!oldPassword || newPassword || confirmNewPassword) {
+    if (!oldPassword || !newPassword || !confirmNewPassword) {
         return res.status(422)
             .json({
                 ok: 0,
