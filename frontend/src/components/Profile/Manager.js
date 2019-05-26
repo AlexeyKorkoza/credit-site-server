@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ReactSelect from 'react-select';
 
 import { Button, Card, Input } from '../../shared';
 
@@ -8,15 +9,17 @@ const Manager = props => {
         onSave,
         onChangeInput,
         onChangePassword,
+        onChangeTerritory,
         data: {
             login,
             fullName,
-            territory,
             phone,
             email,
             oldPassword,
             newPassword,
             confirmNewPassword,
+            territories,
+            selectedTerritory,
         },
     } = props;
 
@@ -38,12 +41,11 @@ const Manager = props => {
           </Card.Item>
           <Card.Item>
             <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
-            <Input
-              name='territory'
-              placeholder='Territory...'
-              onChange={onChangeInput}
-              value={territory}
-              required
+            <ReactSelect
+                  value={selectedTerritory}
+                  onChange={onChangeTerritory}
+                  options={territories}
+                  placeholder={'Select Territory ...'}
             />
           </Card.Item>
           <Card.Item>
@@ -125,15 +127,27 @@ Manager.defaultProps = {
     onSave: PropTypes.func,
     onChangeInput: PropTypes.func,
     onChangePassword: PropTypes.func,
+    onChangeTerritory: PropTypes.func,
     data: PropTypes.shape({
         login: '',
         fullName: '',
-        territory: '',
         phone: '',
         email: '',
         oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
+        territories: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string,
+                value: PropTypes.string,
+            }),
+        ),
+        selectedTerritory: PropTypes.shape(
+            {
+                label: PropTypes.string,
+                value: PropTypes.string,
+            }
+        ),
     }),
 };
 
@@ -141,15 +155,27 @@ Manager.propTypes = {
     onSave: PropTypes.func,
     onChangeInput: PropTypes.func,
     onChangePassword: PropTypes.func,
+    onChangeTerritory: PropTypes.func,
     data: PropTypes.shape({
         login: PropTypes.string,
         fullName: PropTypes.string,
-        territory: PropTypes.string,
         phone: PropTypes.string,
         email: PropTypes.string,
         oldPassword: PropTypes.string,
         newPassword: PropTypes.string,
         confirmNewPassword: PropTypes.string,
+        territories: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string,
+                value: PropTypes.string,
+            }),
+        ),
+        selectedTerritory: PropTypes.shape(
+            {
+                label: PropTypes.string,
+                value: PropTypes.string,
+            }
+        ),
     }),
 };
 

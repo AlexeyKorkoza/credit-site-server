@@ -17,13 +17,27 @@ export default class Profile extends Component {
     state = {
         role: '',
         fullName: '',
-        territory: '',
         phone: '',
         login: '',
         email: '',
         oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
+        territories: [
+            {
+                label: '0.5 %',
+                value: '0.5',
+            },
+            {
+                label: '1 %',
+                value: '1',
+            },
+            {
+                label: '1.5 %',
+                value: '1.5',
+            },
+        ],
+        selectedTerritory: {},
     };
 
     componentDidMount() {
@@ -34,8 +48,13 @@ export default class Profile extends Component {
         getProfileUser(role, id)
             .then(result => {
                 const { data } = result;
-
-                this.setState({ ...data });
+                if (data.territory) {
+                    const { territories } = this.state;
+                    const selectedTerritory = territories.find(e => +e.value === data.territory);
+                    this.setState({ ...data, selectedTerritory });
+                } else {
+                    this.setState({ ...data });
+                }
             });
     }
 
@@ -63,10 +82,11 @@ export default class Profile extends Component {
         if (role === 'manager') {
             const {
                 fullName,
-                territory,
                 phone,
-                email
+                email,
+                selectedTerritory,
             } = this.state;
+            const { value: territory } = selectedTerritory;
             body = Object.assign({}, body, {
                 fullName,
                 territory,
@@ -108,8 +128,10 @@ export default class Profile extends Component {
         return updatePasswordsProfileUser(role, id, body);
     };
 
-    onChangeTerritory = () => {
-
+    onChangeTerritory = selectedTerritory => {
+        this.setState({
+            selectedTerritory,
+        });
     };
 
     render() {
