@@ -20,9 +20,12 @@ const Manager = props => {
 
     return (
       <Card.List>
-        <Card>
+        <Card
+            noValidate
+            onSubmit={onSave}
+        >
           <Card.Item>
-            <Card.Item.Label>Full name</Card.Item.Label>
+            <Card.Item.Label htmlFor="fullName">Full name</Card.Item.Label>
             <Input
               name='fullName'
               placeholder='Full name...'
@@ -32,7 +35,7 @@ const Manager = props => {
             />
           </Card.Item>
           <Card.Item>
-            <Card.Item.Label>Territory</Card.Item.Label>
+            <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
             <Input
               name='territory'
               placeholder='Territory...'
@@ -42,7 +45,7 @@ const Manager = props => {
             />
           </Card.Item>
           <Card.Item>
-            <Card.Item.Label>Phone</Card.Item.Label>
+            <Card.Item.Label htmlFor="phone">Phone</Card.Item.Label>
             <Input
               type="phone"
               name='phone'
@@ -53,7 +56,7 @@ const Manager = props => {
             />
           </Card.Item>
           <Card.Item>
-            <Card.Item.Label>Login</Card.Item.Label>
+            <Card.Item.Label htmlFor="login">Login</Card.Item.Label>
             <Input
               name="login"
               value={login}
@@ -63,7 +66,7 @@ const Manager = props => {
             />
           </Card.Item>
           <Card.Item>
-            <Card.Item.Label>Email</Card.Item.Label>
+            <Card.Item.Label htmlFor="email">Email</Card.Item.Label>
             <Input
               type="email"
               name="email"
@@ -74,12 +77,15 @@ const Manager = props => {
             />
           </Card.Item>
           <Card.Item>
-            <Button onClick={onSave}>Save</Button>
+            <Button>Save</Button>
           </Card.Item>
         </Card>
-        <Card>
+        <Card
+            noValidate
+            onSubmit={onChangePassword}
+        >
           <Card.Item>
-            <Card.Item.Label>Old Password</Card.Item.Label>
+            <Card.Item.Label htmlFor="oldPassword">Old Password</Card.Item.Label>
             <Input
               type="password"
               name="oldPassword"
@@ -88,7 +94,7 @@ const Manager = props => {
             />
           </Card.Item>
           <Card.Item>
-            <Card.Item.Label>New Password</Card.Item.Label>
+            <Card.Item.Label htmlFor="newPassword">New Password</Card.Item.Label>
             <Input
               type="password"
               name="newPassword"
@@ -97,16 +103,16 @@ const Manager = props => {
             />
           </Card.Item>
           <Card.Item>
-            <Card.Item.Label>Confirm New Password</Card.Item.Label>
+            <Card.Item.Label htmlFor="confirmNewPassword">Confirm New Password</Card.Item.Label>
             <Input
               type="password"
-              name="login"
+              name="confirmNewPassword"
               value={confirmNewPassword}
               onChange={onChangeInput}
             />
           </Card.Item>
           <Card.Item>
-            <Button onClick={onChangePassword}>Change Password</Button>
+            <Button>Change Password</Button>
           </Card.Item>
         </Card>
       </Card.List>
