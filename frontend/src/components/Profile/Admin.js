@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { Button, Card, Input } from '../../shared';
 
@@ -72,6 +73,30 @@ const Admin = props => {
         </Card>
       </Card.List>
     );
+};
+
+Admin.defaultProps = {
+    onSave: PropTypes.func,
+    onChangeInput: PropTypes.func,
+    onChangePassword: PropTypes.func,
+    data: PropTypes.shape({
+        login: '',
+        oldPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
+    }),
+};
+
+Admin.propTypes = {
+    onSave: PropTypes.func,
+    onChangeInput: PropTypes.func,
+    onChangePassword: PropTypes.func,
+    data: PropTypes.shape({
+        login: PropTypes.string,
+        oldPassword: PropTypes.string,
+        newPassword: PropTypes.string,
+        confirmNewPassword: PropTypes.string,
+    }),
 };
 
 export default Admin;

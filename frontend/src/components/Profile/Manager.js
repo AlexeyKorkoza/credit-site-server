@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { Button, Card, Input } from '../../shared';
 
 const Manager = props => {
@@ -117,6 +119,38 @@ const Manager = props => {
         </Card>
       </Card.List>
     );
+};
+
+Manager.defaultProps = {
+    onSave: PropTypes.func,
+    onChangeInput: PropTypes.func,
+    onChangePassword: PropTypes.func,
+    data: PropTypes.shape({
+        login: '',
+        fullName: '',
+        territory: '',
+        phone: '',
+        email: '',
+        oldPassword: '',
+        newPassword: '',
+        confirmNewPassword: '',
+    }),
+};
+
+Manager.propTypes = {
+    onSave: PropTypes.func,
+    onChangeInput: PropTypes.func,
+    onChangePassword: PropTypes.func,
+    data: PropTypes.shape({
+        login: PropTypes.string,
+        fullName: PropTypes.string,
+        territory: PropTypes.string,
+        phone: PropTypes.string,
+        email: PropTypes.string,
+        oldPassword: PropTypes.string,
+        newPassword: PropTypes.string,
+        confirmNewPassword: PropTypes.string,
+    }),
 };
 
 export default Manager;
