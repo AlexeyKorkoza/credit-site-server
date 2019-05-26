@@ -13,7 +13,7 @@ import authMiddleware from '../../middlewares/auth';
 
 const router = Router();
 
-router.get('/managers/:id/manager',
+router.get('/managers/:id',
     jwtMiddleware,
     authMiddleware.isManager,
     getManagerData);
