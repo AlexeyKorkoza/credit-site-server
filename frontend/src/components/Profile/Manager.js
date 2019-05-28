@@ -2,7 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
 
-import { Button, Card, Input } from '../../shared';
+import {
+    Button,
+    Card,
+    Error,
+    Input,
+} from '../../shared';
 
 const Manager = props => {
     const {
@@ -20,15 +25,19 @@ const Manager = props => {
             confirmNewPassword,
             territories,
             selectedTerritory,
+            isEmptyPasswordsFields,
+            isEqualNewPasswords,
         },
+        validatorProfile,
     } = props;
+
+    if (!validatorProfile.allValid()) {
+        validatorProfile.showMessages();
+    }
 
     return (
       <Card.List>
-        <Card
-            noValidate
-            onSubmit={onSave}
-        >
+        <Card noValidate>
           <Card.Item>
             <Card.Item.Label htmlFor="fullName">Full name</Card.Item.Label>
             <Input
@@ -38,6 +47,7 @@ const Manager = props => {
               value={fullName}
               required
             />
+              {validatorProfile.message('fullName', fullName, 'required')}
           </Card.Item>
           <Card.Item>
             <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
@@ -47,6 +57,7 @@ const Manager = props => {
                   options={territories}
                   placeholder={'Select Territory ...'}
             />
+              {validatorProfile.message('territory', selectedTerritory, 'required')}
           </Card.Item>
           <Card.Item>
             <Card.Item.Label htmlFor="phone">Phone</Card.Item.Label>
@@ -58,6 +69,7 @@ const Manager = props => {
               value={phone}
               required
             />
+              {validatorProfile.message('phone', phone, 'required')}
           </Card.Item>
           <Card.Item>
             <Card.Item.Label htmlFor="login">Login</Card.Item.Label>
@@ -68,6 +80,7 @@ const Manager = props => {
               placeholder='Login...'
               required
             />
+              {validatorProfile.message('login', login, 'required')}
           </Card.Item>
           <Card.Item>
             <Card.Item.Label htmlFor="email">Email</Card.Item.Label>
@@ -79,15 +92,13 @@ const Manager = props => {
               placeholder='Email...'
               required
             />
+              {validatorProfile.message('email', email, 'required')}
           </Card.Item>
           <Card.Item>
-            <Button>Save</Button>
+            <Button onClick={onSave}>Save</Button>
           </Card.Item>
         </Card>
-        <Card
-            noValidate
-            onSubmit={onChangePassword}
-        >
+        <Card>
           <Card.Item>
             <Card.Item.Label htmlFor="oldPassword">Old Password</Card.Item.Label>
             <Input
@@ -114,9 +125,11 @@ const Manager = props => {
               value={confirmNewPassword}
               onChange={onChangeInput}
             />
+              { isEmptyPasswordsFields && <Error>Please, enter fill in</Error> }
+              { !isEqualNewPasswords && <Error>Please, passwords are not equal</Error> }
           </Card.Item>
           <Card.Item>
-            <Button>Change Password</Button>
+            <Button onClick={onChangePassword}>Change Password</Button>
           </Card.Item>
         </Card>
       </Card.List>
@@ -148,7 +161,10 @@ Manager.defaultProps = {
                 value: PropTypes.string,
             }
         ),
+        isEmptyPasswordsFields: PropTypes.bool,
+        isEqualNewPasswords: PropTypes.bool,
     }),
+    validatorProfile: PropTypes.shape(),
 };
 
 Manager.propTypes = {
@@ -176,7 +192,10 @@ Manager.propTypes = {
                 value: PropTypes.string,
             }
         ),
+        isEmptyPasswordsFields: PropTypes.bool,
+        isEqualNewPasswords: PropTypes.bool,
     }),
+    validatorProfile: PropTypes.shape(),
 };
 
 export default Manager;

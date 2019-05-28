@@ -90,7 +90,7 @@ const changeAdminPassword = (req, res) => {
             });
     }
 
-    return findAdminData(adminId)
+    return findAdminData(adminId, true)
         .then(admin => {
             const { password } = admin;
 

@@ -2,9 +2,10 @@ import { Admin } from '../../models';
 
 /**
  * @param id {Number}
+ * @param password {Boolean}
  * @return {Promise<Model<any, any> | null> | Promise<Model<any, any>>}
  */
-const findAdminData = id => {
+const findAdminData = (id, password = false) => {
     const adminQuery = {
         where: {
             id,
@@ -15,7 +16,22 @@ const findAdminData = id => {
         plain: true,
     };
 
-    return Admin.findOne(adminQuery);
+    if (password) {
+        adminQuery.attributes.push('password');
+    }
+
+    return Admin.findOne(adminQuery)
+        .then(result => {
+            const admin = {
+                login: result.login,
+            };
+
+            if (password) {
+                admin.password = result.password;
+            }
+
+            return admin;
+        });
 };
 
 /**

@@ -119,10 +119,11 @@ const authManager = (user, login) => {
 };
 
 /**
- * @param id
+ * @param id {Number}
+ * @param password {Boolean}
  * @returns {Promise.<Model>}
  */
-const findManager = id => {
+const findManager = (id, password = false) => {
     const query = {
         where: {
             id,
@@ -137,15 +138,25 @@ const findManager = id => {
         plain: true,
     };
 
+    if (password) {
+        query.attributes.push('password');
+    }
+
     return Manager.findOne(query)
         .then(result => {
-            return {
+            const manager = {
                 fullName: result.full_name,
                 territory: result.territory,
                 phone: result.phone,
                 login: result.login,
                 email: result.email,
+            };
+
+            if (password) {
+                manager.password = result.password;
             }
+
+            return manager;
         })
 };
 

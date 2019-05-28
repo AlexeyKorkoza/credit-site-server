@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button, Card, Input } from '../../shared';
+import {
+    Button,
+    Card,
+    Error,
+    Input,
+} from '../../shared';
 
 const Admin = props => {
     const {
@@ -13,15 +18,19 @@ const Admin = props => {
             oldPassword,
             newPassword,
             confirmNewPassword,
+            isEmptyPasswordsFields,
+            isEqualNewPasswords,
         },
+        validatorProfile,
     } = props;
+
+    if (!validatorProfile.allValid()) {
+        validatorProfile.showMessages();
+    }
 
     return (
       <Card.List>
-        <Card
-            noValidate
-            onSubmit={onSave}
-        >
+        <Card noValidate>
           <Card.Item>
             <Card.Item.Label htmlFor="login">Login</Card.Item.Label>
             <Input
@@ -31,15 +40,13 @@ const Admin = props => {
               placeholder='Login...'
               required
             />
+              {validatorProfile.message('login', login, 'required')}
           </Card.Item>
           <Card.Item>
-            <Button>Save</Button>
+            <Button onClick={onSave}>Save</Button>
           </Card.Item>
         </Card>
-        <Card
-            noValidate
-            onSubmit={onChangePassword}
-        >
+        <Card>
           <Card.Item>
             <Card.Item.Label htmlFor="oldPassword">Old Password</Card.Item.Label>
             <Input
@@ -66,9 +73,11 @@ const Admin = props => {
               value={confirmNewPassword}
               onChange={onChangeInput}
             />
+              { isEmptyPasswordsFields && <Error>Please, enter fill in</Error> }
+              { !isEqualNewPasswords && <Error>Please, passwords are not equal</Error> }
           </Card.Item>
           <Card.Item>
-            <Button>Change Password</Button>
+              <Button onClick={onChangePassword}>Change Password</Button>
           </Card.Item>
         </Card>
       </Card.List>
@@ -84,7 +93,10 @@ Admin.defaultProps = {
         oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
+        isEmptyPasswordsFields: PropTypes.bool,
+        isEqualNewPasswords: PropTypes.bool,
     }),
+    validatorProfile: PropTypes.shape(),
 };
 
 Admin.propTypes = {
@@ -96,7 +108,10 @@ Admin.propTypes = {
         oldPassword: PropTypes.string,
         newPassword: PropTypes.string,
         confirmNewPassword: PropTypes.string,
+        isEmptyPasswordsFields: PropTypes.bool,
+        isEqualNewPasswords: PropTypes.bool,
     }),
+    validatorProfile: PropTypes.shape(),
 };
 
 export default Admin;

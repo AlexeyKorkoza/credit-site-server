@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SimpleReactValidator from 'simple-react-validator';
 
 import { Admin, Manager } from '../components/Profile';
 import { getDataAuthUser } from '../services/localDb';
@@ -14,6 +15,8 @@ const rolesComponents = {
 };
 
 export default class Profile extends Component {
+    validatorProfile = new SimpleReactValidator();
+
     state = {
         role: '',
         fullName: '',
@@ -38,6 +41,8 @@ export default class Profile extends Component {
             },
         ],
         selectedTerritory: {},
+        isEqualNewPasswords: true,
+        isEmptyPasswordsFields: false,
     };
 
     componentDidMount() {
@@ -70,7 +75,7 @@ export default class Profile extends Component {
     onSave = event => {
         event.preventDefault();
 
-        if (!event.target.checkValidity()) {
+        if (!this.validatorProfile.allValid()) {
             return;
         }
 
@@ -101,6 +106,11 @@ export default class Profile extends Component {
     onChangePassword = event => {
         event.preventDefault();
 
+        this.setState({
+            isEqualNewPasswords: true,
+            isEmptyPasswordsFields: false,
+        });
+
         const {
             role,
             id,
@@ -109,13 +119,15 @@ export default class Profile extends Component {
             confirmNewPassword,
         } = this.state;
 
-        if (!oldPassword && !newPassword && !confirmNewPassword) {
-            // enter passwords
+        if (!oldPassword || !newPassword || !confirmNewPassword) {
+            this.setState({ isEmptyPasswordsFields: true });
+
             return;
         }
 
         if (newPassword !== confirmNewPassword) {
-            // don't equal
+            this.setState({ isEqualNewPasswords: false });
+
             return;
         }
 
@@ -150,6 +162,7 @@ export default class Profile extends Component {
             onChangeTerritory={this.onChangeTerritory}
             onChangeInput={this.onChangeInput}
             data={this.state}
+            validatorProfile={this.validatorProfile}
           />
         );
     }
