@@ -77,6 +77,7 @@ const logIn = (req, res) => {
                     .then(() => makeUpdatingRefreshToken(user, '', refreshToken, role))
                     .then(() => res.status(200).json({
                         ok: 1,
+                        id: user.id,
                         accessToken,
                         refreshToken,
                         expiresIn,
@@ -92,6 +93,7 @@ const logIn = (req, res) => {
                 .then(() => {
                     return res.status(200).json({
                         ok: 1,
+                        id: user.id,
                         accessToken,
                         refreshToken,
                         expiresIn,

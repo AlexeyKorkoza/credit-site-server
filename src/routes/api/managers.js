@@ -6,11 +6,17 @@ import {
     updateProfileManager,
     changePassword,
     blockManager,
+    getManagerData,
 } from '../../controllers/api/managers';
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
 const router = Router();
+
+router.get('/managers/:id',
+    jwtMiddleware,
+    authMiddleware.isManager,
+    getManagerData);
 
 router.post('/managers',
     jwtMiddleware,
@@ -29,7 +35,7 @@ router.put('/managers/:id/update-profile',
 
 router.put('/managers/:id/change-password',
     jwtMiddleware,
-    authMiddleware.isAdmin,
+    authMiddleware.isManagerOrAdmin,
     changePassword);
 
 router.put('/managers/:id/block-manager',

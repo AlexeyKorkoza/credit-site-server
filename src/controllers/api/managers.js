@@ -97,7 +97,7 @@ const changePassword = (req, res) => {
     // @TODO Add validation
     // @Todo Fix this error as password is bad: Can't set headers after they are sent.
 
-    return findManager(managerId)
+    return findManager(managerId, true)
         .then(result => {
             if (!result) {
                 return res.status(400).json({
@@ -160,10 +160,26 @@ const blockManager = (req, res) => {
         }));
 };
 
+const getManagerData = (req, res) => {
+    // const { id: managerId } = req.user;
+    const { id: managerId } = req.params;
+
+    return findManager(managerId)
+        .then(manager => res.status(200).json({
+            ok: 1,
+            data: manager,
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
 export {
     createNewManager,
     updateAttributesManager,
     updateProfileManager,
     changePassword,
     blockManager,
+    getManagerData,
 };
