@@ -1,6 +1,11 @@
 import { encryptor } from '../core/crypto';
 
-const comparePasswords = (oldPassword, oldPasswordFromDb) => oldPassword === encryptor(oldPasswordFromDb);
+/**
+ * @param oldPasswordFromDb {String}
+ * @param oldPassword {String}
+ * @return {boolean}
+ */
+const comparePasswords = (oldPasswordFromDb, oldPassword) => oldPasswordFromDb === encryptor(oldPassword);
 
 const encryptPassword = password => encryptor(password);
 
