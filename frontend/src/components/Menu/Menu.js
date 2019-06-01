@@ -80,10 +80,8 @@ const MenuComponent = props => {
                             </Menu.Dropdown.Item>
                         );
                     })}
-                    <Menu.Dropdown.Item>
-                        <Link onClick={onLogOut}>
-                            <Logout />
-                        </Link>
+                    <Menu.Dropdown.Item onClick={onLogOut}>
+                        <Logout />
                     </Menu.Dropdown.Item>
                 </Menu.Dropdown>
             </Menu.List>

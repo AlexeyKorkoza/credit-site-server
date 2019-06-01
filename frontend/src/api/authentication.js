@@ -13,7 +13,7 @@ const logIn = data => {
 const logOut = () => {
     const url = `${API_URL}/auth/logout`;
 
-    return sender(url, 'post')
+    return sender(url, 'get')
         .catch(err => console.error(err.message, 'logOut'));
 };
 

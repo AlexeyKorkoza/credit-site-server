@@ -56,7 +56,9 @@ const makeUpdatingRefreshToken = (user, refreshToken, newRefreshToken, role) => 
  */
 const updateUserRecord = (id, role) => {
     const query = {
-        id,
+        where: {
+            id,
+        },
     };
 
     const data = {
