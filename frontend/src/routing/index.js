@@ -3,8 +3,11 @@ import { Route, BrowserRouter as Router } from 'react-router-dom';
 
 import PrivateRouter from './private';
 import App from '../components/App';
-import Menu from '../components/Menu';
-import { Authentication, Profile } from '../containers';
+import {
+    Authentication,
+    Menu,
+    Profile,
+} from '../containers';
 import { GlobalStyle, Page, Wrapper } from './styles';
 
 const routing = (

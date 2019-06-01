@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Menu from './styles';
 import {
@@ -35,14 +36,13 @@ const dropdownItems = [
         label: 'Profile',
         icon: Profile,
     },
-    {
-        link: '/logout',
-        label: 'Log Out',
-        icon: Logout,
-    },
 ];
 
-export default props => {
+const MenuComponent = props => {
+    const {
+        onLogOut,
+    } = props;
+
     return (
         <Menu>
             <Menu.List>
@@ -80,8 +80,21 @@ export default props => {
                             </Menu.Dropdown.Item>
                         );
                     })}
+                    <Menu.Dropdown.Item onClick={onLogOut}>
+                        <Logout />
+                    </Menu.Dropdown.Item>
                 </Menu.Dropdown>
             </Menu.List>
         </Menu>
     );
-}
+};
+
+MenuComponent.defaultProps = {
+    onLogOut: PropTypes.func,
+};
+
+MenuComponent.propTypes = {
+    onLogOut: PropTypes.func,
+};
+
+export default MenuComponent;
