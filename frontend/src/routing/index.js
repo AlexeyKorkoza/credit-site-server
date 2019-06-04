@@ -5,6 +5,7 @@ import PrivateRouter from './private';
 import App from '../components/App';
 import {
     Authentication,
+    Managers,
     Menu,
     Profile,
 } from '../containers';
@@ -19,6 +20,7 @@ const routing = (
                 <Route path="/auth" component={Authentication} />
                 <PrivateRouter exact path="/" component={App} />
                 <PrivateRouter path="/profile" component={Profile} />
+                <PrivateRouter path="/managers" component={Managers.List} />
             </Page>
         </Wrapper>
     </Router>

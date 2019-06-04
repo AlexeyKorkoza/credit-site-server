@@ -203,6 +203,27 @@ const makeUpdatingProfileManager = (body, id) => {
     return Manager.update(data, query);
 };
 
+/**
+ * @param limit {Number}
+ * @param offset {Number}
+ * @return {Promise<Model<any, any>[]>}
+ */
+const findAllManagers = (limit = 25, offset = 0) => {
+    const query = {
+        attributes: [
+          'id',
+          'email',
+          'full_name',
+          'is_blocked',
+          'login',
+        ],
+        limit,
+        offset,
+    };
+
+    return Manager.findAll(query);
+};
+
 export {
     makeCreatingOfManager,
     makeUpdatingManagerAttributes,
@@ -212,4 +233,5 @@ export {
     findManager,
     updateManagerPassword,
     makeUpdatingProfileManager,
+    findAllManagers,
 };

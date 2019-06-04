@@ -7,11 +7,17 @@ import {
     changePassword,
     blockManager,
     getManagerData,
+    getManagersData,
 } from '../../controllers/api/managers';
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
 const router = Router();
+
+router.get('/managers',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    getManagersData);
 
 router.get('/managers/:id',
     jwtMiddleware,
