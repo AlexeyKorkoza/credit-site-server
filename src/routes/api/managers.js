@@ -21,7 +21,7 @@ router.get('/managers',
 
 router.get('/managers/:id',
     jwtMiddleware,
-    authMiddleware.isManager,
+    authMiddleware.isManagerOrAdmin,
     getManagerData);
 
 router.post('/managers',
