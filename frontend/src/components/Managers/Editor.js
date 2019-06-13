@@ -13,14 +13,18 @@ import Passwords from "../Profile/Passwords";
 const Editor = props => {
     const {
         onSave,
+        onBlockManager,
         onChangeInput,
         onChangePassword,
         onChangeTerritory,
         data: {
+            action,
             login,
             fullName,
             phone,
             email,
+            isBlocked,
+            password,
             oldPassword,
             newPassword,
             confirmNewPassword,
@@ -77,6 +81,20 @@ const Editor = props => {
                     onChangeInput={onChangeInput}
                     validatorProfile={validator}
                 />
+                {action === 'add' && <Card.Item>
+                    <Card.Item.Label htmlFor="password">Password</Card.Item.Label>
+                    <Input
+                        type="password"
+                        name="password"
+                        placeholder="Password ..."
+                        value={password}
+                        onChange={onChangeInput}
+                        required
+                    />
+                    {/* @TODO Check password length (min 8 symbols) */}
+                    {validator.message('password', password, 'required')}
+                </Card.Item>
+                }
                 <Card.Item>
                     <Card.Item.Label htmlFor="email">Email</Card.Item.Label>
                     <Input
@@ -93,7 +111,7 @@ const Editor = props => {
                     <Button onClick={onSave}>Save</Button>
                 </Card.Item>
             </Card>
-            <Passwords
+            {action === 'edit' && <Passwords
                 onChangeInput={onChangeInput}
                 onChangePassword={onChangePassword}
                 oldPassword={oldPassword}
@@ -102,20 +120,39 @@ const Editor = props => {
                 isEmptyPasswordsFields={isEmptyPasswordsFields}
                 isEqualNewPasswords={isEqualNewPasswords}
             />
+            }
+            <Card noValidate>
+                <Card.Item>
+                    <Card.Item.Label htmlFor="isBlocked">Is Blocked</Card.Item.Label>
+                    <Input
+                        type='checkbox'
+                        name='isBlocked'
+                        onChange={onChangeInput}
+                        checked={isBlocked}
+                    />
+                </Card.Item>
+                <Card.Item>
+                    <Button onClick={onBlockManager}>Block</Button>
+                </Card.Item>
+            </Card>
         </Card.List>
     );
 };
 
 Editor.defaultProps = {
     onSave: PropTypes.func,
+    onBlockManager: PropTypes.func,
     onChangeInput: PropTypes.func,
     onChangePassword: PropTypes.func,
     onChangeTerritory: PropTypes.func,
     data: PropTypes.shape({
+        action: '',
         login: '',
         fullName: '',
         phone: '',
         email: '',
+        isBlocked: null,
+        password: '',
         oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
@@ -139,14 +176,18 @@ Editor.defaultProps = {
 
 Editor.propTypes = {
     onSave: PropTypes.func,
+    onBlockManager: PropTypes.func,
     onChangeInput: PropTypes.func,
     onChangePassword: PropTypes.func,
     onChangeTerritory: PropTypes.func,
     data: PropTypes.shape({
+        action: PropTypes.string,
         login: PropTypes.string,
         fullName: PropTypes.string,
         phone: PropTypes.string,
         email: PropTypes.string,
+        isBlocked: PropTypes.bool,
+        password: PropTypes.string,
         oldPassword: PropTypes.string,
         newPassword: PropTypes.string,
         confirmNewPassword: PropTypes.string,

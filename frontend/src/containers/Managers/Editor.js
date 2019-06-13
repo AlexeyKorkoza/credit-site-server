@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 
 import { Editor as EditorComponent } from '../../components/Managers';
-import { updatePasswordsProfileUser, updateProfileUser } from "../../api/profile";
-import { getManager } from '../../api/managers';
+import {
+    blockManager,
+    getManager,
+    saveManager,
+} from '../../api/managers';
+import { updatePasswordsProfileUser } from '../../api/profile';
 
 class Editor extends Component {
     validator = new SimpleReactValidator();
@@ -14,6 +18,8 @@ class Editor extends Component {
         fullName: '',
         login: '',
         phone: '',
+        isBlocked: null,
+        password: '',
         oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
@@ -31,6 +37,7 @@ class Editor extends Component {
                 value: '1.5',
             },
         ],
+        managerId: null,
         selectedTerritory: {},
         isEqualNewPasswords: true,
         isEmptyPasswordsFields: false,
@@ -49,7 +56,16 @@ class Editor extends Component {
 
             getManager(managerId)
                 .then(result => {
-                    this.setState({ ...result.data });
+                    const { territory } = result.data;
+                    const { territories } = this.state;
+                    const selectedTerritory = territories.find(e => +e.value === territory);
+
+                    this.setState({
+                        ...result.data,
+                        action: 'edit',
+                        managerId,
+                        selectedTerritory,
+                    });
                 })
         } else {
             this.setState({
@@ -59,9 +75,18 @@ class Editor extends Component {
 
     }
 
-    onChangeInput = e => {
-        const target = e.target;
-        const { value, name } = target;
+    onBlockManager = event => {
+        event.preventDefault();
+
+        const { managerId } = this.state;
+
+        return blockManager(managerId);
+    };
+
+    onChangeInput = event => {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
 
         this.setState({
             [name]: value,
@@ -71,32 +96,34 @@ class Editor extends Component {
     onSave = event => {
         event.preventDefault();
 
-        if (!this.validatorProfile.allValid()) {
+        if (!this.validator.allValid()) {
             return;
         }
 
-        const { role, id, login } = this.state;
+        const {
+            action,
+            email,
+            fullName,
+            login,
+            managerId,
+            password,
+            phone,
+            selectedTerritory,
+        } = this.state;
+        const { value: territory } = selectedTerritory;
 
         let body = {
             login,
+            fullName,
+            territory,
+            password,
+            phone,
+            email
         };
-        if (role === 'manager') {
-            const {
-                fullName,
-                phone,
-                email,
-                selectedTerritory,
-            } = this.state;
-            const { value: territory } = selectedTerritory;
-            body = Object.assign({}, body, {
-                fullName,
-                territory,
-                phone,
-                email
-            });
-        }
 
-        return updateProfileUser(role, id, body);
+        return action === 'edit'
+            ? saveManager(body, managerId)
+            : saveManager(body);
     };
 
     onChangePassword = event => {
@@ -108,9 +135,8 @@ class Editor extends Component {
         });
 
         const {
-            role,
-            id,
             oldPassword,
+            managerId,
             newPassword,
             confirmNewPassword,
         } = this.state;
@@ -133,7 +159,7 @@ class Editor extends Component {
             confirmNewPassword,
         };
 
-        return updatePasswordsProfileUser(role, id, body);
+        return updatePasswordsProfileUser('manager', managerId, body);
     };
 
     onChangeTerritory = selectedTerritory => {
@@ -146,6 +172,7 @@ class Editor extends Component {
         return (
           <EditorComponent
             data={this.state}
+            onBlockManager={this.onBlockManager}
             onChangeInput={this.onChangeInput}
             onChangePassword={this.onChangePassword}
             onChangeTerritory={this.onChangeTerritory}

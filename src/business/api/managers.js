@@ -134,6 +134,7 @@ const findManager = (id, password = false) => {
           'phone',
           'login',
           'email',
+          'is_blocked',
         ],
         plain: true,
     };
@@ -150,6 +151,7 @@ const findManager = (id, password = false) => {
                 phone: result.phone,
                 login: result.login,
                 email: result.email,
+                isBlocked: result.is_blocked,
             };
 
             if (password) {

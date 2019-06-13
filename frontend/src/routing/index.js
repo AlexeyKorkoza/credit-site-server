@@ -13,20 +13,20 @@ import { GlobalStyle, Page, Wrapper } from './styles';
 
 const routing = (
   <Router>
-    <Switch>
-      <Wrapper>
-        <Menu />
-        <Page>
-          <GlobalStyle />
+    <Wrapper>
+      <Menu />
+      <Page>
+        <GlobalStyle />
+        <Switch>
           <Route path="/auth" component={Authentication} />
           <PrivateRouter exact path="/" component={App} />
           <PrivateRouter exact path="/profile" component={Profile} />
           <PrivateRouter exact path="/managers" component={Managers.List} />
           <PrivateRouter exact path="/managers/add" component={Managers.Editor} />
           <PrivateRouter exact path="/managers/:id" component={Managers.Editor} />
-        </Page>
-      </Wrapper>
-    </Switch>
+        </Switch>
+      </Page>
+    </Wrapper>
   </Router>
 );
 
