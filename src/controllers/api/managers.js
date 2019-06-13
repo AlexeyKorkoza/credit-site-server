@@ -9,6 +9,7 @@ import {
     findManager,
     updateManagerPassword,
     makeUpdatingProfileManager,
+    findAllManagers,
 } from '../../business/api/managers';
 
 /**
@@ -175,6 +176,20 @@ const getManagerData = (req, res) => {
         }));
 };
 
+const getManagersData = (req, res) => {
+    const { limit, offset } = req.query;
+
+    return findAllManagers(limit, offset)
+        .then(managers => res.status(200).json({
+            ok: 1,
+            managers,
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
 export {
     createNewManager,
     updateAttributesManager,
@@ -182,4 +197,5 @@ export {
     changePassword,
     blockManager,
     getManagerData,
+    getManagersData,
 };
