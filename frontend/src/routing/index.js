@@ -5,6 +5,7 @@ import { PrivateRouter, PrivateRouterRole } from './private';
 import App from '../components/App';
 import {
     Authentication,
+    Clients,
     Managers,
     Menu,
     Profile,
@@ -39,6 +40,9 @@ const routing = (
             path="/managers/:id"
             component={Managers.Editor}
           />
+          <PrivateRouter exact path="/clients" component={Clients.List} />
+          <PrivateRouter exact path="/clients/add" component={Clients.Editor} />
+          <PrivateRouter exact path="/clients/:id" component={Clients.Editor} />
         </Switch>
       </Page>
     </Wrapper>

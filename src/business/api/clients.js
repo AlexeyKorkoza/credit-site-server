@@ -88,38 +88,73 @@ const makeMarkingDeletionOfClient = (id, body, managerId) => {
 
 
 /**
- * @param adminId
- * @param clientId
+ * @param clientId {Number}
  */
-const makeRemovingOfClient = (adminId, clientId) => {
+const makeRemovingOfClient = clientId => {
     const query = {
         where: {
             id: clientId,
         },
     };
 
-    const data = {
-        admin_id: adminId,
-        is_removed: true,
-    };
-
-    return Client.update(data, query);
+    return Client.destroy(query);
 };
 
 /**
- * @param clientId
- * @param managerId
+ * @param clientId {Number}
+ * @param managerId {Number}
+ * @param role {String}
  * @return {Promise.<Model>}
  */
-const findClientOnManager = (clientId, managerId) => {
+const findClient = (clientId, managerId, role) => {
     const query = {
         where: {
             id: clientId,
-            manager_id: managerId,
         },
+        attributes: [
+            'id',
+            'email',
+            'is_removed',
+            'name',
+            'passport_data',
+            'phone',
+            'territory',
+        ],
     };
 
-    return Client.findOne(query);
+    if (role === 'manager') {
+        query.where.manager_id = managerId;
+    }
+
+    return Client.findOne(query)
+        .then(client => {
+            const result = {
+                id: client.id,
+                email: client.email,
+                isRemoved: client.is_removed,
+                name: client.name,
+                passportData: client.passport_data,
+                phone: client.phone,
+            };
+
+            if (role !== 'manager') {
+                result.territory = client.territory;
+            }
+
+            return result;
+        });
+};
+
+const findAllClients = () => {
+  const query = {
+      attributes: [
+          'id',
+          'email',
+          'name',
+      ],
+  };
+
+  return Client.findAll(query);
 };
 
 export {
@@ -127,5 +162,6 @@ export {
     makeUpdatingOfClient,
     makeMarkingDeletionOfClient,
     makeRemovingOfClient,
-    findClientOnManager,
+    findClient,
+    findAllClients,
 };

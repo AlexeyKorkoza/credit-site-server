@@ -5,11 +5,25 @@ import {
     editClient,
     markDeletionClient,
     removeClient,
+    getAllClients,
+    getClient,
 } from '../../controllers/api/clients';
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
 const router = Router();
+
+router.get('/clients',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    getAllClients,
+);
+
+router.get('/clients/:id',
+    jwtMiddleware,
+    authMiddleware.isManagerOrAdmin,
+    getClient,
+);
 
 router.post('/clients',
     jwtMiddleware,
