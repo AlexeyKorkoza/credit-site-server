@@ -10,9 +10,6 @@ import {
 
 const Editor = props => {
     const {
-        onSave,
-        onChangeInput,
-        onChangeTerritory,
         data: {
             action,
             email,
@@ -20,9 +17,15 @@ const Editor = props => {
             name,
             passportData,
             phone,
+            role,
             selectedTerritory,
             territories,
         },
+        onChangeInput,
+        onChangeTerritory,
+        onDeleteClient,
+        onMarkClientForDeletion,
+        onSave,
         validator,
     } = props;
 
@@ -31,93 +34,107 @@ const Editor = props => {
     }
 
     return (
-        <Card.List>
-            <Card noValidate>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="name">Name</Card.Item.Label>
-                    <Input
-                        name='name'
-                        placeholder='Name...'
-                        onChange={onChangeInput}
-                        value={name}
-                        required
-                    />
-                    {validator.message('name', name, 'required')}
-                </Card.Item>
-                {role === 'admin' && <Card.Item>
-                    <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
-                    <ReactSelect
-                        value={selectedTerritory}
-                        onChange={onChangeTerritory}
-                        options={territories}
-                        placeholder={'Select Territory ...'}
-                    />
-                    {validator.message('territory', selectedTerritory, 'required')}
-                </Card.Item>
-                }
-                <Card.Item>
-                    <Card.Item.Label htmlFor="phone">Phone</Card.Item.Label>
-                    <Input
-                        type="phone"
-                        name='phone'
-                        placeholder='Phone...'
-                        onChange={onChangeInput}
-                        value={phone}
-                        required
-                    />
-                    {validator.message('phone', phone, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="email">Email</Card.Item.Label>
-                    <Input
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={onChangeInput}
-                        placeholder='Email...'
-                        required
-                    />
-                    {validator.message('email', email, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Button onClick={onSave}>Save</Button>
-                </Card.Item>
-            </Card>
-            <Card noValidate>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="isRemoved">Is Removed</Card.Item.Label>
-                    <Input
-                        type='checkbox'
-                        name='isRemoved'
-                        onChange={onChangeInput}
-                        checked={isRemoved}
-                    />
-                </Card.Item>
-                <Card.Item>
-                    <Button onClick={onBlockManager}>Block</Button>
-                </Card.Item>
-            </Card>
-        </Card.List>
+      <Card.List>
+        <Card noValidate>
+          <Card.Item>
+            <Card.Item.Label htmlFor="name">Name</Card.Item.Label>
+            <Input
+              name='name'
+              placeholder='Name...'
+              onChange={onChangeInput}
+              value={name}
+              required
+            />
+            {validator.message('name', name, 'required')}
+          </Card.Item>
+          {
+           ((role === 'admin' && action === 'edit') || (role === 'manager' && action === 'add')) &&
+           (
+          <Card.Item>
+            <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
+            <ReactSelect
+              value={selectedTerritory}
+              onChange={onChangeTerritory}
+              options={territories}
+              placeholder="Select Territory ..."
+            />
+            {validator.message('territory', selectedTerritory, 'required')}
+          </Card.Item>
+          )}
+          <Card.Item>
+            <Card.Item.Label htmlFor="phone">Phone</Card.Item.Label>
+            <Input
+              type="phone"
+              name='phone'
+              placeholder='Phone...'
+              onChange={onChangeInput}
+              value={phone}
+              required
+            />
+            {validator.message('phone', phone, 'required')}
+          </Card.Item>
+          <Card.Item>
+            <Card.Item.Label htmlFor="email">Email</Card.Item.Label>
+            <Input
+              type="email"
+              name="email"
+              value={email}
+              onChange={onChangeInput}
+              placeholder='Email...'
+              required
+            />
+            {validator.message('email', email, 'required')}
+          </Card.Item>
+          <Card.Item>
+            <Card.Item.Label htmlFor="passportData">Passport Data</Card.Item.Label>
+            <Input
+              name="passportData"
+              value={passportData}
+              onChange={onChangeInput}
+              placeholder='Passport Data...'
+              required
+            />
+            {validator.message('passportData', passportData, 'required')}
+          </Card.Item>
+          <Card.Item>
+            <Button onClick={onSave}>Save</Button>
+          </Card.Item>
+        </Card>
+        {role === 'manager' && action === 'edit' && (
+          <Card noValidate>
+            <Card.Item>
+              <Card.Item.Label htmlFor="isRemoved">Mark the client for deletion</Card.Item.Label>
+              <Input
+                type='checkbox'
+                name='isRemoved'
+                onChange={onChangeInput}
+                checked={isRemoved}
+              />
+            </Card.Item>
+            <Card.Item>
+              <Button onClick={onMarkClientForDeletion}>Mark</Button>
+            </Card.Item>
+          </Card>
+        )}
+        {role === 'admin' && isRemoved && (
+          <Card noValidate>
+            <Card.Item>
+              <Card.Item.Label htmlFor="isRemoved">Client for deletion</Card.Item.Label>
+              <Button onClick={onDeleteClient}>Delete</Button>
+            </Card.Item>
+          </Card>
+        )}
+      </Card.List>
     );
 };
 
 Editor.defaultProps = {
-    onSave: PropTypes.func,
-    onBlockManager: PropTypes.func,
-    onChangeInput: PropTypes.func,
-    onChangePassword: PropTypes.func,
-    onChangeTerritory: PropTypes.func,
     data: PropTypes.shape({
         action: '',
-        login: '',
-        fullName: '',
-        phone: '',
+        name: '',
         email: '',
-        isBlocked: null,
-        password: '',
-        oldPassword: '',
-        newPassword: '',
-        confirmNewPassword: '',
+        isRemoved: null,
+        phone: '',
         territories: PropTypes.arrayOf(
             PropTypes.shape({
                 label: PropTypes.string,
@@ -130,29 +147,22 @@ Editor.defaultProps = {
                 value: PropTypes.string,
             }
         ),
-        isEmptyPasswordsFields: PropTypes.bool,
-        isEqualNewPasswords: PropTypes.bool,
     }),
+    onChangeInput: PropTypes.func,
+    onChangeTerritory: PropTypes.func,
+    onDeleteClient: PropTypes.func,
+    onMarkClientForDeletion: PropTypes.func,
+    onSave: PropTypes.func,
     validator: PropTypes.shape(),
 };
 
 Editor.propTypes = {
-    onSave: PropTypes.func,
-    onBlockManager: PropTypes.func,
-    onChangeInput: PropTypes.func,
-    onChangePassword: PropTypes.func,
-    onChangeTerritory: PropTypes.func,
     data: PropTypes.shape({
-        action: PropTypes.string,
-        login: PropTypes.string,
-        fullName: PropTypes.string,
-        phone: PropTypes.string,
-        email: PropTypes.string,
-        isBlocked: PropTypes.bool,
-        password: PropTypes.string,
-        oldPassword: PropTypes.string,
-        newPassword: PropTypes.string,
-        confirmNewPassword: PropTypes.string,
+        action: '',
+        name: '',
+        email: '',
+        isRemoved: null,
+        phone: '',
         territories: PropTypes.arrayOf(
             PropTypes.shape({
                 label: PropTypes.string,
@@ -165,9 +175,12 @@ Editor.propTypes = {
                 value: PropTypes.string,
             }
         ),
-        isEmptyPasswordsFields: PropTypes.bool,
-        isEqualNewPasswords: PropTypes.bool,
     }),
+    onChangeInput: PropTypes.func,
+    onChangeTerritory: PropTypes.func,
+    onDeleteClient: PropTypes.func,
+    onMarkClientForDeletion: PropTypes.func,
+    onSave: PropTypes.func,
     validator: PropTypes.shape(),
 };
 

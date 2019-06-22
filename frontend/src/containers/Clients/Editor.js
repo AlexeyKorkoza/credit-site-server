@@ -1,28 +1,29 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import SimpleReactValidator from 'simple-react-validator';
 
-import { Editor as EditorComponent } from '../../components/Managers';
+import { Editor as EditorComponent } from '../../components/Clients';
 import {
-    blockManager,
-    getManager,
-    saveManager,
-} from '../../api/managers';
-import { updatePasswordsProfileUser } from '../../api/profile';
+    deleteClient,
+    getClient,
+    markClientForDeletion,
+    saveClient,
+} from '../../api/clients';
+import { getDataAuthUser } from '../../services/localDb';
 
 class Editor extends Component {
     validator = new SimpleReactValidator();
 
     state = {
         action: '',
+        clientId: null,
         email: '',
-        fullName: '',
-        login: '',
+        isRemoved: null,
+        name: '',
+        passportData: '',
         phone: '',
-        isBlocked: null,
-        password: '',
-        oldPassword: '',
-        newPassword: '',
-        confirmNewPassword: '',
+        role: '',
+        selectedTerritory: {},
         territories: [
             {
                 label: '0.5 %',
@@ -37,51 +38,41 @@ class Editor extends Component {
                 value: '1.5',
             },
         ],
-        managerId: null,
-        selectedTerritory: {},
-        isEqualNewPasswords: true,
-        isEmptyPasswordsFields: false,
     };
 
     componentDidMount() {
-
         const {
             match: {
                 params,
             },
         } = this.props;
 
-        if (Object.keys(params).length > 0) {
-            const { id: managerId } = params;
+        const { role } = getDataAuthUser();
 
-            getManager(managerId)
+        if (Object.keys(params).length > 0) {
+            const { id: clientId } = params;
+
+            getClient(clientId)
                 .then(result => {
-                    const { territory } = result.data;
+                    const { client } = result;
                     const { territories } = this.state;
-                    const selectedTerritory = territories.find(e => +e.value === territory);
+                    const selectedTerritory = territories.find(e => +e.value === +client.territory);
 
                     this.setState({
-                        ...result.data,
+                        ...client,
                         action: 'edit',
-                        managerId,
+                        clientId,
+                        role,
                         selectedTerritory,
                     });
                 })
         } else {
             this.setState({
                 action: 'add',
+                role,
             });
         }
-
     }
-
-    onBlockManager = event => {
-        event.preventDefault();
-
-        const { managerId } = this.state;
-
-        return blockManager(managerId);
-    };
 
     onChangeInput = event => {
         const target = event.target;
@@ -91,6 +82,31 @@ class Editor extends Component {
         this.setState({
             [name]: value,
         });
+    };
+
+    onChangeTerritory = selectedTerritory => {
+        this.setState({
+            selectedTerritory,
+        });
+    };
+
+    onDeleteClient = event => {
+      event.preventDefault();
+
+      const { clientId } = this.state;
+
+      return deleteClient(clientId)
+          .then(() => {
+              this.props.history.push('/clients');
+          })
+    };
+
+    onMarkClientForDeletion = event => {
+        event.preventDefault();
+
+        const { managerId } = this.state;
+
+        return markClientForDeletion(managerId);
     };
 
     onSave = event => {
@@ -103,79 +119,49 @@ class Editor extends Component {
         const {
             action,
             email,
-            fullName,
-            login,
-            managerId,
-            password,
+            name,
+            clientId,
+            passportData,
             phone,
+            role,
             selectedTerritory,
         } = this.state;
-        const { value: territory } = selectedTerritory;
 
         let body = {
-            login,
-            fullName,
-            territory,
-            password,
+            name,
+            passportData,
             phone,
-            email
+            email,
         };
+
+        if (role === 'admin' && action === 'edit') {
+            const { value: territory } = selectedTerritory;
+
+            body.territory = territory;
+        }
+
+        if (role === 'manager' && action === 'add') {
+            const { value: territory } = selectedTerritory;
+
+            body.territory = territory;
+        }
 
         return action === 'edit'
-            ? saveManager(body, managerId)
-            : saveManager(body);
-    };
-
-    onChangePassword = event => {
-        event.preventDefault();
-
-        this.setState({
-            isEqualNewPasswords: true,
-            isEmptyPasswordsFields: false,
-        });
-
-        const {
-            oldPassword,
-            managerId,
-            newPassword,
-            confirmNewPassword,
-        } = this.state;
-
-        if (!oldPassword || !newPassword || !confirmNewPassword) {
-            this.setState({ isEmptyPasswordsFields: true });
-
-            return;
-        }
-
-        if (newPassword !== confirmNewPassword) {
-            this.setState({ isEqualNewPasswords: false });
-
-            return;
-        }
-
-        const body = {
-            oldPassword,
-            newPassword,
-            confirmNewPassword,
-        };
-
-        return updatePasswordsProfileUser('manager', managerId, body);
-    };
-
-    onChangeTerritory = selectedTerritory => {
-        this.setState({
-            selectedTerritory,
-        });
+            ? saveClient(body, +clientId)
+            : saveClient(body)
+                .then(() => {
+                    this.props.history.push('/clients');
+                });
     };
 
     render() {
         return (
           <EditorComponent
             data={this.state}
-            onBlockManager={this.onBlockManager}
             onChangeInput={this.onChangeInput}
-            onChangePassword={this.onChangePassword}
             onChangeTerritory={this.onChangeTerritory}
+            onDeleteClient={this.onDeleteClient}
+            onMarkClientForDeletion={this.onMarkClientForDeletion}
             onSave={this.onSave}
             validator={this.validator}
           />
@@ -183,4 +169,4 @@ class Editor extends Component {
     }
 }
 
-export default Editor;
+export default withRouter(Editor);

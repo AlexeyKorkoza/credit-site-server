@@ -145,14 +145,23 @@ const findClient = (clientId, managerId, role) => {
         });
 };
 
-const findAllClients = () => {
+/**
+ * @param managerId {Number | null}
+ * @return {Promise<Model<any, any>[]>}
+ */
+const findAllClients = (managerId = null) => {
   const query = {
       attributes: [
           'id',
           'email',
           'name',
       ],
+      where: {},
   };
+
+  if (managerId) {
+      query.where.manager_id = managerId;
+  }
 
   return Client.findAll(query);
 };

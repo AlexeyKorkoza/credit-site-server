@@ -11,6 +11,7 @@ import {
     makeUpdatingProfileManager,
     findAllManagers,
 } from '../../business/api/managers';
+import { findAllClients } from "../../business/api/clients";
 
 /**
  * @param req
@@ -190,12 +191,27 @@ const getManagersData = (req, res) => {
         }));
 };
 
+const getManagerClients = (req, res) => {
+    const { id: managerId } = req.params;
+
+    return findAllClients(managerId)
+        .then(clients => res.status(200).json({
+            ok: 1,
+            clients,
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
 export {
     createNewManager,
     updateAttributesManager,
     updateProfileManager,
     changePassword,
     blockManager,
+    getManagerClients,
     getManagerData,
     getManagersData,
 };

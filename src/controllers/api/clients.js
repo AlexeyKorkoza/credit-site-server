@@ -41,19 +41,12 @@ const editClient = (req, res) => {
     const { id: clientId } = req.params;
     const client = req.body;
 
-    return Promise.resolve(null)
-        .then(() => {
-            if (role === 'manager') {
-                return findClient(clientId, userId, role);
-            }
-
-            return null;
-        })
+    return findClient(clientId, userId, role)
         .then(result => {
             if (!result) {
                 return res.status(400).json({
                     ok: 0,
-                    message: 'Client was not created of this manager',
+                    message: 'Client was not created by this manager',
                 });
             }
 

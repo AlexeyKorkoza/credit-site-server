@@ -18,6 +18,15 @@ const getManager = id => {
         .catch(err => console.error(err.message, 'getManagers'));
 };
 
+/**
+ * @param id {Number}
+ * @return {Promise<any | void>}
+ */
+const getManagerClients = id => {
+    return sender(`${API_URL}/api/v1/managers/${id}/clients`, 'get')
+        .catch(err => console.error(err.message, 'getManagerClients'));
+};
+
 const getManagers = () => {
     return sender(`${API_URL}/api/v1/managers`, 'get')
         .catch(err => console.error(err.message, 'getManagers'));
@@ -41,6 +50,7 @@ const saveManager = (body, id = null) => {
 export {
     blockManager,
     getManager,
+    getManagerClients,
     getManagers,
     saveManager,
 };

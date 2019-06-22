@@ -41,7 +41,12 @@ const routing = (
             component={Managers.Editor}
           />
           <PrivateRouter exact path="/clients" component={Clients.List} />
-          <PrivateRouter exact path="/clients/add" component={Clients.Editor} />
+          <PrivateRouterRole
+              accessRole='manager'
+              exact
+              path="/clients/add"
+              component={Clients.Editor}
+          />
           <PrivateRouter exact path="/clients/:id" component={Clients.Editor} />
         </Switch>
       </Page>

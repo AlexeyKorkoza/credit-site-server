@@ -26,6 +26,11 @@ const getClient = id => {
         .catch(err => console.error(err.message, 'getClient'));
 };
 
+const markClientForDeletion = id => {
+    return sender(`${API_URL}/api/v1/clients/${id}/deletion`, 'put', {})
+        .catch(err => console.error(err.message, 'markClientForDeletion'));
+};
+
 /**
  * @param body {Object}
  * @param id {Number | null}
@@ -33,7 +38,7 @@ const getClient = id => {
  */
 const saveClient = (body, id = null) => {
     if (id) {
-        return sender(`${API_URL}/api/v1/clients/${id}`, 'post', body)
+        return sender(`${API_URL}/api/v1/clients/${id}`, 'put', body)
             .catch(err => console.error(err.message, 'saveClient'));
     }
 
@@ -45,5 +50,6 @@ export {
     deleteClient,
     getAllClients,
     getClient,
+    markClientForDeletion,
     saveClient,
 };
