@@ -6,6 +6,7 @@ import {
     updateProfileManager,
     changePassword,
     blockManager,
+    getManagerClients,
     getManagerData,
     getManagersData,
 } from '../../controllers/api/managers';
@@ -23,6 +24,11 @@ router.get('/managers/:id',
     jwtMiddleware,
     authMiddleware.isManagerOrAdmin,
     getManagerData);
+
+router.get('/managers/:id/clients',
+    jwtMiddleware,
+    authMiddleware.isManager,
+    getManagerClients);
 
 router.post('/managers',
     jwtMiddleware,

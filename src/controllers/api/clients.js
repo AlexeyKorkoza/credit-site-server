@@ -3,7 +3,8 @@ import {
     makeUpdatingOfClient,
     makeMarkingDeletionOfClient,
     makeRemovingOfClient,
-    findClientOnManager,
+    findClient,
+    findAllClients,
 } from '../../business/api/clients';
 
 /**
@@ -40,19 +41,12 @@ const editClient = (req, res) => {
     const { id: clientId } = req.params;
     const client = req.body;
 
-    return Promise.resolve(null)
-        .then(() => {
-            if (role === 'manager') {
-                return findClientOnManager(clientId, userId);
-            }
-
-            return null;
-        })
+    return findClient(clientId, userId, role)
         .then(result => {
             if (!result) {
                 return res.status(400).json({
                     ok: 0,
-                    message: 'Client was not created of this manager',
+                    message: 'Client was not created by this manager',
                 });
             }
 
@@ -79,7 +73,7 @@ const markDeletionClient = (req, res) => {
 
     // TODO validation data
 
-    return makeMarkingDeletionOfClient(id, req.body, managerId)
+    return makeMarkingDeletionOfClient(id, managerId)
         .then(() => res.status(200).json({
             ok: 1,
             message: 'Client was marked for deletion',
@@ -96,13 +90,44 @@ const markDeletionClient = (req, res) => {
  * @returns {Promise.<T>|*}
  */
 const removeClient = (req, res) => {
-    const { id: adminId } = req.user;
     const { id: clientId } = req.params;
 
-    return makeRemovingOfClient(adminId, clientId)
+    return makeRemovingOfClient(clientId)
         .then(() => res.status(200).json({
             ok: 1,
             message: 'Client was removed',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
+/**
+ * @param req
+ * @param res
+ * @returns {Promise.<T>|*}
+ */
+const getAllClients = (req, res) => {
+    return findAllClients()
+        .then(clients => res.status(200).json({
+            ok: 1,
+            clients,
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
+const getClient = (req, res) => {
+    const { user_id: userId, role } = req.user;
+    const { id: clientId } = req.params;
+
+    return findClient(clientId, userId, role)
+        .then(client => res.status(200).json({
+            ok: 1,
+            client,
         }))
         .catch(err => res.status(500).json({
             ok: 0,
@@ -115,4 +140,6 @@ export {
     editClient,
     markDeletionClient,
     removeClient,
+    getAllClients,
+    getClient,
 };
