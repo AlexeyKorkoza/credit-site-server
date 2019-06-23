@@ -104,9 +104,9 @@ class Editor extends Component {
     onMarkClientForDeletion = event => {
         event.preventDefault();
 
-        const { managerId } = this.state;
+        const { clientId } = this.state;
 
-        return markClientForDeletion(managerId);
+        return markClientForDeletion(clientId);
     };
 
     onSave = event => {

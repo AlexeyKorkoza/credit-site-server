@@ -73,7 +73,7 @@ const markDeletionClient = (req, res) => {
 
     // TODO validation data
 
-    return makeMarkingDeletionOfClient(id, req.body, managerId)
+    return makeMarkingDeletionOfClient(id, managerId)
         .then(() => res.status(200).json({
             ok: 1,
             message: 'Client was marked for deletion',

@@ -65,21 +65,18 @@ const makeUpdatingOfClient = (userId, clientId, body, role) => {
 };
 
 /**
- * @param id
- * @param body
- * @param managerId
+ * @param id {Number}
+ * @param managerId {Number}
  */
-const makeMarkingDeletionOfClient = (id, body, managerId) => {
+const makeMarkingDeletionOfClient = (id, managerId) => {
     const query = {
         where: {
             id,
         },
     };
 
-    const { isRemoved } = body;
-
     const data = {
-        is_removed: isRemoved,
+        is_removed: true,
         manager_id: managerId,
     };
 
