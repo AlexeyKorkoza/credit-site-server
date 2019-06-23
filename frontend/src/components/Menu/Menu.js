@@ -16,17 +16,19 @@ const menuItems = [
         link: '/clients',
         label: 'Clients',
         icon: Client,
+        roles: ['admin', 'manager'],
     },
     {
         link: '/loans',
         label: 'Loans',
         icon: Loan,
+        roles: ['admin', 'manager'],
     },
     {
         link: '/managers',
         label: 'Managers',
-        role: 'admin',
         icon: Manager,
+        roles: ['admin'],
     },
 ];
 
@@ -41,6 +43,7 @@ const dropdownItems = [
 const MenuComponent = props => {
     const {
         onLogOut,
+        role,
     } = props;
 
     return (
@@ -48,8 +51,10 @@ const MenuComponent = props => {
             <Menu.List>
                 <Menu.Navigation>
                     {menuItems.map((item, index) => {
-                        const { icon: Icon } = item;
-                        if (props.role === item.role) {
+                        const { icon: Icon, roles } = item;
+                        const isAccess = roles.includes(role);
+
+                        if (isAccess) {
                             return (
                                 <Menu.Navigation.Item>
                                     <Link key={index} to={item.link}>
@@ -58,14 +63,6 @@ const MenuComponent = props => {
                                 </Menu.Navigation.Item>
                             );
                         }
-
-                        return (
-                            <Menu.Navigation.Item>
-                                <Link key={index} to={item.link}>
-                                    <Icon />
-                                </Link>
-                            </Menu.Navigation.Item>
-                        );
                     })}
                 </Menu.Navigation>
                 <Menu.Dropdown>
@@ -91,10 +88,12 @@ const MenuComponent = props => {
 
 MenuComponent.defaultProps = {
     onLogOut: PropTypes.func,
+    role: PropTypes.string,
 };
 
 MenuComponent.propTypes = {
     onLogOut: PropTypes.func,
+    role: PropTypes.string,
 };
 
 export default MenuComponent;
