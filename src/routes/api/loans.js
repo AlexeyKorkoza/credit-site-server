@@ -1,6 +1,8 @@
 import { Router } from 'express';
 
 import {
+    getLoan,
+    getLoans,
     createLoan,
     updateLoan,
     updateIssueLoan,
@@ -9,6 +11,16 @@ import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
 
 const router = Router();
+
+router.get('/loans',
+    jwtMiddleware,
+    authMiddleware.isManagerOrAdmin,
+    getLoans);
+
+router.get('/loans/:id',
+    jwtMiddleware,
+    authMiddleware.isAdmin,
+    getLoan);
 
 router.post('/loans',
     jwtMiddleware,

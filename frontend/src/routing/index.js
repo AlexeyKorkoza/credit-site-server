@@ -6,6 +6,7 @@ import App from '../components/App';
 import {
     Authentication,
     Clients,
+    Loans,
     Managers,
     Menu,
     Profile,
@@ -48,6 +49,13 @@ const routing = (
               component={Clients.Editor}
           />
           <PrivateRouter exact path="/clients/:id" component={Clients.Editor} />
+          <PrivateRouter exact path="/loans" component={Loans.List} />
+            <PrivateRouterRole
+                accessRole='admin'
+                exact
+                path="/loans/:id"
+                component={Loans.Editor}
+            />
         </Switch>
       </Page>
     </Wrapper>
