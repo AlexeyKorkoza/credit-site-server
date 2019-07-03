@@ -36,13 +36,16 @@ const Step2 = props => {
     return (
         <div>
             <h1>{clientName} loans</h1>
-            <List>
-                <LoansTable
-                    loans={loans}
-                    outputProperties={outputProperties}
-                    role={role}
-                />
-            </List>
+            {loans && loans.length > 0
+                ? <List>
+                    <LoansTable
+                        loans={loans}
+                        outputProperties={outputProperties}
+                        role={role}
+                    />
+                </List>
+                : <h1>No loans</h1>
+            }
             <Card.List>
                 <Card noValidate>
                     <Card.Item>

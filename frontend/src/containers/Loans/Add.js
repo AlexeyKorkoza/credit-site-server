@@ -70,8 +70,22 @@ class Add extends Component {
 
         if (state) {
             const { clientId } = state;
-
             newStateData.clientId = clientId;
+
+            getClient(clientId)
+                .then(result => {
+                    const { territories } = this.state;
+                    const { client } = result;
+                    const selectedTerritory = territories.find(e => +e.value === +client.territory);
+                    const { name: clientName } = client;
+
+                    this.setState({
+                        ...newStateData,
+                        ...client,
+                        clientName,
+                        selectedTerritory,
+                    });
+                });
         }
 
         this.setState({ ...newStateData });
@@ -97,8 +111,9 @@ class Add extends Component {
         });
     };
 
-    onCreateClientCard = () => {
-        // const
+    onCreateClientCard = event => {
+        event.preventDefault();
+
         const {
             email,
             fullName,
@@ -110,7 +125,7 @@ class Add extends Component {
             territories,
         } = this.state;
 
-        const territory = territories.find(e => +e.value === +selectedTerritory.value);
+        const territory = territories.find(e => +e.value === +selectedTerritory.value).value;
 
         const body = {
             email,
@@ -122,20 +137,10 @@ class Add extends Component {
             surchargeFactor,
         };
 
-        let client;
-
         createClientCard(body)
-            .then(() => getClient(clientId))
-            .then(result => {
-                client = result;
-
-                return getClientLoans(clientId);
-            })
+            .then(() => getClientLoans(clientId))
             .then(loans => {
-                const { name: clientName } = client;
-
                 this.setState({
-                    clientName,
                     currentStep: 2,
                     loans,
                 });

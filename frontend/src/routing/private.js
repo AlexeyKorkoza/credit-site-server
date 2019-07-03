@@ -19,7 +19,6 @@ const PrivateRouter = ({ component: Component, ...rest }) => (
 const PrivateRouterRole = ({ component: Component, accessRole, ...rest }) => {
     const isAccess = accessRoles.includes(accessRole);
 
-    console.log('accessRole', accessRole);
     if (!isAccess) {
         return (
           <Redirect to='/profile' />

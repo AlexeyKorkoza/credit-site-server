@@ -132,11 +132,13 @@ const findClient = (clientId, managerId, role) => {
                 name: client.name,
                 passportData: client.passport_data,
                 phone: client.phone,
+                territory: client.territory
             };
 
-            if (role !== 'manager') {
-                result.territory = client.territory;
-            }
+            // TODO add condition to return territory for /loans/add request
+            // if (role !== 'manager') {
+            //     result.territory = client.territory;
+            // }
 
             return result;
         });
