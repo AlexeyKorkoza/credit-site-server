@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 
+import { getDataAuthUser } from "../../services/localDb";
 import { getClient, getClientLoans } from "../../api/clients";
 import { createClientCard } from "../../api/client_card";
+import { saveLoan } from '../../api/loans';
 import Steps from '../../components/Loans/Add';
+import { convertToDays, subtractDates } from "../../utils";
 
 const { Step1, Step2 } = Steps;
 const components = {
@@ -29,8 +32,8 @@ class Add extends Component {
 
         amount: '',
         coefficient: '',
-        dateIssue: '',
-        dateMaturity: '',
+        dateIssue: null,
+        dateMaturity: null,
         totalRepaymentAmount: '',
 
         territories: [
@@ -49,6 +52,8 @@ class Add extends Component {
         ],
 
         loans: [],
+        role: '',
+        focusedInput: null,
     };
 
     componentDidMount() {
@@ -58,11 +63,18 @@ class Add extends Component {
             },
         } = this.props;
 
+        const { role } = getDataAuthUser();
+        const newStateData = {
+            role,
+        };
+
         if (state) {
             const { clientId } = state;
 
-            this.setState({ clientId });
+            newStateData.clientId = clientId;
         }
+
+        this.setState({ ...newStateData });
     }
 
     onBack = () => {
@@ -130,17 +142,60 @@ class Add extends Component {
             })
     };
 
+    onCreateLoan = event => {
+        event.preventDefault();
+
+        const {
+            amount,
+            selectedTerritory,
+            dateIssue,
+            dateMaturity,
+            clientId,
+            territories,
+        } = this.state;
+
+        const territory = territories.find(e => +e.value === +selectedTerritory.value);
+        const duration = subtractDates(dateIssue, dateMaturity);
+        const totalRepaymentAmount = (amount * territory) + convertToDays(duration);
+
+        const body = {
+            amount,
+            clientId,
+            dateIssue,
+            dateMaturity,
+            totalRepaymentAmount,
+        };
+
+        return saveLoan(body);
+    };
+
+    onChangeDates = ({ startDate, endDate }) => {
+        this.setState({
+            dateIssue: startDate,
+            dateMaturity: endDate,
+        });
+    };
+
+    onFocusedInput = focusedInput => {
+        this.setState({
+            focusedInput,
+        });
+    };
+
     render() {
         const { currentStep } = this.state;
-        const currentComponent = components[currentStep];
+        const CurrentComponent = components[currentStep];
 
         return (
-            <currentComponent
+            <CurrentComponent
                 data={this.state}
                 onBack={this.onBack}
                 onCreateClientCard={this.onCreateClientCard}
+                onCreateLoan={this.onCreateLoan}
+                onChangeDates={this.onChangeDates}
                 onChangeInput={this.onChangeInput}
                 onChangeTerritory={this.onChangeTerritory}
+                onFocusedInput={this.onFocusedInput}
                 validator={this.validator}
             />
         );

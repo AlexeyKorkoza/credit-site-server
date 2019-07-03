@@ -71,6 +71,7 @@ const makeCreating = (body, managerId) => {
     const {
         amount,
         coefficient,
+        clientId,
         dateIssue,
         dateMaturity,
         totalRepaymentAmount,
@@ -79,6 +80,7 @@ const makeCreating = (body, managerId) => {
     const data = {
         amount,
         coefficient,
+        client_id: clientId,
         date_issue: dateIssue,
         date_maturity: dateMaturity,
         total_repayment_amount: totalRepaymentAmount,

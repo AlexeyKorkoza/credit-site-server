@@ -26,6 +26,7 @@
     "ky": "^0.10.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "react-dates": "^20.2.5",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
     "react-router": "^5.0.0",
