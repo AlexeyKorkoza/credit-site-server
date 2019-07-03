@@ -7,6 +7,7 @@ import {
     removeClient,
     getAllClients,
     getClient,
+    getClientLoans,
 } from '../../controllers/api/clients';
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
@@ -24,6 +25,11 @@ router.get('/clients/:id',
     authMiddleware.isManagerOrAdmin,
     getClient,
 );
+
+router.get('/clients/:id/loans',
+    jwtMiddleware,
+    authMiddleware.isManager,
+    getClientLoans);
 
 router.post('/clients',
     jwtMiddleware,

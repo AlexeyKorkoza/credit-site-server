@@ -12,9 +12,16 @@ class LoansList extends Component{
     };
 
     componentDidMount() {
+        const { role } = getDataAuthUser();
+
+        if (role === 'manager') {
+            this.props.history.push('/loans/add');
+            
+            return;
+        }
+
         getAllLoans()
             .then(result => {
-                const { role } = getDataAuthUser();
 
                 this.setState({ loans: result.loans, role });
             });

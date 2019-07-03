@@ -1,5 +1,33 @@
 import { ClientCard } from '../../models/index';
 
+/**
+ * @param body
+ * @return {data}
+ */
+const addClientCard = body => {
+    const {
+        email,
+        fullName: full_name,
+        phone,
+        territory,
+        passportData: passport_data,
+        clientId: client_id,
+        surchargeFactor: surcharge_factor,
+    } = body;
+
+    const data = {
+        client_id,
+        email,
+        full_name,
+        passport_data,
+        phone,
+        surcharge_factor,
+        territory
+    };
+
+    return ClientCard.create(data);
+};
+
 const makeUpdatingClientCard = (id, body) => {
     const {
         fullName: full_name,
@@ -42,6 +70,7 @@ const makeUpdatingTerritorialCoefficient = (id, surchargeFactor) => {
 };
 
 export {
+    addClientCard,
     makeUpdatingClientCard,
     makeUpdatingTerritorialCoefficient,
 };

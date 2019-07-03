@@ -1,4 +1,4 @@
-import { Client } from '../../models';
+import { Client, Loan } from '../../models';
 
 /**
  * @param body
@@ -147,20 +147,52 @@ const findClient = (clientId, managerId, role) => {
  * @return {Promise<Model<any, any>[]>}
  */
 const findAllClients = (managerId = null) => {
-  const query = {
-      attributes: [
-          'id',
-          'email',
-          'name',
-      ],
-      where: {},
-  };
+    const query = {
+        attributes: [
+            'id',
+            'email',
+            'name',
+        ],
+        where: {},
+    };
 
-  if (managerId) {
-      query.where.manager_id = managerId;
-  }
+    if (managerId) {
+        query.where.manager_id = managerId;
+    }
 
-  return Client.findAll(query);
+    return Client.findAll(query);
+};
+
+/**
+ * @param managerId {Number}
+ * @param clientId {Number}
+ * @return {Promise<T | never>}
+ */
+const findClientLoans = (managerId, clientId) => {
+    const query = {
+        where: {
+            client_id: clientId,
+            manager_id: managerId,
+        },
+        attributes: [
+            'id',
+            'amount',
+            'coefficient',
+            'date_issue',
+            'date_maturity',
+            'total_repayment_amount',
+        ],
+    };
+
+    return Loan.findAll(query)
+        .then(result => result.map(item => ({
+            id: item.id,
+            amount: item.amount,
+            coefficient: item.coefficient,
+            dateIssue: item.date_issue,
+            dateMaturity: item.date_maturity,
+            dateTotalRepaymentAmount: item.total_repayment_amount,
+        })));
 };
 
 export {
@@ -170,4 +202,5 @@ export {
     makeRemovingOfClient,
     findClient,
     findAllClients,
+    findClientLoans,
 };
