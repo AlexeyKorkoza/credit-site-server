@@ -24,6 +24,13 @@ const ListComponent = props => {
                                 <Table.List.Row.Column>
                                     <List.Link to={`/clients/${client.id}`}>Edit</List.Link>
                                 </Table.List.Row.Column>
+                                {role === 'manager' && <Table.List.Row.Column>
+                                    <List.Link
+                                        to={{
+                                            pathname: `/loans/add`,
+                                            state: { clientId: client.id }
+                                        }}>Add new loan</List.Link>
+                                </Table.List.Row.Column>}
                             </Table.List.Row>
                         );
                     })}

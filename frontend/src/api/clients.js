@@ -26,6 +26,15 @@ const getClient = id => {
         .catch(err => console.error(err.message, 'getClient'));
 };
 
+/**
+ * @param id {Number}
+ * @return {Promise<any | void>}
+ */
+const getClientLoans = id => {
+    return sender(`${API_URL}/api/v1/clients/${id}/loans`, 'get')
+        .catch(err => console.error(err.message, 'getClientLoans'));
+};
+
 const markClientForDeletion = id => {
     return sender(`${API_URL}/api/v1/clients/${id}/deletion`, 'put', {})
         .catch(err => console.error(err.message, 'markClientForDeletion'));
@@ -50,6 +59,7 @@ export {
     deleteClient,
     getAllClients,
     getClient,
+    getClientLoans,
     markClientForDeletion,
     saveClient,
 };

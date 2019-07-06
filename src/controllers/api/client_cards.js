@@ -1,7 +1,25 @@
 import {
+    addClientCard,
     makeUpdatingClientCard,
     makeUpdatingTerritorialCoefficient,
 } from '../../business/api/client_cards';
+
+/**
+ * @param req
+ * @param res
+ * @return {*}
+ */
+const createClientCard = (req, res) => {
+    return addClientCard(req.body)
+        .then(() => res.status(200).json({
+            ok: 1,
+            message: 'Client card was created',
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
 
 /**
  * @param req
@@ -39,6 +57,7 @@ const updateTerritorialCoefficient = (req, res) => {
 };
 
 export {
+    createClientCard,
     updateClientCard,
     updateTerritorialCoefficient,
 };

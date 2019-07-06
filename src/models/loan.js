@@ -49,6 +49,10 @@ module.exports = (sequelize, DataTypes) => {
             as: 'managers',
             foreignKey: 'manager_id',
         });
+        Loan.belongsTo(models.Client, {
+            as: 'client',
+            foreignKey: 'client_id',
+        });
     };
 
     return Loan;

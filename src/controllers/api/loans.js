@@ -1,8 +1,36 @@
 import {
+    findAllLoans,
+    findLoan,
     makeCreating,
     makeUpdating,
     makeUpdatingIssueLoan,
 } from '../../business/api/loans';
+
+const getLoan = (req, res) => {
+    const { id } = req.params;
+
+    return findLoan(id)
+        .then(loan => res.status(200).json({
+            ok: 1,
+            loan,
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
+const getLoans = (req, res) => {
+    return findAllLoans()
+        .then(loans => res.status(200).json({
+            ok: 1,
+            loans,
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
 
 const createLoan = (req, res) => {
     // @TODO validation data
@@ -57,6 +85,8 @@ const updateIssueLoan = (req, res) => {
 };
 
 export {
+    getLoan,
+    getLoans,
     createLoan,
     updateLoan,
     updateIssueLoan,

@@ -4,6 +4,7 @@ import {
     makeMarkingDeletionOfClient,
     makeRemovingOfClient,
     findClient,
+    findClientLoans,
     findAllClients,
 } from '../../business/api/clients';
 
@@ -135,6 +136,21 @@ const getClient = (req, res) => {
         }));
 };
 
+const getClientLoans = (req, res) => {
+    const { user_id: userId } = req.user;
+    const { id: clientId } = req.params;
+
+    return findClientLoans(userId, clientId)
+        .then(loans => res.status(200).json({
+            ok: 1,
+            loans,
+        }))
+        .catch(err => res.status(500).json({
+            ok: 0,
+            message: err.message,
+        }));
+};
+
 export {
     addClient,
     editClient,
@@ -142,4 +158,5 @@ export {
     removeClient,
     getAllClients,
     getClient,
+    getClientLoans,
 };
