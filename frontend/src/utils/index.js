@@ -6,7 +6,7 @@
 const subtractDates = (start, end) => Math.abs(start - end);
 
 /**
- * @param date {Date}
+ * @param date {number}
  * @return {number}
  */
 const convertToDays = date => date / 1000 / 60 / 60 / 24;

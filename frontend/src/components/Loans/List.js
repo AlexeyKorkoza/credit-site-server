@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import LoansTable from './Table';
 import List from './styles';
 
-const outputProperties = ['amount', 'coefficient', 'dateIssue', 'dateMaturity', 'dateTotalRepaymentAmount'];
+const outputProperties = ['amount', 'coefficient', 'dateIssue', 'dateMaturity', 'totalRepaymentAmount'];
 
 const ListComponent = props => {
     const { loans, role } = props;

@@ -193,7 +193,7 @@ const findClientLoans = (managerId, clientId) => {
             coefficient: item.coefficient,
             dateIssue: item.date_issue,
             dateMaturity: item.date_maturity,
-            dateTotalRepaymentAmount: item.total_repayment_amount,
+            totalRepaymentAmount: item.total_repayment_amount,
         })));
 };
 

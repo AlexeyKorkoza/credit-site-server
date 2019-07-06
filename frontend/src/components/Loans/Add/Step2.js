@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactSelect from "react-select";
 import { DateRangePicker } from 'react-dates';
 
@@ -6,7 +7,7 @@ import LoansTable from '../Table';
 import List from '../styles';
 import { Button, Card, Input } from "../../../shared";
 
-const outputProperties = ['dateIssue'];
+const outputProperties = ['dateMaturity'];
 
 const Step2 = props => {
     const {
@@ -49,13 +50,13 @@ const Step2 = props => {
             <Card.List>
                 <Card noValidate>
                     <Card.Item>
-                        <Card.Item.Label htmlFor="amount">amount</Card.Item.Label>
+                        <Card.Item.Label htmlFor="amount">Amount</Card.Item.Label>
                         <Input
                             name='amount'
                             placeholder='Amount ...'
                             onChange={onChangeInput}
                             value={amount}
-                            required
+                            disabled={true}
                         />
                         {validator.message('amount', amount, 'required')}
                     </Card.Item>
@@ -65,6 +66,7 @@ const Step2 = props => {
                             value={selectedTerritory}
                             options={territories}
                             placeholder="Select Territory ..."
+                            isDisabled={true}
                         />
                         {validator.message('territory', selectedTerritory, 'required')}
                     </Card.Item>
@@ -82,11 +84,12 @@ const Step2 = props => {
                     <Card.Item>
                         <Card.Item.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Item.Label>
                         <Input
+                            type="number"
                             name="totalRepaymentAmount"
                             value={totalRepaymentAmount}
                             onChange={onChangeInput}
                             placeholder='Total Repayment Amount...'
-                            required
+                            disabled={true}
                         />
                         {validator.message('totalRepaymentAmount', totalRepaymentAmount, 'required')}
                     </Card.Item>
@@ -97,6 +100,68 @@ const Step2 = props => {
             </Card.List>
         </div>
     );
+};
+
+Step2.defaultProps = {
+    data: PropTypes.shape({
+        amount: '',
+        clientName: '',
+        dateIssue: '',
+        dateMaturity: '',
+        focusedInput: '',
+        loans: '',
+        role: '',
+        selectedTerritory: '',
+        territories: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string,
+                value: PropTypes.string,
+            }),
+        ),
+        totalRepaymentAmount: 0,
+    }),
+    onChangeDates: PropTypes.func,
+    onChangeInput: PropTypes.func,
+    onCreateLoan: PropTypes.func,
+    onFocusedInput: PropTypes.func,
+    validator: PropTypes.shape,
+};
+
+Step2.propTypes = {
+    data: PropTypes.shape({
+        amount: PropTypes.string,
+        clientName: PropTypes.string,
+        dateIssue: PropTypes.shape(),
+        dateMaturity: PropTypes.shape(),
+        focusedInput: PropTypes.shape(),
+        loans: PropTypes.arrayOf(
+            PropTypes.shape({
+                amount: PropTypes.number,
+                coefficient: PropTypes.number,
+                dateIssue: PropTypes.string,
+                dateMaturity: PropTypes.string,
+                totalRepaymentAmount: PropTypes.number,
+                id: PropTypes.number,
+            })
+        ),
+        role: PropTypes.string,
+        selectedTerritory: PropTypes.shape({
+            label: PropTypes.string,
+            value: PropTypes.string,
+        }),
+        territories: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string,
+                value: PropTypes.string,
+            }),
+        ),
+        totalRepaymentAmount: 0,
+    }),
+    onChangeDates: PropTypes.func,
+    onChangeInput: PropTypes.func,
+    onCreateLoan: PropTypes.func,
+    onFocusedInput: PropTypes.func,
+    validator: PropTypes.shape(),
 };
 
 export default Step2;

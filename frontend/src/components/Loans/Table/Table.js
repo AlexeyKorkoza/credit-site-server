@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import dateFns from 'date-fns';
 
 import { Table } from '../../../shared';
 import List from '../styles';
@@ -14,6 +15,14 @@ const LoansTable = props => {
                     return (
                         <Table.List.Row>
                             {outputProperties.map(item => {
+                                if (item === 'dateMaturity' || item === 'dateIssue') {
+                                    return (
+                                        <Table.List.Row.Column>
+                                            {dateFns.format(loan[item], 'MM/DD/YYYY')}
+                                        </Table.List.Row.Column>
+                                    );
+                                }
+
                                 return (
                                     <Table.List.Row.Column>
                                         {loan[item]}
@@ -49,7 +58,7 @@ LoansTable.propTypes = {
             id: PropTypes.number,
         })
     ),
-    outputProperties: PropTypes.arrayOf(),
+    outputProperties: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string])),
     role: PropTypes.string,
 };
 

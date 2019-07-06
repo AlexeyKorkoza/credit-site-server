@@ -22,13 +22,13 @@ const findAllLoans = () => {
             coefficient: item.coefficient,
             dateIssue: item.date_issue,
             dateMaturity: item.date_maturity,
-            dateTotalRepaymentAmount: item.total_repayment_amount,
+            totalRepaymentAmount: item.total_repayment_amount,
         })));
 };
 
 /**
  * @param id {Number}
- * @return {Promise<{amount: (*|Loan.amount|{allowNull, type}|PaymentCurrencyAmount), dateTotalRepaymentAmount: (*|loans.total_repayment_amount|{allowNull, type}|Loan.total_repayment_amount), coefficient: (*|loans.coefficient|{allowNull, type}|Loan.coefficient), id: *, dateMaturity: (*|loans.date_maturity|{allowNull, type}|Loan.date_maturity), dateIssue: (*|Loan.date_issue|{allowNull, type}|loans.date_issue)} | never>}
+ * @return {Promise<{amount: (*|Loan.amount|{allowNull, type}|PaymentCurrencyAmount), totalRepaymentAmount: (*|loans.total_repayment_amount|{allowNull, type}|Loan.total_repayment_amount), coefficient: (*|loans.coefficient|{allowNull, type}|Loan.coefficient), id: *, dateMaturity: (*|loans.date_maturity|{allowNull, type}|Loan.date_maturity), dateIssue: (*|Loan.date_issue|{allowNull, type}|loans.date_issue)} | never>}
  */
 const findLoan = id => {
     const query = {
@@ -58,7 +58,7 @@ const findLoan = id => {
             coefficient: loan.coefficient,
             dateIssue: loan.date_issue,
             dateMaturity: loan.date_maturity,
-            dateTotalRepaymentAmount: loan.total_repayment_amount,
+            totalRepaymentAmount: loan.total_repayment_amount,
         }));
 };
 

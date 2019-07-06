@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 
+import Steps from '../../components/Loans/Add';
+
 import { getDataAuthUser } from "../../services/localDb";
 import { getClient, getClientLoans } from "../../api/clients";
 import { createClientCard } from "../../api/client_card";
 import { saveLoan } from '../../api/loans';
-import Steps from '../../components/Loans/Add';
 import { convertToDays, subtractDates } from "../../utils";
 
 const { Step1, Step2 } = Steps;
@@ -23,18 +24,17 @@ class Add extends Component {
         phone: '',
         selectedTerritory: {},
         passportData: '',
-        surchargeFactor: '',
+        surchargeFactor: 0,
 
         clientId: null,
         clientName: '',
 
         currentStep: 1,
 
-        amount: '',
-        coefficient: '',
+        amount: 0,
         dateIssue: null,
         dateMaturity: null,
-        totalRepaymentAmount: '',
+        totalRepaymentAmount: 0,
 
         territories: [
             {
@@ -139,12 +139,15 @@ class Add extends Component {
 
         createClientCard(body)
             .then(() => getClientLoans(clientId))
-            .then(loans => {
+            .then(result => {
+                const { loans } = result;
+
                 this.setState({
+                    amount: surchargeFactor,
                     currentStep: 2,
                     loans,
                 });
-            })
+            });
     };
 
     onCreateLoan = event => {
@@ -157,14 +160,14 @@ class Add extends Component {
             dateMaturity,
             clientId,
             territories,
+            totalRepaymentAmount,
         } = this.state;
 
         const territory = territories.find(e => +e.value === +selectedTerritory.value);
-        const duration = subtractDates(dateIssue, dateMaturity);
-        const totalRepaymentAmount = (amount * territory) + convertToDays(duration);
 
         const body = {
             amount,
+            coefficient: territory,
             clientId,
             dateIssue,
             dateMaturity,
@@ -175,10 +178,29 @@ class Add extends Component {
     };
 
     onChangeDates = ({ startDate, endDate }) => {
-        this.setState({
-            dateIssue: startDate,
-            dateMaturity: endDate,
-        });
+        const {
+            selectedTerritory,
+            surchargeFactor,
+            territories,
+        } = this.state;
+
+        if (startDate && endDate) {
+            const territory = territories.find(e => +e.value === +selectedTerritory.value);
+            const { value: territoryValue } = territory;
+            const duration = subtractDates(startDate, endDate);
+            const totalRepaymentAmount = (convertToDays(duration) * +territoryValue) + +surchargeFactor;
+
+            this.setState({
+                dateIssue: startDate,
+                dateMaturity: endDate,
+                totalRepaymentAmount,
+            });
+        } else {
+            this.setState({
+                dateIssue: startDate,
+                dateMaturity: endDate,
+            });
+        }
     };
 
     onFocusedInput = focusedInput => {

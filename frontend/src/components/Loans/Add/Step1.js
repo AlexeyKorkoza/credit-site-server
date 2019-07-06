@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ReactSelect from "react-select";
 
 import { Button, Card, Input } from "../../../shared";
@@ -85,8 +86,9 @@ const Step1 = props => {
                     {validator.message('passportData', passportData, 'required')}
                 </Card.Item>
                 <Card.Item>
-                    <Card.Item.Label htmlFor="surchargeFactor">Passport Data</Card.Item.Label>
+                    <Card.Item.Label htmlFor="surchargeFactor">Surcharge Factor</Card.Item.Label>
                     <Input
+                        type="number"
                         name="surchargeFactor"
                         value={surchargeFactor}
                         onChange={onChangeInput}
@@ -102,6 +104,53 @@ const Step1 = props => {
             </Card>
         </Card.List>
     );
+};
+
+Step1.defaultProps = {
+    data: PropTypes.shape({
+        email: '',
+        fullName: '',
+        passportData: '',
+        phone: '',
+        selectedTerritory: '',
+        surchargeFactor: 0,
+        territories: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string,
+                value: PropTypes.string,
+            }),
+        ),
+    }),
+    onBack: PropTypes.func,
+    onCreateClientCard: PropTypes.func,
+    onChangeInput: PropTypes.func,
+    onChangeTerritory: PropTypes.func,
+    validator: PropTypes.shape(),
+};
+
+Step1.propTypes = {
+    data: PropTypes.shape({
+        email: PropTypes.string,
+        fullName: PropTypes.string,
+        passportData: PropTypes.string,
+        phone: PropTypes.string,
+        selectedTerritory: PropTypes.shape({
+            label: PropTypes.string,
+            value: PropTypes.string,
+        }),
+        surchargeFactor: 0,
+        territories: PropTypes.arrayOf(
+            PropTypes.shape({
+                label: PropTypes.string,
+                value: PropTypes.string,
+            }),
+        ),
+    }),
+    onBack: PropTypes.func,
+    onCreateClientCard: PropTypes.func,
+    onChangeInput: PropTypes.func,
+    onChangeTerritory: PropTypes.func,
+    validator: PropTypes.shape(),
 };
 
 export default Step1;
