@@ -14,6 +14,7 @@ class Authentication extends Component {
 
         this.state = {
             login: '',
+            message: '',
             password: '',
             selectedRole: null,
             roles: [
@@ -85,7 +86,11 @@ class Authentication extends Component {
                 authUser(result);
                 this.props.history.push('/');
             })
-            .catch(error => console.error('error', error.stack));
+            .catch(error => {
+                const { message } = error;
+                this.setState({ message });
+                console.error('error', error.stack)
+            });
     }
 
     isAuthUser() {
