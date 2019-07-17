@@ -84,7 +84,7 @@ class Authentication extends Component {
         logIn(data)
             .then(result => {
                 authUser(result);
-                this.props.history.push('/');
+                this.props.history.push('/profile');
             })
             .catch(error => {
                 const { message } = error;

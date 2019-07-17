@@ -9,14 +9,20 @@ import { getDataAuthUser } from '../services/localDb';
  * @return {Promise<any | void>}
  */
 const senderApiRequest = (url, method, data = null) => {
-    const { accessToken } = getDataAuthUser();
+    const userData = getDataAuthUser();
     const options = {
         method,
-        headers: new Headers({
-            'content-type': 'application/json',
-            'access-token': accessToken,
-        }),
     };
+    const headers = new Headers({
+        'content-type': 'application/json',
+    });
+
+    if (userData) {
+        const { accessToken } = userData;
+        headers.set('access-token', accessToken);
+    }
+
+    options.headers = headers;
 
     if (method === 'post' || method === 'put') {
         options.json = data;
