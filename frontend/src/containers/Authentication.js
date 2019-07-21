@@ -89,7 +89,6 @@ class Authentication extends Component {
             .catch(error => {
                 const { message } = error;
                 this.setState({ message });
-                console.error('error', error.stack)
             });
     }
 
@@ -106,6 +105,7 @@ class Authentication extends Component {
     render() {
         const {
             login,
+            message,
             password,
             selectedRole,
             roles,
@@ -115,6 +115,7 @@ class Authentication extends Component {
         return (
             <AuthenticationForm
                 login={login}
+                message={message}
                 password={password}
                 selectedRole={selectedRole}
                 roles={roles}

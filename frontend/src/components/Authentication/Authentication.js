@@ -2,12 +2,20 @@ import React from 'react';
 import ReactSelect from 'react-select';
 import PropTypes from 'prop-types';
 
-
-
+import Alert from '../Alert';
 import { Button, Input, Modal, ModalContainer, ModalContent, ModalItem, H1 } from '../../shared';
 
 const Authentication = props => {
-    const { isActiveModal, validator } = props;
+    const {
+        isActiveModal,
+        message,
+        validator,
+    } = props;
+
+    if (message) {
+        console.log('message', message);
+        <Alert message={message} />
+    }
 
     return (
         <Modal isActiveModal={isActiveModal}>
@@ -58,6 +66,7 @@ const Authentication = props => {
 
 Authentication.defaultProps = {
     login: '',
+    message: '',
     password: '',
     selectedRole: {},
     roles: [],
@@ -70,6 +79,7 @@ Authentication.defaultProps = {
 
 Authentication.propTypes = {
     login: PropTypes.string,
+    message: PropTypes.string,
     password: PropTypes.string,
     selectedRole: PropTypes.shape(),
     roles: PropTypes.arrayOf(

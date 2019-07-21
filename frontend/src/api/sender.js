@@ -1,5 +1,3 @@
-import ky from 'ky';
-
 import { getDataAuthUser } from '../services/localDb';
 
 /**
@@ -25,12 +23,28 @@ const senderApiRequest = (url, method, data = null) => {
     options.headers = headers;
 
     if (method === 'post' || method === 'put') {
-        options.json = data;
+        options.body = JSON.stringify(data);
     }
 
-    return ky(url, options)
-        .then(result => result.json())
-        .catch(err => console.error(err.message, 'Error when sending Api request'));
+    return fetch(url, options)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+
+            throw response;
+        })
+        .catch(error => {
+            if (error instanceof Error) {
+                return {
+                    error,
+                }
+            }
+
+            return error.json().then(result => {
+                throw new Error(result.message);
+            })
+        })
 };
 
 export default senderApiRequest;
