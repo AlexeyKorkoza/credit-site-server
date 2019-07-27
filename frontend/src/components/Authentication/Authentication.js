@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import PropTypes from 'prop-types';
+import ReactNotification from "react-notifications-component";
 
-import Alert from '../Alert';
 import { Button, Input, Modal, ModalContainer, ModalContent, ModalItem, H1 } from '../../shared';
 
 const Authentication = props => {
@@ -10,15 +10,12 @@ const Authentication = props => {
         isActiveModal,
         message,
         validator,
+        notification,
     } = props;
-
-    if (message) {
-        console.log('message', message);
-        <Alert message={message} />
-    }
 
     return (
         <Modal isActiveModal={isActiveModal}>
+            {message && <ReactNotification ref={notification} />}
             <ModalContainer>
                 <ModalContent>
                     <ModalItem>
@@ -71,6 +68,7 @@ Authentication.defaultProps = {
     selectedRole: {},
     roles: [],
     isActiveModal: false,
+    notification: PropTypes.shape(),
     onInputChange: PropTypes.func,
     onSelectChange: PropTypes.func,
     onSubmit: PropTypes.func,
@@ -89,6 +87,7 @@ Authentication.propTypes = {
         })
     ),
     isActiveModal: PropTypes.bool,
+    notification: PropTypes.shape(),
     onInputChange: PropTypes.func,
     onSelectChange: PropTypes.func,
     onSubmit: PropTypes.func,

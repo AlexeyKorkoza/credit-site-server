@@ -31,6 +31,7 @@ class Authentication extends Component {
             isShowErrorMessages: false,
         };
 
+        this.notificationDOMRef = React.createRef();
         this.onInputChange = this.onInputChange.bind(this);
         this.onSelectChange = this.onSelectChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -46,12 +47,14 @@ class Authentication extends Component {
 
         this.setState({
             [name]: value,
+            message: '',
         });
     }
 
     onSelectChange(selectedRole) {
         this.setState({
             selectedRole,
+            message: '',
         });
     }
 
@@ -89,6 +92,18 @@ class Authentication extends Component {
             .catch(error => {
                 const { message } = error;
                 this.setState({ message });
+
+                this.notificationDOMRef.current.addNotification({
+                    title: "You could not sign in",
+                    message,
+                    type: "danger",
+                    insert: "top",
+                    container: "top-right",
+                    animationIn: ["animated", "fadeIn"],
+                    animationOut: ["animated", "fadeOut"],
+                    dismiss: { duration: 3000 },
+                    dismissable: { click: true }
+                });
             });
     }
 
@@ -124,6 +139,7 @@ class Authentication extends Component {
                 onSubmit={this.onSubmit}
                 isActiveModal={isActiveModal}
                 validator={this.validator}
+                notification={this.notificationDOMRef}
             />
         );
     }
