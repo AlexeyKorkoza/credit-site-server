@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import SimpleReactValidator from 'simple-react-validator';
+import ReactNotification from 'react-notifications-component';
 
 import { logIn } from '../api/authentication';
 import AuthenticationForm from '../components/Authentication';
 import { authUser, getDataAuthUser } from '../services/localDb';
+import buildNotification from '../services/notification';
 
 class Authentication extends Component {
     constructor(props) {
@@ -29,12 +31,13 @@ class Authentication extends Component {
             ],
             isActiveModal: false,
             isShowErrorMessages: false,
+            notificationType: "Sign In"
         };
 
-        this.notificationDOMRef = React.createRef();
         this.onInputChange = this.onInputChange.bind(this);
         this.onSelectChange = this.onSelectChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.notificationDOMRef = React.createRef();
     }
 
     componentDidMount() {
@@ -73,6 +76,7 @@ class Authentication extends Component {
 
         const {
             login,
+            notificationType,
             password,
             selectedRole,
         } = this.state;
@@ -91,19 +95,10 @@ class Authentication extends Component {
             })
             .catch(error => {
                 const { message } = error;
-                this.setState({ message });
-
-                this.notificationDOMRef.current.addNotification({
-                    title: "You could not sign in",
-                    message,
-                    type: "danger",
-                    insert: "top",
-                    container: "top-right",
-                    animationIn: ["animated", "fadeIn"],
-                    animationOut: ["animated", "fadeOut"],
-                    dismiss: { duration: 3000 },
-                    dismissable: { click: true }
-                });
+                const notification = buildNotification(message, notificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
             });
     }
 
@@ -121,6 +116,7 @@ class Authentication extends Component {
         const {
             login,
             message,
+            notificationType,
             password,
             selectedRole,
             roles,
@@ -128,19 +124,21 @@ class Authentication extends Component {
         } = this.state;
 
         return (
-            <AuthenticationForm
-                login={login}
-                message={message}
-                password={password}
-                selectedRole={selectedRole}
-                roles={roles}
-                onInputChange={this.onInputChange}
-                onSelectChange={this.onSelectChange}
-                onSubmit={this.onSubmit}
-                isActiveModal={isActiveModal}
-                validator={this.validator}
-                notification={this.notificationDOMRef}
-            />
+            <Fragment>
+                <ReactNotification ref={this.notificationDOMRef} />
+                <AuthenticationForm
+                    login={login}
+                    message={message}
+                    password={password}
+                    selectedRole={selectedRole}
+                    roles={roles}
+                    onInputChange={this.onInputChange}
+                    onSelectChange={this.onSelectChange}
+                    onSubmit={this.onSubmit}
+                    isActiveModal={isActiveModal}
+                    validator={this.validator}
+                />
+            </Fragment>
         );
     }
 }

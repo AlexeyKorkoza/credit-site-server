@@ -1,21 +1,17 @@
 import React from 'react';
 import ReactSelect from 'react-select';
 import PropTypes from 'prop-types';
-import ReactNotification from "react-notifications-component";
 
 import { Button, Input, Modal, ModalContainer, ModalContent, ModalItem, H1 } from '../../shared';
 
 const Authentication = props => {
     const {
         isActiveModal,
-        message,
         validator,
-        notification,
     } = props;
 
     return (
         <Modal isActiveModal={isActiveModal}>
-            {message && <ReactNotification ref={notification} />}
             <ModalContainer>
                 <ModalContent>
                     <ModalItem>
