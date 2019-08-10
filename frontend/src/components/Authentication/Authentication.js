@@ -36,8 +36,7 @@ const Authentication = props => {
                             onChange={props.onInputChange}
                             required
                         />
-                        {/* @TODO Check password length (min 8 symbols) */}
-                        {validator.message('password', props.password, 'required')}
+                        {validator.message('password', props.password, 'required|min:8')}
                     </ModalItem>
                     <ModalItem>
                         <ReactSelect

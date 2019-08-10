@@ -1,7 +1,14 @@
+import { validationResult } from 'express-validator/check';
+
 import { Admin, Manager, Client } from '../../models';
 import { makeCreatingUser } from '../../business/api/users';
 
 const createUser = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ ok: 0, errors: errors.array() });
+    }
+
     const models = {
         admin: Admin,
         manager: Manager,
