@@ -1,3 +1,5 @@
+import { validationResult } from 'express-validator/check';
+
 import {
     findAdminData,
     makeUpdatingAdmin,
@@ -73,13 +75,9 @@ const changeAdminPassword = (req, res) => {
         confirmNewPassword,
     } = req.body;
 
-    // TODO Add validations for passwords
-    if (!oldPassword || !newPassword || !confirmNewPassword) {
-        return res.status(422)
-            .json({
-                ok: 0,
-                message: 'Enter required parameters',
-            });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ ok: 0, errors: errors.array() });
     }
 
     if (newPassword !== confirmNewPassword) {
@@ -94,7 +92,7 @@ const changeAdminPassword = (req, res) => {
         .then(admin => {
             const { password } = admin;
 
-            const isComparedPasswords = comparePasswords(oldPassword, password);
+            const isComparedPasswords = comparePasswords(password, oldPassword);
             if (!isComparedPasswords) {
                 return res.status(400)
                     .json({
@@ -108,10 +106,10 @@ const changeAdminPassword = (req, res) => {
             };
 
             return makeUpdatingAdmin(adminId, data)
-                .then(admin => res.status(200)
+                .then(() => res.status(200)
                     .json({
                         ok: 1,
-                        admin,
+                        message: 'Password was changes successfully',
                     }))
                 .catch(err => res.status(500)
                     .json({

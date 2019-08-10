@@ -1,4 +1,4 @@
-const notificationSettings = {
+const failureNotificationSettings = {
     type: "danger",
     insert: "top",
     container: "top-right",
@@ -8,13 +8,45 @@ const notificationSettings = {
     dismissable: { click: true }
 };
 
+const successNotificationSettings = {
+    type: "success",
+    insert: "top",
+    container: "top-right",
+    animationIn: ["animated", "fadeIn"],
+    animationOut: ["animated", "fadeOut"],
+    dismiss: { duration: 3000 },
+    dismissable: { click: true }
+};
+
+const buildFailureNotificationSettings = (message, title) => {
+    return Object.assign({}, failureNotificationSettings, { message, title });
+};
+
+const buildSuccessNotificationSettings = (message, title) => {
+    return Object.assign({}, successNotificationSettings, { message, title });
+};
+
 const types = [
     {
-        buildNotificationSettings: (message, title) => {
-            return Object.assign({}, notificationSettings, { message, title });
+        builder(message) {
+            return buildFailureNotificationSettings(message, this.title);
         },
         title: "You could not sign in",
         type: "Sign In",
+    },
+    {
+        builder(message) {
+            return buildFailureNotificationSettings(message, this.title);
+        },
+        title: "Passwords validation",
+        type: "FailureChangingPassword",
+    },
+    {
+        builder(message) {
+            return buildSuccessNotificationSettings(message, this.title);
+        },
+        title: "Passwords validation",
+        type: "SuccessfulChangingPassword",
     }
 ];
 
@@ -26,7 +58,7 @@ const types = [
 const buildNotification = (message, type) => {
     const notification = types.find(e => e.type === type);
 
-    return notification ? notification.buildNotificationSettings(message, notification.title) : null;
+    return notification ? notification.builder(message) : null;
 };
 
 export default buildNotification;

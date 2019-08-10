@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
+import ReactNotification from 'react-notifications-component';
 
 import { Admin, Manager } from '../components/Profile';
 import { getDataAuthUser } from '../services/localDb';
@@ -8,6 +9,7 @@ import {
     updateProfileUser,
     updatePasswordsProfileUser,
 } from '../api/profile';
+import buildNotification from '../services/notification';
 
 const rolesComponents = {
     'admin': Admin,
@@ -16,6 +18,7 @@ const rolesComponents = {
 
 export default class Profile extends Component {
     validatorProfile = new SimpleReactValidator();
+    notificationDOMRef = React.createRef();
 
     state = {
         role: '',
@@ -25,6 +28,8 @@ export default class Profile extends Component {
         email: '',
         oldPassword: '',
         newPassword: '',
+        successfulNotification: 'SuccessfulChangingPassword',
+        failureNotification: 'FailureChangingPassword',
         confirmNewPassword: '',
         territories: [
             {
@@ -41,8 +46,6 @@ export default class Profile extends Component {
             },
         ],
         selectedTerritory: {},
-        isEqualNewPasswords: true,
-        isEmptyPasswordsFields: false,
     };
 
     componentDidMount() {
@@ -106,27 +109,33 @@ export default class Profile extends Component {
     onChangePassword = event => {
         event.preventDefault();
 
-        this.setState({
-            isEqualNewPasswords: true,
-            isEmptyPasswordsFields: false,
-        });
-
         const {
             role,
             id,
             oldPassword,
             newPassword,
+            successfulNotification,
+            failureNotification,
             confirmNewPassword,
         } = this.state;
 
         if (!oldPassword || !newPassword || !confirmNewPassword) {
-            this.setState({ isEmptyPasswordsFields: true });
+            const notification = buildNotification('Please, enter fill in all fields', failureNotification);
+            this.notificationDOMRef.current.addNotification(notification);
+
+            return;
+        }
+
+        if (oldPassword.length < 8 || newPassword.length < 8 || confirmNewPassword.length < 8) {
+            const notification = buildNotification('Passwords length must be as minimum 8 symbols', failureNotification);
+            this.notificationDOMRef.current.addNotification(notification);
 
             return;
         }
 
         if (newPassword !== confirmNewPassword) {
-            this.setState({ isEqualNewPasswords: false });
+            const notification = buildNotification('Passwords are not equal', failureNotification);
+            this.notificationDOMRef.current.addNotification(notification);
 
             return;
         }
@@ -137,7 +146,19 @@ export default class Profile extends Component {
             confirmNewPassword,
         };
 
-        return updatePasswordsProfileUser(role, id, body);
+        return updatePasswordsProfileUser(role, id, body)
+            .then(result => {
+                const notification = buildNotification(result.message, successfulNotification);
+                this.notificationDOMRef.current.addNotification(notification);
+            })
+            .catch(err => {
+                const { errors } = JSON.parse(err.message);
+                errors.forEach(item => {
+                    const { msg: message } = item;
+                    const notification = buildNotification(message, failureNotification);
+                    this.notificationDOMRef.current.addNotification(notification);
+                })
+            });
     };
 
     onChangeTerritory = selectedTerritory => {
@@ -156,14 +177,17 @@ export default class Profile extends Component {
         const Component = rolesComponents[role];
 
         return (
-          <Component
-            onSave={this.onSave}
-            onChangePassword={this.onChangePassword}
-            onChangeTerritory={this.onChangeTerritory}
-            onChangeInput={this.onChangeInput}
-            data={this.state}
-            validatorProfile={this.validatorProfile}
-          />
+            <Fragment>
+                <ReactNotification ref={this.notificationDOMRef}/>
+                <Component
+                    onSave={this.onSave}
+                    onChangePassword={this.onChangePassword}
+                    onChangeTerritory={this.onChangeTerritory}
+                    onChangeInput={this.onChangeInput}
+                    data={this.state}
+                    validatorProfile={this.validatorProfile}
+                />
+            </Fragment>
         );
     }
 }

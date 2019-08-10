@@ -42,6 +42,11 @@ const senderApiRequest = (url, method, data = null) => {
             }
 
             return error.json().then(result => {
+                // TODO Add Custom Validation Class on frontend and backend
+                if (result.errors && result.errors.length > 0) {
+                    throw new Error(JSON.stringify({errors: result.errors }));
+                }
+
                 throw new Error(result.message);
             })
         })

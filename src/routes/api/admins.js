@@ -7,6 +7,7 @@ import {
 } from '../../controllers/api/admins';
 import { jwtMiddleware } from '../../middlewares/jwt';
 import authMiddleware from '../../middlewares/auth';
+import validators from '../../validator';
 
 const route = Router();
 
@@ -23,6 +24,7 @@ route.put('/admins/:id',
 route.put('/admins/:id/change-password',
     jwtMiddleware,
     authMiddleware.isAdmin,
+    validators.changePassword,
     changeAdminPassword);
 
 export default route;
