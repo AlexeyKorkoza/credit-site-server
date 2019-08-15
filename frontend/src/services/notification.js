@@ -47,6 +47,20 @@ const types = [
         },
         title: "Passwords validation",
         type: "SuccessfulChangingPassword",
+    },
+    {
+        builder(message) {
+            return buildFailureNotificationSettings(message, this.title);
+        },
+        title: "Manager validation",
+        type: "FailureEditingManager",
+    },
+    {
+        builder(message) {
+            return buildSuccessNotificationSettings(message, this.title);
+        },
+        title: "Manager validation",
+        type: "SuccessfulEditingManager",
     }
 ];
 
