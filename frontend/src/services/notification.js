@@ -61,6 +61,20 @@ const types = [
         },
         title: "Manager validation",
         type: "SuccessfulEditingManager",
+    },
+    {
+        builder(message) {
+            return buildFailureNotificationSettings(message, this.title);
+        },
+        title: "Client validation",
+        type: "FailureEditingClient",
+    },
+    {
+        builder(message) {
+            return buildSuccessNotificationSettings(message, this.title);
+        },
+        title: "Client validation",
+        type: "SuccessfulEditingClient",
     }
 ];
 

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router';
 import SimpleReactValidator from 'simple-react-validator';
+import ReactNotification from 'react-notifications-component';
 
 import { Editor as EditorComponent } from '../../components/Clients';
 import {
@@ -10,8 +11,11 @@ import {
     saveClient,
 } from '../../api/clients';
 import { getDataAuthUser } from '../../services/localDb';
+import buildNotification from "../../services/notification";
 
 class Editor extends Component {
+    notificationDOMRef = React.createRef();
+    timer = null;
     validator = new SimpleReactValidator();
 
     state = {
@@ -38,6 +42,8 @@ class Editor extends Component {
                 value: '1.5',
             },
         ],
+        failureNotificationType: 'FailureEditingClient',
+        successfulNotificationType: 'SuccessfulEditingClient',
     };
 
     componentDidMount() {
@@ -74,6 +80,10 @@ class Editor extends Component {
         }
     }
 
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+    }
+
     onChangeInput = event => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -93,20 +103,56 @@ class Editor extends Component {
     onDeleteClient = event => {
       event.preventDefault();
 
-      const { clientId } = this.state;
+      const {
+          clientId,
+          failureNotificationType,
+          successfulNotificationType,
+      } = this.state;
 
       return deleteClient(clientId)
           .then(() => {
-              this.props.history.push('/clients');
+              const message = 'Client was deleted successfully';
+              const notification = buildNotification(message, successfulNotificationType);
+              if (notification) {
+                  this.notificationDOMRef.current.addNotification(notification);
+              }
+              this.timer = setTimeout(() => {
+                  this.props.history.push('/clients');
+              }, 3000);
           })
+          .catch(error => {
+              const { message } = error;
+              const notification = buildNotification(message, failureNotificationType);
+              if (notification) {
+                  this.notificationDOMRef.current.addNotification(notification);
+              }
+          });
     };
 
     onMarkClientForDeletion = event => {
         event.preventDefault();
 
-        const { clientId } = this.state;
+        const {
+            clientId,
+            failureNotificationType,
+            successfulNotificationType,
+        } = this.state;
 
-        return markClientForDeletion(clientId);
+        return markClientForDeletion(clientId)
+            .then(() => {
+                const message = 'Client was deleted successfully';
+                const notification = buildNotification(message, successfulNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+            })
+            .catch(error => {
+                const { message } = error;
+                const notification = buildNotification(message, failureNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+            });
     };
 
     onSave = event => {
@@ -119,12 +165,14 @@ class Editor extends Component {
         const {
             action,
             email,
+            failureNotificationType,
             name,
             clientId,
             passportData,
             phone,
             role,
             selectedTerritory,
+            successfulNotificationType,
         } = this.state;
 
         let body = {
@@ -146,25 +194,46 @@ class Editor extends Component {
             body.territory = territory;
         }
 
-        return action === 'edit'
+        const func =  action === 'edit'
             ? saveClient(body, +clientId)
-            : saveClient(body)
-                .then(() => {
+            : saveClient(body);
+
+        return func
+            .then(() => {
+                const message = action === 'edit'
+                    ? 'Client was updated successfully'
+                    : 'Client was created successfully';
+                const notification = buildNotification(message, successfulNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+                this.timer = setTimeout(() => {
                     this.props.history.push('/clients');
-                });
+                }, 3000);
+            })
+            .catch(error => {
+                const { message } = error;
+                const notification = buildNotification(message, failureNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+            });
     };
 
     render() {
         return (
-          <EditorComponent
-            data={this.state}
-            onChangeInput={this.onChangeInput}
-            onChangeTerritory={this.onChangeTerritory}
-            onDeleteClient={this.onDeleteClient}
-            onMarkClientForDeletion={this.onMarkClientForDeletion}
-            onSave={this.onSave}
-            validator={this.validator}
-          />
+            <Fragment>
+                <ReactNotification ref={this.notificationDOMRef} />
+                <EditorComponent
+                    data={this.state}
+                    onChangeInput={this.onChangeInput}
+                    onChangeTerritory={this.onChangeTerritory}
+                    onDeleteClient={this.onDeleteClient}
+                    onMarkClientForDeletion={this.onMarkClientForDeletion}
+                    onSave={this.onSave}
+                    validator={this.validator}
+                />
+            </Fragment>
         );
     }
 }

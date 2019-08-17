@@ -83,7 +83,7 @@ const Editor = props => {
               placeholder='Email...'
               required
             />
-            {validator.message('email', email, 'required')}
+            {validator.message('email', email, 'required|email')}
           </Card.Item>
           <Card.Item>
             <Card.Item.Label htmlFor="passportData">Passport Data</Card.Item.Label>
