@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
+import ReactNotification from 'react-notifications-component';
 
 import Steps from '../../components/Loans/Add';
 
@@ -8,6 +9,7 @@ import { getClient, getClientLoans } from "../../api/clients";
 import { createClientCard } from "../../api/client_card";
 import { saveLoan } from '../../api/loans';
 import { convertToDays, subtractDates } from "../../utils";
+import buildNotification from "../../services/notification";
 
 const { Step1, Step2 } = Steps;
 const components = {
@@ -16,6 +18,7 @@ const components = {
 };
 
 class Add extends Component {
+    notificationDOMRef = React.createRef();
     validator = new SimpleReactValidator();
 
     state = {
@@ -54,6 +57,8 @@ class Add extends Component {
         loans: [],
         role: '',
         focusedInput: null,
+        failureNotificationType: 'FailureCreatingLoan',
+        successfulNotificationType: 'SuccessfulCreatingLoan',
     };
 
     componentDidMount() {
@@ -161,6 +166,8 @@ class Add extends Component {
             clientId,
             territories,
             totalRepaymentAmount,
+            failureNotificationType,
+            successfulNotificationType,
         } = this.state;
 
         const territory = territories.find(e => +e.value === +selectedTerritory.value);
@@ -174,7 +181,21 @@ class Add extends Component {
             totalRepaymentAmount,
         };
 
-        return saveLoan(body);
+        return saveLoan(body)
+            .then(() => {
+                const message = 'Loan was created successfully';
+                const notification = buildNotification(message, successfulNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+            })
+            .catch(error => {
+                const { message } = error;
+                const notification = buildNotification(message, failureNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+            });
     };
 
     onChangeDates = ({ startDate, endDate }) => {
@@ -214,17 +235,20 @@ class Add extends Component {
         const CurrentComponent = components[currentStep];
 
         return (
-            <CurrentComponent
-                data={this.state}
-                onBack={this.onBack}
-                onCreateClientCard={this.onCreateClientCard}
-                onCreateLoan={this.onCreateLoan}
-                onChangeDates={this.onChangeDates}
-                onChangeInput={this.onChangeInput}
-                onChangeTerritory={this.onChangeTerritory}
-                onFocusedInput={this.onFocusedInput}
-                validator={this.validator}
-            />
+            <Fragment>
+                <ReactNotification ref={this.notificationDOMRef} />
+                <CurrentComponent
+                    data={this.state}
+                    onBack={this.onBack}
+                    onCreateClientCard={this.onCreateClientCard}
+                    onCreateLoan={this.onCreateLoan}
+                    onChangeDates={this.onChangeDates}
+                    onChangeInput={this.onChangeInput}
+                    onChangeTerritory={this.onChangeTerritory}
+                    onFocusedInput={this.onFocusedInput}
+                    validator={this.validator}
+                />
+            </Fragment>
         );
     }
 }

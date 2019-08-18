@@ -47,6 +47,9 @@ const findLoan = id => {
             {
                 model: Client,
                 as: 'client',
+                attributes: [
+                    'territory',
+                ],
             },
         ],
     };
@@ -58,6 +61,7 @@ const findLoan = id => {
             coefficient: loan.coefficient,
             dateIssue: loan.date_issue,
             dateMaturity: loan.date_maturity,
+            territory: loan.client.territory,
             totalRepaymentAmount: loan.total_repayment_amount,
         }));
 };

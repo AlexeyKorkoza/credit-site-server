@@ -75,7 +75,35 @@ const types = [
         },
         title: "Client validation",
         type: "SuccessfulEditingClient",
-    }
+    },
+    {
+        builder(message) {
+            return buildFailureNotificationSettings(message, this.title);
+        },
+        title: "Loan validation",
+        type: "FailureCreatingLoan",
+    },
+    {
+        builder(message) {
+            return buildSuccessNotificationSettings(message, this.title);
+        },
+        title: "Loan validation",
+        type: "SuccessfulCreatingLoan",
+    },
+    {
+        builder(message) {
+            return buildFailureNotificationSettings(message, this.title);
+        },
+        title: "Loan validation",
+        type: "FailureEditingLoan",
+    },
+    {
+        builder(message) {
+            return buildSuccessNotificationSettings(message, this.title);
+        },
+        title: "Loan validation",
+        type: "SuccessfulEditingLoan",
+    },
 ];
 
 /**
