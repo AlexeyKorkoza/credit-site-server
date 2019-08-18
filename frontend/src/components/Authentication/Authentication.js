@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 import { Button, Input, Modal, ModalContainer, ModalContent, ModalItem, H1 } from '../../shared';
 
 const Authentication = props => {
-    const { isActiveModal, validator } = props;
+    const {
+        isActiveModal,
+        validator,
+    } = props;
 
     return (
         <Modal isActiveModal={isActiveModal}>
@@ -33,8 +36,7 @@ const Authentication = props => {
                             onChange={props.onInputChange}
                             required
                         />
-                        {/* @TODO Check password length (min 8 symbols) */}
-                        {validator.message('password', props.password, 'required')}
+                        {validator.message('password', props.password, 'required|min:8')}
                     </ModalItem>
                     <ModalItem>
                         <ReactSelect
@@ -56,10 +58,12 @@ const Authentication = props => {
 
 Authentication.defaultProps = {
     login: '',
+    message: '',
     password: '',
     selectedRole: {},
     roles: [],
     isActiveModal: false,
+    notification: PropTypes.shape(),
     onInputChange: PropTypes.func,
     onSelectChange: PropTypes.func,
     onSubmit: PropTypes.func,
@@ -68,6 +72,7 @@ Authentication.defaultProps = {
 
 Authentication.propTypes = {
     login: PropTypes.string,
+    message: PropTypes.string,
     password: PropTypes.string,
     selectedRole: PropTypes.shape(),
     roles: PropTypes.arrayOf(
@@ -77,6 +82,7 @@ Authentication.propTypes = {
         })
     ),
     isActiveModal: PropTypes.bool,
+    notification: PropTypes.shape(),
     onInputChange: PropTypes.func,
     onSelectChange: PropTypes.func,
     onSubmit: PropTypes.func,

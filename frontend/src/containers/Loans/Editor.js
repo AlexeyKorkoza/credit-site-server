@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
+import ReactNotification from 'react-notifications-component';
 
 import { Editor as EditorComponent } from '../../components/Loans';
 import {
     getLoan,
     saveLoan,
 } from '../../api/loans';
+import buildNotification from "../../services/notification";
 
 class Editor extends Component {
+    notificationDOMRef = React.createRef();
     validator = new SimpleReactValidator();
 
     state = {
@@ -33,6 +36,8 @@ class Editor extends Component {
         ],
         loanId: null,
         selectedTerritory: {},
+        failureNotificationType: 'FailureEditingLoan',
+        successfulNotificationType: 'SuccessfulEditingLoan',
     };
 
     componentDidMount() {
@@ -48,12 +53,12 @@ class Editor extends Component {
 
             getLoan(loanId)
                 .then(result => {
-                    const { territory } = result.data;
+                    const { territory } = result.loan;
                     const { territories } = this.state;
-                    const selectedTerritory = territories.find(e => +e.value === territory);
+                    const selectedTerritory = territories.find(e => +e.value === +territory);
 
                     this.setState({
-                        ...result.data,
+                        ...result.loan,
                         action: 'edit',
                         loanId,
                         selectedTerritory,
@@ -80,10 +85,6 @@ class Editor extends Component {
     onSave = event => {
         event.preventDefault();
 
-        if (!this.validator.allValid()) {
-            return;
-        }
-
         const {
             amount,
             coefficient,
@@ -92,6 +93,8 @@ class Editor extends Component {
             totalRepaymentAmount,
             loanId,
             selectedTerritory,
+            failureNotificationType,
+            successfulNotificationType,
         } = this.state;
         const { value: territory } = selectedTerritory;
 
@@ -104,7 +107,21 @@ class Editor extends Component {
             totalRepaymentAmount,
         };
 
-        return saveLoan(body, loanId);
+        return saveLoan(body, loanId)
+            .then(() => {
+                const message = 'Loan was edited successfully';
+                const notification = buildNotification(message, successfulNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+            })
+            .catch(error => {
+                const { message } = error;
+                const notification = buildNotification(message, failureNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+            });
     };
 
     onChangeTerritory = selectedTerritory => {
@@ -115,13 +132,16 @@ class Editor extends Component {
 
     render() {
         return (
-          <EditorComponent
-            data={this.state}
-            onChangeInput={this.onChangeInput}
-            onChangeTerritory={this.onChangeTerritory}
-            onSave={this.onSave}
-            validator={this.validator}
-          />
+            <Fragment>
+                <ReactNotification ref={this.notificationDOMRef}/>
+                <EditorComponent
+                    data={this.state}
+                    onChangeInput={this.onChangeInput}
+                    onChangeTerritory={this.onChangeTerritory}
+                    onSave={this.onSave}
+                    validator={this.validator}
+                />
+            </Fragment>
         );
     }
 }

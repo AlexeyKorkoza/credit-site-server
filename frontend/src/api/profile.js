@@ -52,7 +52,9 @@ const updatePasswordsProfileUser = (role, id, body) => {
     const route = routes[role];
 
     return sender(`${API_URL}/api/v1${route}/${id}/change-password`, 'put', body)
-        .catch(err => console.error(err.message, 'updatePasswordsProfileUser'));
+        .catch(err => {
+            throw new Error(err.message);
+        });
 };
 
 export {

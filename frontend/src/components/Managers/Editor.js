@@ -91,8 +91,7 @@ const Editor = props => {
                         onChange={onChangeInput}
                         required
                     />
-                    {/* @TODO Check password length (min 8 symbols) */}
-                    {validator.message('password', password, 'required')}
+                    {validator.message('password', password, 'required|min:8')}
                 </Card.Item>
                 }
                 <Card.Item>
@@ -105,7 +104,7 @@ const Editor = props => {
                         placeholder='Email...'
                         required
                     />
-                    {validator.message('email', email, 'required')}
+                    {validator.message('email', email, 'required|email')}
                 </Card.Item>
                 <Card.Item>
                     <Button onClick={onSave}>Save</Button>

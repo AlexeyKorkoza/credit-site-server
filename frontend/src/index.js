@@ -1,15 +1,20 @@
 import 'react-dates/initialize';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import 'react-dates/lib/css/_datepicker.css';
+import "react-notifications-component/dist/theme.css";
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import routing from './routing';
+import App from './components/App';
 import configureStore from './configureStore';
 
 // const store = configureStore();
 
-ReactDOM.render(
-  routing,
-  document.getElementById('root')
+const Root = () => (
+    <Router>
+        <App />
+    </Router>
 );
+
+render(<Root />, document.getElementById('root'));

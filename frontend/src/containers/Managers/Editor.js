@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
+import ReactNotification from 'react-notifications-component';
 
 import { Editor as EditorComponent } from '../../components/Managers';
 import {
@@ -8,8 +9,10 @@ import {
     saveManager,
 } from '../../api/managers';
 import { updatePasswordsProfileUser } from '../../api/profile';
+import buildNotification from "../../services/notification";
 
 class Editor extends Component {
+    notificationDOMRef = React.createRef();
     validator = new SimpleReactValidator();
 
     state = {
@@ -39,8 +42,8 @@ class Editor extends Component {
         ],
         managerId: null,
         selectedTerritory: {},
-        isEqualNewPasswords: true,
-        isEmptyPasswordsFields: false,
+        failureNotificationType: 'FailureEditingManager',
+        successfulNotificationType: 'SuccessfulEditingManager',
     };
 
     componentDidMount() {
@@ -109,6 +112,8 @@ class Editor extends Component {
             password,
             phone,
             selectedTerritory,
+            failureNotificationType,
+            successfulNotificationType,
         } = this.state;
         const { value: territory } = selectedTerritory;
 
@@ -121,34 +126,58 @@ class Editor extends Component {
             email
         };
 
-        return action === 'edit'
+        const func = action === 'edit'
             ? saveManager(body, managerId)
             : saveManager(body);
+
+        return func
+            .then(() => {
+                const message = action === 'edit'
+                    ? 'Manager was updated successfully'
+                    : 'Manager was created successfully';
+                const notification = buildNotification(message, successfulNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+            })
+            .catch(error => {
+                const { message } = error;
+                const notification = buildNotification(message, failureNotificationType);
+                if (notification) {
+                    this.notificationDOMRef.current.addNotification(notification);
+                }
+            })
     };
 
     onChangePassword = event => {
         event.preventDefault();
-
-        this.setState({
-            isEqualNewPasswords: true,
-            isEmptyPasswordsFields: false,
-        });
 
         const {
             oldPassword,
             managerId,
             newPassword,
             confirmNewPassword,
+            failureNotificationType,
+            successfulNotificationType,
         } = this.state;
 
         if (!oldPassword || !newPassword || !confirmNewPassword) {
-            this.setState({ isEmptyPasswordsFields: true });
+            const notification = buildNotification('Please, enter fill in all fields', failureNotificationType);
+            this.notificationDOMRef.current.addNotification(notification);
+
+            return;
+        }
+
+        if (oldPassword.length < 8 || newPassword.length < 8 || confirmNewPassword.length < 8) {
+            const notification = buildNotification('Passwords length must be as minimum 8 symbols', failureNotificationType);
+            this.notificationDOMRef.current.addNotification(notification);
 
             return;
         }
 
         if (newPassword !== confirmNewPassword) {
-            this.setState({ isEqualNewPasswords: false });
+            const notification = buildNotification('Passwords are not equal', failureNotificationType);
+            this.notificationDOMRef.current.addNotification(notification);
 
             return;
         }
@@ -159,7 +188,19 @@ class Editor extends Component {
             confirmNewPassword,
         };
 
-        return updatePasswordsProfileUser('manager', managerId, body);
+        return updatePasswordsProfileUser('manager', managerId, body)
+            .then(result => {
+                const notification = buildNotification(result.message, successfulNotificationType);
+                this.notificationDOMRef.current.addNotification(notification);
+            })
+            .catch(err => {
+                const { errors } = JSON.parse(err.message);
+                errors.forEach(item => {
+                    const { msg: message } = item;
+                    const notification = buildNotification(message, failureNotificationType);
+                    this.notificationDOMRef.current.addNotification(notification);
+                });
+            });
     };
 
     onChangeTerritory = selectedTerritory => {
@@ -170,15 +211,18 @@ class Editor extends Component {
 
     render() {
         return (
-          <EditorComponent
-            data={this.state}
-            onBlockManager={this.onBlockManager}
-            onChangeInput={this.onChangeInput}
-            onChangePassword={this.onChangePassword}
-            onChangeTerritory={this.onChangeTerritory}
-            onSave={this.onSave}
-            validator={this.validator}
-          />
+            <Fragment>
+                <ReactNotification ref={this.notificationDOMRef}/>
+                <EditorComponent
+                    data={this.state}
+                    onBlockManager={this.onBlockManager}
+                    onChangeInput={this.onChangeInput}
+                    onChangePassword={this.onChangePassword}
+                    onChangeTerritory={this.onChangeTerritory}
+                    onSave={this.onSave}
+                    validator={this.validator}
+                />
+            </Fragment>
         );
     }
 }

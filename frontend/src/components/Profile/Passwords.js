@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {
     Button,
     Card,
-    Error,
     Input,
 } from '../../shared';
 
@@ -15,8 +14,6 @@ const Passwords = props => {
         oldPassword,
         newPassword,
         confirmNewPassword,
-        isEmptyPasswordsFields,
-        isEqualNewPasswords,
     } = props;
 
     return (
@@ -47,8 +44,6 @@ const Passwords = props => {
                     value={confirmNewPassword}
                     onChange={onChangeInput}
                 />
-                {isEmptyPasswordsFields && <Error>Please, enter fill in</Error>}
-                {!isEqualNewPasswords && <Error>Please, passwords are not equal</Error>}
             </Card.Item>
             <Card.Item>
                 <Button onClick={onChangePassword}>Change Password</Button>
@@ -63,8 +58,6 @@ Passwords.defaultProps = {
     oldPassword: '',
     newPassword: '',
     confirmNewPassword: '',
-    isEmptyPasswordsFields: PropTypes.bool,
-    isEqualNewPasswords: PropTypes.bool,
 };
 
 Passwords.propTypes = {
@@ -73,8 +66,6 @@ Passwords.propTypes = {
     oldPassword: PropTypes.string,
     newPassword: PropTypes.string,
     confirmNewPassword: PropTypes.string,
-    isEmptyPasswordsFields: PropTypes.bool,
-    isEqualNewPasswords: PropTypes.bool,
 };
 
 export default Passwords;
