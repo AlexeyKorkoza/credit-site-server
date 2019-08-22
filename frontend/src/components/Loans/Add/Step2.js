@@ -48,55 +48,57 @@ const Step2 = props => {
                 : <h1>No loans</h1>
             }
             <Card.List>
-                <Card noValidate>
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="amount">Amount</Card.Item.Label>
-                        <Input
-                            name='amount'
-                            placeholder='Amount ...'
-                            onChange={onChangeInput}
-                            value={amount}
-                            disabled={true}
-                        />
+                <Card.List.Item>
+                    <Card.Form noValidate>
+                        <Card.Form.Item>
+                            <Card.Form.Label htmlFor="amount">Amount</Card.Form.Label>
+                            <Input
+                                name='amount'
+                                placeholder='Amount ...'
+                                onChange={onChangeInput}
+                                value={amount}
+                                disabled={true}
+                            />
+                        </Card.Form.Item>
                         {validator.message('amount', amount, 'required')}
-                    </Card.Item>
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
-                        <ReactSelect
-                            value={selectedTerritory}
-                            options={territories}
-                            placeholder="Select Territory ..."
-                            isDisabled={true}
-                        />
+                        <Card.Form.Item>
+                            <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
+                            <ReactSelect
+                                value={selectedTerritory}
+                                options={territories}
+                                placeholder="Select Territory ..."
+                                isDisabled={true}
+                            />
+                        </Card.Form.Item>
                         {validator.message('territory', selectedTerritory, 'required')}
-                    </Card.Item>
-                    <Card.Item>
-                        <DateRangePicker
-                            startDate={dateIssue}
-                            startDateId="date_issue_id"
-                            endDate={dateMaturity}
-                            endDateId="date_maturity_id"
-                            onDatesChange={onChangeDates}
-                            focusedInput={focusedInput}
-                            onFocusChange={onFocusedInput}
-                        />
-                    </Card.Item>
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Item.Label>
-                        <Input
-                            type="number"
-                            name="totalRepaymentAmount"
-                            value={totalRepaymentAmount}
-                            onChange={onChangeInput}
-                            placeholder='Total Repayment Amount...'
-                            disabled={true}
-                        />
+                        <Card.Form.Item>
+                            <DateRangePicker
+                                startDate={dateIssue}
+                                startDateId="date_issue_id"
+                                endDate={dateMaturity}
+                                endDateId="date_maturity_id"
+                                onDatesChange={onChangeDates}
+                                focusedInput={focusedInput}
+                                onFocusChange={onFocusedInput}
+                            />
+                        </Card.Form.Item>
+                        <Card.Form.Item>
+                            <Card.Form.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Form.Label>
+                            <Input
+                                type="number"
+                                name="totalRepaymentAmount"
+                                value={totalRepaymentAmount}
+                                onChange={onChangeInput}
+                                placeholder='Total Repayment Amount...'
+                                disabled={true}
+                            />
+                        </Card.Form.Item>
                         {validator.message('totalRepaymentAmount', totalRepaymentAmount, 'required')}
-                    </Card.Item>
-                    <Card.Item>
-                        <Button onClick={onCreateLoan}>Create loan</Button>
-                    </Card.Item>
-                </Card>
+                        <Card.Form.Item>
+                            <Button onClick={onCreateLoan}>Create loan</Button>
+                        </Card.Form.Item>
+                    </Card.Form>
+                </Card.List.Item>
             </Card.List>
         </div>
     );
