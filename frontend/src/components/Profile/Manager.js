@@ -49,8 +49,8 @@ const Manager = props => {
                             value={fullName}
                             required
                         />
-                        {validatorProfile.message('fullName', fullName, 'required')}
                     </Card.Form.Item>
+                    {validatorProfile.message('fullName', fullName, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
                         <ReactSelect
@@ -59,8 +59,8 @@ const Manager = props => {
                             options={territories}
                             placeholder={'Select Territory ...'}
                         />
-                        {validatorProfile.message('territory', selectedTerritory, 'required')}
                     </Card.Form.Item>
+                    {validatorProfile.message('territory', selectedTerritory, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="phone">Phone</Card.Form.Label>
                         <Input
@@ -71,8 +71,8 @@ const Manager = props => {
                             value={phone}
                             required
                         />
-                        {validatorProfile.message('phone', phone, 'required')}
                     </Card.Form.Item>
+                    {validatorProfile.message('phone', phone, 'required')}
                     <Login
                         login={login}
                         onChangeInput={onChangeInput}
@@ -88,8 +88,8 @@ const Manager = props => {
                             placeholder='Email...'
                             required
                         />
-                        {validatorProfile.message('email', email, 'required')}
                     </Card.Form.Item>
+                    {validatorProfile.message('email', email, 'required')}
                     <Card.Form.Item>
                         <Button onClick={onSave}>Save</Button>
                     </Card.Form.Item>

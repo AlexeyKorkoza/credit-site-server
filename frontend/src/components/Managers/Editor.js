@@ -53,8 +53,8 @@ const Editor = props => {
                             value={fullName}
                             required
                         />
-                        {validator.message('fullName', fullName, 'required')}
                     </Card.Form.Item>
+                    {validator.message('fullName', fullName, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
                         <ReactSelect
@@ -63,8 +63,8 @@ const Editor = props => {
                             options={territories}
                             placeholder={'Select Territory ...'}
                         />
-                        {validator.message('territory', selectedTerritory, 'required')}
                     </Card.Form.Item>
+                    {validator.message('territory', selectedTerritory, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="phone">Phone</Card.Form.Label>
                         <Input
@@ -75,8 +75,8 @@ const Editor = props => {
                             value={phone}
                             required
                         />
-                        {validator.message('phone', phone, 'required')}
                     </Card.Form.Item>
+                    {validator.message('phone', phone, 'required')}
                     <Login
                         login={login}
                         onChangeInput={onChangeInput}
@@ -92,9 +92,9 @@ const Editor = props => {
                             onChange={onChangeInput}
                             required
                         />
-                        {validator.message('password', password, 'required|min:8')}
                     </Card.Form.Item>
                     }
+                    {validator.message('password', password, 'required|min:8')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="email">Email</Card.Form.Label>
                         <Input
@@ -105,8 +105,8 @@ const Editor = props => {
                             placeholder='Email...'
                             required
                         />
-                        {validator.message('email', email, 'required|email')}
                     </Card.Form.Item>
+                    {validator.message('email', email, 'required|email')}
                     <Card.Form.Item>
                         <Button onClick={onSave}>Save</Button>
                     </Card.Form.Item>

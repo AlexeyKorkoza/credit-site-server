@@ -42,8 +42,8 @@ const Editor = props => {
                             value={amount}
                             required
                         />
-                        {validator.message('amount', amount, 'required')}
                     </Card.Form.Item>
+                    {validator.message('amount', amount, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
                         <ReactSelect
@@ -52,8 +52,8 @@ const Editor = props => {
                             options={territories}
                             placeholder="Select Territory ..."
                         />
-                        {validator.message('territory', selectedTerritory, 'required')}
                     </Card.Form.Item>
+                    {validator.message('territory', selectedTerritory, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="coefficient">Coefficient</Card.Form.Label>
                         <Input
@@ -63,8 +63,8 @@ const Editor = props => {
                             placeholder='Coefficient...'
                             required
                         />
-                        {validator.message('coefficient', coefficient, 'required')}
                     </Card.Form.Item>
+                    {validator.message('coefficient', coefficient, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="dateIssue">Date Issue</Card.Form.Label>
                         <Input
@@ -74,8 +74,8 @@ const Editor = props => {
                             placeholder='Date Issue...'
                             required
                         />
-                        {validator.message('dateIssue', dateIssue, 'required')}
                     </Card.Form.Item>
+                    {validator.message('dateIssue', dateIssue, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="dateMaturity">Date Maturity</Card.Form.Label>
                         <Input
@@ -85,8 +85,8 @@ const Editor = props => {
                             value={dateMaturity}
                             required
                         />
-                        {validator.message('dateMaturity', dateMaturity, 'required')}
                     </Card.Form.Item>
+                    {validator.message('dateMaturity', dateMaturity, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="dateIssue">Date Issue</Card.Form.Label>
                         <Input
@@ -96,8 +96,8 @@ const Editor = props => {
                             placeholder='Date Issue...'
                             required
                         />
-                        {validator.message('dateIssue', dateIssue, 'required')}
                     </Card.Form.Item>
+                    {validator.message('dateIssue', dateIssue, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Form.Label>
                         <Input
@@ -107,8 +107,8 @@ const Editor = props => {
                             value={totalRepaymentAmount}
                             required
                         />
-                        {validator.message('totalRepaymentAmount', totalRepaymentAmount, 'required')}
                     </Card.Form.Item>
+                    {validator.message('totalRepaymentAmount', totalRepaymentAmount, 'required')}
                     <Card.Form.Item>
                         <Button onClick={onSave}>Save</Button>
                     </Card.Form.Item>
