@@ -18,36 +18,40 @@ const Passwords = props => {
 
     return (
         <Card>
-            <Card.Item>
-                <Card.Item.Label htmlFor="oldPassword">Old Password</Card.Item.Label>
-                <Input
-                    type="password"
-                    name="oldPassword"
-                    value={oldPassword}
-                    onChange={onChangeInput}
-                />
-            </Card.Item>
-            <Card.Item>
-                <Card.Item.Label htmlFor="newPassword">New Password</Card.Item.Label>
-                <Input
-                    type="password"
-                    name="newPassword"
-                    value={newPassword}
-                    onChange={onChangeInput}
-                />
-            </Card.Item>
-            <Card.Item>
-                <Card.Item.Label htmlFor="confirmNewPassword">Confirm New Password</Card.Item.Label>
-                <Input
-                    type="password"
-                    name="confirmNewPassword"
-                    value={confirmNewPassword}
-                    onChange={onChangeInput}
-                />
-            </Card.Item>
-            <Card.Item>
-                <Button onClick={onChangePassword}>Change Password</Button>
-            </Card.Item>
+            <Card.Form>
+                <Card.List>
+                    <Card.Item>
+                        <Card.Item.Label htmlFor="oldPassword">Old Password</Card.Item.Label>
+                        <Input
+                            type="password"
+                            name="oldPassword"
+                            value={oldPassword}
+                            onChange={onChangeInput}
+                        />
+                    </Card.Item>
+                    <Card.Item>
+                        <Card.Item.Label htmlFor="newPassword">New Password</Card.Item.Label>
+                        <Input
+                            type="password"
+                            name="newPassword"
+                            value={newPassword}
+                            onChange={onChangeInput}
+                        />
+                    </Card.Item>
+                    <Card.Item>
+                        <Card.Item.Label htmlFor="confirmNewPassword">Confirm New Password</Card.Item.Label>
+                        <Input
+                            type="password"
+                            name="confirmNewPassword"
+                            value={confirmNewPassword}
+                            onChange={onChangeInput}
+                        />
+                    </Card.Item>
+                    <Card.Item>
+                        <Button onClick={onChangePassword}>Change Password</Button>
+                    </Card.Item>
+                </Card.List>
+            </Card.Form>
         </Card>
     );
 };
