@@ -30,89 +30,91 @@ const Editor = props => {
     }
 
     return (
-      <Card.List>
-        <Card noValidate>
-          <Card.Item>
-            <Card.Item.Label htmlFor="amount">Amount</Card.Item.Label>
-            <Input
-              name='amount'
-              placeholder='Amount ...'
-              onChange={onChangeInput}
-              value={amount}
-              required
-            />
-            {validator.message('amount', amount, 'required')}
-          </Card.Item>
-          <Card.Item>
-            <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
-            <ReactSelect
-              value={selectedTerritory}
-              onChange={onChangeTerritory}
-              options={territories}
-              placeholder="Select Territory ..."
-            />
-            {validator.message('territory', selectedTerritory, 'required')}
-          </Card.Item>
-          <Card.Item>
-                <Card.Item.Label htmlFor="coefficient">Coefficient</Card.Item.Label>
-                <Input
-                    name="coefficient"
-                    value={coefficient}
-                    onChange={onChangeInput}
-                    placeholder='Coefficient...'
-                    required
-                />
-                {validator.message('coefficient', coefficient, 'required')}
-            </Card.Item>
-          <Card.Item>
-                <Card.Item.Label htmlFor="dateIssue">Date Issue</Card.Item.Label>
-                <Input
-                    name="dateIssue"
-                    value={dateIssue}
-                    onChange={onChangeInput}
-                    placeholder='Date Issue...'
-                    required
-                />
-                {validator.message('dateIssue', dateIssue, 'required')}
-            </Card.Item>
-          <Card.Item>
-            <Card.Item.Label htmlFor="dateMaturity">Date Maturity</Card.Item.Label>
-            <Input
-              name='dateMaturity'
-              placeholder='Date Maturity...'
-              onChange={onChangeInput}
-              value={dateMaturity}
-              required
-            />
-            {validator.message('dateMaturity', dateMaturity, 'required')}
-          </Card.Item>
-          <Card.Item>
-            <Card.Item.Label htmlFor="dateIssue">Date Issue</Card.Item.Label>
-            <Input
-              name="dateIssue"
-              value={dateIssue}
-              onChange={onChangeInput}
-              placeholder='Date Issue...'
-              required
-            />
-            {validator.message('dateIssue', dateIssue, 'required')}
-          </Card.Item>
-          <Card.Item>
-                <Card.Item.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Item.Label>
-                <Input
-                    name='totalRepaymentAmount'
-                    placeholder='Total Repayment Amount...'
-                    onChange={onChangeInput}
-                    value={totalRepaymentAmount}
-                    required
-                />
-                {validator.message('totalRepaymentAmount', totalRepaymentAmount, 'required')}
-            </Card.Item>
-          <Card.Item>
-            <Button onClick={onSave}>Save</Button>
-          </Card.Item>
-        </Card>
-      </Card.List>
+        <Card.List>
+            <Card.List.Item>
+                <Card.Form noValidate>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="amount">Amount</Card.Form.Label>
+                        <Input
+                            name='amount'
+                            placeholder='Amount ...'
+                            onChange={onChangeInput}
+                            value={amount}
+                            required
+                        />
+                        {validator.message('amount', amount, 'required')}
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
+                        <ReactSelect
+                            value={selectedTerritory}
+                            onChange={onChangeTerritory}
+                            options={territories}
+                            placeholder="Select Territory ..."
+                        />
+                        {validator.message('territory', selectedTerritory, 'required')}
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="coefficient">Coefficient</Card.Form.Label>
+                        <Input
+                            name="coefficient"
+                            value={coefficient}
+                            onChange={onChangeInput}
+                            placeholder='Coefficient...'
+                            required
+                        />
+                        {validator.message('coefficient', coefficient, 'required')}
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="dateIssue">Date Issue</Card.Form.Label>
+                        <Input
+                            name="dateIssue"
+                            value={dateIssue}
+                            onChange={onChangeInput}
+                            placeholder='Date Issue...'
+                            required
+                        />
+                        {validator.message('dateIssue', dateIssue, 'required')}
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="dateMaturity">Date Maturity</Card.Form.Label>
+                        <Input
+                            name='dateMaturity'
+                            placeholder='Date Maturity...'
+                            onChange={onChangeInput}
+                            value={dateMaturity}
+                            required
+                        />
+                        {validator.message('dateMaturity', dateMaturity, 'required')}
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="dateIssue">Date Issue</Card.Form.Label>
+                        <Input
+                            name="dateIssue"
+                            value={dateIssue}
+                            onChange={onChangeInput}
+                            placeholder='Date Issue...'
+                            required
+                        />
+                        {validator.message('dateIssue', dateIssue, 'required')}
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Form.Label>
+                        <Input
+                            name='totalRepaymentAmount'
+                            placeholder='Total Repayment Amount...'
+                            onChange={onChangeInput}
+                            value={totalRepaymentAmount}
+                            required
+                        />
+                        {validator.message('totalRepaymentAmount', totalRepaymentAmount, 'required')}
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Button onClick={onSave}>Save</Button>
+                    </Card.Form.Item>
+                </Card.Form>
+            </Card.List.Item>
+        </Card.List>
     );
 };
 

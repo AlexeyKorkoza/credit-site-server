@@ -38,10 +38,10 @@ const Manager = props => {
 
     return (
         <Card.List>
-            <Card>
+            <Card.List.Item>
                 <Card.Form noValidate>
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="fullName">Full name</Card.Item.Label>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="fullName">Full name</Card.Form.Label>
                         <Input
                             name='fullName'
                             placeholder='Full name...'
@@ -50,9 +50,9 @@ const Manager = props => {
                             required
                         />
                         {validatorProfile.message('fullName', fullName, 'required')}
-                    </Card.Item>
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
                         <ReactSelect
                             value={selectedTerritory}
                             onChange={onChangeTerritory}
@@ -60,9 +60,9 @@ const Manager = props => {
                             placeholder={'Select Territory ...'}
                         />
                         {validatorProfile.message('territory', selectedTerritory, 'required')}
-                    </Card.Item>
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="phone">Phone</Card.Item.Label>
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="phone">Phone</Card.Form.Label>
                         <Input
                             type="phone"
                             name='phone'
@@ -72,14 +72,14 @@ const Manager = props => {
                             required
                         />
                         {validatorProfile.message('phone', phone, 'required')}
-                    </Card.Item>
+                    </Card.Form.Item>
                     <Login
                         login={login}
                         onChangeInput={onChangeInput}
                         validatorProfile={validatorProfile}
                     />
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="email">Email</Card.Item.Label>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="email">Email</Card.Form.Label>
                         <Input
                             type="email"
                             name="email"
@@ -89,12 +89,12 @@ const Manager = props => {
                             required
                         />
                         {validatorProfile.message('email', email, 'required')}
-                    </Card.Item>
-                    <Card.Item>
+                    </Card.Form.Item>
+                    <Card.Form.Item>
                         <Button onClick={onSave}>Save</Button>
-                    </Card.Item>
+                    </Card.Form.Item>
                 </Card.Form>
-            </Card>
+            </Card.List.Item>
             <Passwords
                 onChangeInput={onChangeInput}
                 onChangePassword={onChangePassword}

@@ -30,7 +30,7 @@ const Admin = props => {
 
     return (
         <Card.List>
-            <Card>
+            <Card.List.Item>
                 <Card.Form noValidate>
                     <Card.List>
                         <Login
@@ -38,12 +38,12 @@ const Admin = props => {
                             onChangeInput={onChangeInput}
                             validatorProfile={validatorProfile}
                         />
-                        <Card.Item>
+                        <Card.Form.Item>
                             <Button onClick={onSave}>Save</Button>
-                        </Card.Item>
+                        </Card.Form.Item>
                     </Card.List>
                 </Card.Form>
-            </Card>
+            </Card.List.Item>
             <Passwords
                 onChangeInput={onChangeInput}
                 onChangePassword={onChangePassword}
