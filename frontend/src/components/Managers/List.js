@@ -21,9 +21,9 @@ const ListComponent = props => {
                     <Table.List.Row.Column>
                       {manager.email}
                     </Table.List.Row.Column>
-                    <Table.List.Row.Column>
+                    <Table.List.Row.LastColumn>
                       <List.Link to={`/managers/${manager.id}`}>Edit</List.Link>
-                    </Table.List.Row.Column>
+                    </Table.List.Row.LastColumn>
                   </Table.List.Row>
                 );
             })}

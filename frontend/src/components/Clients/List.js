@@ -21,16 +21,18 @@ const ListComponent = props => {
                                 <Table.List.Row.Column>
                                     {client.email}
                                 </Table.List.Row.Column>
-                                <Table.List.Row.Column>
+                                <Table.List.Row.LastColumn
+                                    flex-direction='column'
+                                >
                                     <List.Link to={`/clients/${client.id}`}>Edit</List.Link>
-                                </Table.List.Row.Column>
-                                {role === 'manager' && <Table.List.Row.Column>
+                                    {role === 'manager' &&
                                     <List.Link
                                         to={{
                                             pathname: `/loans/add`,
                                             state: { clientId: client.id }
                                         }}>Add new loan</List.Link>
-                                </Table.List.Row.Column>}
+                                    }
+                                </Table.List.Row.LastColumn>
                             </Table.List.Row>
                         );
                     })}

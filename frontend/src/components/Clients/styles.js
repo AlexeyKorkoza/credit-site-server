@@ -11,6 +11,7 @@ const List = styled.div`
 
 List.Link = styled(LinkStyled)`
     padding: 0.5em;
+    margin: 7px 0;
     text-align: center;
     font-size: 14pt;
     border-radius: 5px;
