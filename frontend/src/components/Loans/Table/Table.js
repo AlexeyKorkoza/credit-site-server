@@ -29,9 +29,9 @@ const LoansTable = props => {
                                     </Table.List.Row.Column>
                                 );
                             })}
-                            {role === 'admin' && <Table.List.Row.Column>
+                            {role === 'admin' && <Table.List.Row.LastColumn>
                                 <List.Link to={`/loans/${loan.id}`}>Edit</List.Link>
-                            </Table.List.Row.Column>
+                            </Table.List.Row.LastColumn>
                             }
                         </Table.List.Row>
                     );
