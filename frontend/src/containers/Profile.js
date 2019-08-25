@@ -10,6 +10,7 @@ import {
     updatePasswordsProfileUser,
 } from '../api/profile';
 import buildNotification from '../services/notification';
+import Validator from "../shared/Validator";
 
 const rolesComponents = {
     'admin': Admin,
@@ -17,7 +18,9 @@ const rolesComponents = {
 };
 
 export default class Profile extends Component {
-    validatorProfile = new SimpleReactValidator();
+    validatorProfile = new SimpleReactValidator({
+        element: message => <Validator>{message}</Validator>
+    });
     notificationDOMRef = React.createRef();
 
     state = {

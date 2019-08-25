@@ -7,12 +7,15 @@ import { logIn } from '../api/authentication';
 import AuthenticationForm from '../components/Authentication';
 import { authUser, getDataAuthUser } from '../services/localDb';
 import buildNotification from '../services/notification';
+import Validator from "../shared/Validator";
 
 class Authentication extends Component {
     constructor(props) {
         super(props);
 
-        this.validator = new SimpleReactValidator();
+        this.validator = new SimpleReactValidator({
+            element: message => <Validator>{message}</Validator>
+        });
 
         this.state = {
             login: '',

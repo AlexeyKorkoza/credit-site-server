@@ -10,6 +10,7 @@ import { createClientCard } from "../../api/client_card";
 import { saveLoan } from '../../api/loans';
 import { convertToDays, subtractDates } from "../../utils";
 import buildNotification from "../../services/notification";
+import Validator from "../shared/Validator";
 
 const { Step1, Step2 } = Steps;
 const components = {
@@ -19,7 +20,9 @@ const components = {
 
 class Add extends Component {
     notificationDOMRef = React.createRef();
-    validator = new SimpleReactValidator();
+    validator = new SimpleReactValidator({
+        element: message => <Validator>{message}</Validator>
+    });
 
     state = {
         email: '',

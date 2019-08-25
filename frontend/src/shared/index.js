@@ -5,6 +5,7 @@ import { Modal, ModalContainer, ModalContent, ModalItem } from './Modal';
 import { H1 } from './Headers';
 import Error from './Error';
 import Table from './Table';
+import Validator from "./Validator";
 
 export {
     Button,
@@ -17,4 +18,5 @@ export {
     H1,
     Error,
     Table,
+    Validator,
 };

@@ -8,10 +8,13 @@ import {
     saveLoan,
 } from '../../api/loans';
 import buildNotification from "../../services/notification";
+import Validator from "../../shared/Validator";
 
 class Editor extends Component {
     notificationDOMRef = React.createRef();
-    validator = new SimpleReactValidator();
+    validator = new SimpleReactValidator({
+        element: message => <Validator>{message}</Validator>
+    });
 
     state = {
         action: '',
