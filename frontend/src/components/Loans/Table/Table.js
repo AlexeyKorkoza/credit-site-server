@@ -10,6 +10,14 @@ const LoansTable = props => {
 
     return (
         <Table>
+            <Table.Header>
+                <Table.List.Row.Column>Amount</Table.List.Row.Column>
+                <Table.List.Row.Column>Coefficient</Table.List.Row.Column>
+                <Table.List.Row.Column>Date Issue</Table.List.Row.Column>
+                <Table.List.Row.Column>Date Maturity</Table.List.Row.Column>
+                <Table.List.Row.Column>Total Repayment Amount</Table.List.Row.Column>
+                <Table.List.Row.Column />
+            </Table.Header>
             <Table.List>
                 {loans.map(loan => {
                     return (

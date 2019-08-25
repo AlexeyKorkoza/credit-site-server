@@ -11,6 +11,11 @@ const ListComponent = props => {
         <List>
             {role === 'manager' && <List.Link.Add to="/clients/add">Add</List.Link.Add>}
             <Table>
+                <Table.Header>
+                    <Table.List.Row.Column>Client's Name</Table.List.Row.Column>
+                    <Table.List.Row.Column>Client's email</Table.List.Row.Column>
+                    <Table.List.Row.Column />
+                </Table.Header>
                 <Table.List>
                     {clients.map(client => {
                         return (

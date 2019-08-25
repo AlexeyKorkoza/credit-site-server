@@ -12,6 +12,11 @@ Table.List = styled.div`
   margin: 0 20px;
 `;
 
+Table.Header = styled(Table.List)`
+  flex-direction: row;
+  border-bottom: 1px solid #2f3144;
+`;
+
 Table.List.Row = styled.div`
   display: flex;
   justify-content: space-around;
