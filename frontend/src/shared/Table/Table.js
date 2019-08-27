@@ -1,9 +1,15 @@
 import styled from 'styled-components';
 
+import device from '../devices';
+
 const Table = styled.div`
   margin: 50px auto;
-  width: 70%;
+  width: 90%;
   background: #27293d;
+  
+  @media ${device.tablet} {
+    margin: 50px 0;
+  }
 `;
 
 Table.List = styled.div`
@@ -15,6 +21,10 @@ Table.List = styled.div`
 Table.Header = styled(Table.List)`
   flex-direction: row;
   border-bottom: 1px solid #2f3144;
+  
+  @media ${device.tablet} {
+    flex-direction: column;
+  }
 `;
 
 Table.List.Row = styled.div`
@@ -23,6 +33,10 @@ Table.List.Row = styled.div`
   align-items: center;
   padding: 0;
   border-bottom: 1px solid #2f3144;
+  
+  @media ${device.tablet} {
+    flex-direction: column;
+  }
 `;
 
 Table.List.Row.Column = styled.div`
@@ -31,11 +45,19 @@ Table.List.Row.Column = styled.div`
   padding: 20px;
   color: #a4a4ac;
   text-align: center;
+  
+  @media ${device.tablet} {
+    margin: 0;
+  }
 `;
 
 Table.List.Row.LastColumn = styled(Table.List.Row.Column)`
   display: flex;
   flex-direction: ${props => props.isRow ? 'row' : 'column'};
+  
+  @media ${device.tablet} {
+     margin: 0;
+  }
 `;
 
 export default Table;
