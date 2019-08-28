@@ -94,7 +94,7 @@ const Editor = props => {
                         />
                     </Card.Form.Item>
                     }
-                    {validator.message('password', password, 'required|min:8')}
+                    {action === 'add' && validator.message('password', password, 'required|min:8')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="email">Email</Card.Form.Label>
                         <Input
