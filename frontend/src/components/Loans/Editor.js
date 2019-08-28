@@ -88,17 +88,6 @@ const Editor = props => {
                     </Card.Form.Item>
                     {validator.message('dateMaturity', dateMaturity, 'required')}
                     <Card.Form.Item>
-                        <Card.Form.Label htmlFor="dateIssue">Date Issue</Card.Form.Label>
-                        <Input
-                            name="dateIssue"
-                            value={dateIssue}
-                            onChange={onChangeInput}
-                            placeholder='Date Issue...'
-                            required
-                        />
-                    </Card.Form.Item>
-                    {validator.message('dateIssue', dateIssue, 'required')}
-                    <Card.Form.Item>
                         <Card.Form.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Form.Label>
                         <Input
                             name='totalRepaymentAmount'
