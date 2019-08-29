@@ -9,6 +9,7 @@ import {
 } from '../../api/loans';
 import buildNotification from "../../services/notification";
 import Validator from "../../shared/Validator";
+import calculateTotalRepaymentAmount from '../../services/calculation';
 
 class Editor extends Component {
     notificationDOMRef = React.createRef();
@@ -18,7 +19,7 @@ class Editor extends Component {
 
     state = {
         action: '',
-        amount: '',
+        amount: 0, // surchargeFactor
         coefficient: '',
         dateIssue: '',
         dateMaturity: '',
@@ -85,6 +86,12 @@ class Editor extends Component {
         });
     };
 
+    onChangeDates = ({ startDate, endDate }) => {
+        const result = calculateTotalRepaymentAmount(startDate, endDate, this.state);
+
+        this.setState(result);
+    };
+
     onSave = event => {
         event.preventDefault();
 
@@ -133,14 +140,22 @@ class Editor extends Component {
         });
     };
 
+    onFocusedInput = focusedInput => {
+        this.setState({
+            focusedInput,
+        });
+    };
+
     render() {
         return (
             <Fragment>
                 <ReactNotification ref={this.notificationDOMRef}/>
                 <EditorComponent
                     data={this.state}
+                    onChangeDates={this.onChangeDates}
                     onChangeInput={this.onChangeInput}
                     onChangeTerritory={this.onChangeTerritory}
+                    onFocusedInput={this.onFocusedInput}
                     onSave={this.onSave}
                     validator={this.validator}
                 />

@@ -8,9 +8,9 @@ import { getDataAuthUser } from "../../services/localDb";
 import { getClient, getClientLoans } from "../../api/clients";
 import { createClientCard } from "../../api/client_card";
 import { saveLoan } from '../../api/loans';
-import { convertToDays, subtractDates } from "../../utils";
 import buildNotification from "../../services/notification";
 import Validator from "../../shared/Validator";
+import calculateTotalRepaymentAmount from "../../services/calculation";
 
 const { Step1, Step2 } = Steps;
 const components = {
@@ -202,29 +202,9 @@ class Add extends Component {
     };
 
     onChangeDates = ({ startDate, endDate }) => {
-        const {
-            selectedTerritory,
-            surchargeFactor,
-            territories,
-        } = this.state;
+        const result = calculateTotalRepaymentAmount(startDate, endDate, this.state);
 
-        if (startDate && endDate) {
-            const territory = territories.find(e => +e.value === +selectedTerritory.value);
-            const { value: territoryValue } = territory;
-            const duration = subtractDates(startDate, endDate);
-            const totalRepaymentAmount = (convertToDays(duration) * +territoryValue) + +surchargeFactor;
-
-            this.setState({
-                dateIssue: startDate,
-                dateMaturity: endDate,
-                totalRepaymentAmount,
-            });
-        } else {
-            this.setState({
-                dateIssue: startDate,
-                dateMaturity: endDate,
-            });
-        }
+        this.setState(result);
     };
 
     onFocusedInput = focusedInput => {

@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactSelect from "react-select";
 import PropTypes from "prop-types";
+import { DateRangePicker } from "react-dates";
+import moment from 'moment';
 
 import {
     Button,
@@ -15,12 +17,15 @@ const Editor = props => {
             coefficient,
             dateIssue,
             dateMaturity,
+            focusedInput,
             totalRepaymentAmount,
             selectedTerritory,
             territories,
         },
+        onChangeDates,
         onChangeInput,
         onChangeTerritory,
+        onFocusedInput,
         onSave,
         validator,
     } = props;
@@ -66,27 +71,17 @@ const Editor = props => {
                     </Card.Form.Item>
                     {validator.message('coefficient', coefficient, 'required')}
                     <Card.Form.Item>
-                        <Card.Form.Label htmlFor="dateIssue">Date Issue</Card.Form.Label>
-                        <Input
-                            name="dateIssue"
-                            value={dateIssue}
-                            onChange={onChangeInput}
-                            placeholder='Date Issue...'
-                            required
+                        <Card.Form.Label htmlFor="coefficient">Date Issue - Date Maturity</Card.Form.Label>
+                        <DateRangePicker
+                            startDate={moment(dateIssue)}
+                            startDateId="date_issue_id"
+                            endDate={moment(dateMaturity)}
+                            endDateId="date_maturity_id"
+                            onDatesChange={onChangeDates}
+                            focusedInput={focusedInput}
+                            onFocusChange={onFocusedInput}
                         />
                     </Card.Form.Item>
-                    {validator.message('dateIssue', dateIssue, 'required')}
-                    <Card.Form.Item>
-                        <Card.Form.Label htmlFor="dateMaturity">Date Maturity</Card.Form.Label>
-                        <Input
-                            name='dateMaturity'
-                            placeholder='Date Maturity...'
-                            onChange={onChangeInput}
-                            value={dateMaturity}
-                            required
-                        />
-                    </Card.Form.Item>
-                    {validator.message('dateMaturity', dateMaturity, 'required')}
                     <Card.Form.Item>
                         <Card.Form.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Form.Label>
                         <Input
@@ -122,8 +117,10 @@ Editor.defaultProps = {
         ),
         totalRepaymentAmount: '',
     }),
+    onChangeDates: PropTypes.func,
     onChangeInput: PropTypes.func,
     onChangeTerritory: PropTypes.func,
+    onFocusedInput: PropTypes.func,
     onSave: PropTypes.func,
     validator: PropTypes.shape(),
 };
@@ -134,6 +131,7 @@ Editor.propTypes = {
         coefficient: PropTypes.number,
         dateIssue: PropTypes.string,
         dateMaturity: PropTypes.string,
+        focusedInput: PropTypes.shape(),
         selectedTerritory: PropTypes.shape(
             {
                 label: PropTypes.string,
@@ -148,8 +146,10 @@ Editor.propTypes = {
         ),
         totalRepaymentAmount: PropTypes.number,
     }),
+    onChangeDates: PropTypes.func,
     onChangeInput: PropTypes.func,
     onChangeTerritory: PropTypes.func,
+    onFocusedInput: PropTypes.func,
     onSave: PropTypes.func,
     validator: PropTypes.shape(),
 };
