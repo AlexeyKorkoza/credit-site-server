@@ -1,8 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactSelect from "react-select";
 
-import { Button, Card, Input } from "../../../shared";
+import {
+    Button,
+    Card,
+    Input,
+    ReactSelect,
+} from "../../../shared";
+
+const customReactSelectStyles = {
+    valueContainer: () => ({
+        padding: 3,
+        paddingLeft: 7,
+        width: 128,
+    }),
+};
 
 const Step1 = props => {
     const {
@@ -48,6 +60,7 @@ const Step1 = props => {
                             onChange={onChangeTerritory}
                             options={territories}
                             placeholder="Select Territory ..."
+                            styles={customReactSelectStyles}
                         />
                     </Card.Form.Item>
                     {validator.message('territory', selectedTerritory, 'required')}

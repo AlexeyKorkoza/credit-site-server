@@ -59,7 +59,8 @@ class Add extends Component {
 
         loans: [],
         role: '',
-        focusedInput: null,
+        focusedDateMaturity: null,
+        focusedDateIssue: null,
         failureNotificationType: 'FailureCreatingLoan',
         successfulNotificationType: 'SuccessfulCreatingLoan',
     };
@@ -201,15 +202,31 @@ class Add extends Component {
             });
     };
 
-    onChangeDates = ({ startDate, endDate }) => {
-        const result = calculateTotalRepaymentAmount(startDate, endDate, this.state);
+    onChangeDateIssue = dateIssue => {
+        const { dateMaturity } = this.state;
+
+        const result = calculateTotalRepaymentAmount(dateIssue, dateMaturity, this.state);
 
         this.setState(result);
     };
 
-    onFocusedInput = focusedInput => {
+    onChangeDateMaturity = dateMaturity => {
+        const { dateIssue } = this.state;
+
+        const result = calculateTotalRepaymentAmount(dateIssue, dateMaturity, this.state);
+
+        this.setState(result);
+    };
+
+    onFocusedDateIssue = ({ focused }) => {
         this.setState({
-            focusedInput,
+            focusedDateIssue: focused,
+        });
+    };
+
+    onFocusedDateMaturity = ({ focused }) => {
+        this.setState({
+            focusedDateMaturity: focused,
         });
     };
 
@@ -223,12 +240,14 @@ class Add extends Component {
                 <CurrentComponent
                     data={this.state}
                     onBack={this.onBack}
+                    onChangeDateIssue={this.onChangeDateIssue}
+                    onChangeDateMaturity={this.onChangeDateMaturity}
                     onCreateClientCard={this.onCreateClientCard}
                     onCreateLoan={this.onCreateLoan}
-                    onChangeDates={this.onChangeDates}
                     onChangeInput={this.onChangeInput}
                     onChangeTerritory={this.onChangeTerritory}
-                    onFocusedInput={this.onFocusedInput}
+                    onFocusedDateIssue={this.onFocusedDateIssue}
+                    onFocusedDateMaturity={this.onFocusedDateMaturity}
                     validator={this.validator}
                 />
             </Fragment>

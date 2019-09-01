@@ -1,11 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactSelect from "react-select";
-import { DateRangePicker } from 'react-dates';
 
 import LoansTable from '../Table';
 import List from '../styles';
-import { Button, Card, Input } from "../../../shared";
+import {
+    Button,
+    Card,
+    Input,
+    ReactSelect,
+    SingleDatePicker,
+} from '../../../shared';
+
+const customReactSelectStyles = {
+    valueContainer: () => ({
+        padding: 3,
+        paddingLeft: 7,
+        width: 129,
+    }),
+};
 
 const outputProperties = ['dateMaturity'];
 
@@ -16,17 +28,20 @@ const Step2 = props => {
             clientName,
             dateIssue,
             dateMaturity,
-            focusedInput,
+            focusedDateMaturity,
+            focusedDateIssue,
             loans,
             role,
             selectedTerritory,
             territories,
             totalRepaymentAmount,
         },
-        onChangeDates,
+        onChangeDateIssue,
+        onChangeDateMaturity,
         onChangeInput,
         onCreateLoan,
-        onFocusedInput,
+        onFocusedDateIssue,
+        onFocusedDateMaturity,
         validator,
     } = props;
 
@@ -68,18 +83,30 @@ const Step2 = props => {
                                 options={territories}
                                 placeholder="Select Territory ..."
                                 isDisabled={true}
+                                styles={customReactSelectStyles}
                             />
                         </Card.Form.Item>
                         {validator.message('territory', selectedTerritory, 'required')}
                         <Card.Form.Item>
-                            <DateRangePicker
-                                startDate={dateIssue}
-                                startDateId="date_issue_id"
-                                endDate={dateMaturity}
-                                endDateId="date_maturity_id"
-                                onDatesChange={onChangeDates}
-                                focusedInput={focusedInput}
-                                onFocusChange={onFocusedInput}
+                            <Card.Form.Label htmlFor="coefficient">Date Issue</Card.Form.Label>
+                            <SingleDatePicker
+                                date={dateIssue}
+                                id="date_issue_id"
+                                onDateChange={onChangeDateIssue}
+                                focused={focusedDateIssue}
+                                firstDayOfWeek={1}
+                                onFocusChange={onFocusedDateIssue}
+                            />
+                        </Card.Form.Item>
+                        <Card.Form.Item>
+                            <Card.Form.Label htmlFor="coefficient">Date Maturity</Card.Form.Label>
+                            <SingleDatePicker
+                                date={dateMaturity}
+                                id="date_maturity_id"
+                                onDateChange={onChangeDateMaturity}
+                                focused={focusedDateMaturity}
+                                firstDayOfWeek={1}
+                                onFocusChange={onFocusedDateMaturity}
                             />
                         </Card.Form.Item>
                         <Card.Form.Item>
@@ -122,10 +149,12 @@ Step2.defaultProps = {
         ),
         totalRepaymentAmount: 0,
     }),
-    onChangeDates: PropTypes.func,
+    onChangeDateIssue: PropTypes.func,
+    onChangeDateMaturity: PropTypes.func,
     onChangeInput: PropTypes.func,
     onCreateLoan: PropTypes.func,
-    onFocusedInput: PropTypes.func,
+    onFocusedDateIssue: PropTypes.func,
+    onFocusedDateMaturity: PropTypes.func,
     validator: PropTypes.shape,
 };
 
@@ -135,7 +164,8 @@ Step2.propTypes = {
         clientName: PropTypes.string,
         dateIssue: PropTypes.shape(),
         dateMaturity: PropTypes.shape(),
-        focusedInput: PropTypes.shape(),
+        focusedDateIssue: PropTypes.shape(),
+        focusedDateMaturity: PropTypes.shape(),
         loans: PropTypes.arrayOf(
             PropTypes.shape({
                 amount: PropTypes.number,
@@ -159,10 +189,12 @@ Step2.propTypes = {
         ),
         totalRepaymentAmount: 0,
     }),
-    onChangeDates: PropTypes.func,
+    onChangeDateMaturity: PropTypes.func,
+    onChangeDateIssue: PropTypes.func,
     onChangeInput: PropTypes.func,
     onCreateLoan: PropTypes.func,
-    onFocusedInput: PropTypes.func,
+    onFocusedDateIssue: PropTypes.func,
+    onFocusedDateMaturity: PropTypes.func,
     validator: PropTypes.shape(),
 };
 
