@@ -51,7 +51,9 @@ const Step2 = props => {
 
     return (
         <div>
-            <h1>{clientName} loans</h1>
+            <h1 style={{
+                "text-align": "center",
+                "color": "#3f4357"}}>{clientName} loans</h1>
             {loans && loans.length > 0
                 ? <List>
                     <LoansTable
