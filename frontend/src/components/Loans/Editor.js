@@ -1,14 +1,22 @@
 import React from 'react';
-import ReactSelect from "react-select";
 import PropTypes from "prop-types";
-import { DateRangePicker } from "react-dates";
 import moment from 'moment';
 
 import {
     Button,
     Card,
     Input,
+    ReactSelect,
+    SingleDatePicker,
 } from '../../shared';
+
+const customReactSelectStyles = {
+    valueContainer: () => ({
+        padding: 3,
+        paddingLeft: 7,
+        width: 129,
+    }),
+};
 
 const Editor = props => {
     const {
@@ -17,15 +25,18 @@ const Editor = props => {
             coefficient,
             dateIssue,
             dateMaturity,
-            focusedInput,
+            focusedDateMaturity,
+            focusedDateIssue,
             totalRepaymentAmount,
             selectedTerritory,
             territories,
         },
-        onChangeDates,
+        onChangeDateIssue,
+        onChangeDateMaturity,
         onChangeInput,
         onChangeTerritory,
-        onFocusedInput,
+        onFocusedDateIssue,
+        onFocusedDateMaturity,
         onSave,
         validator,
     } = props;
@@ -56,6 +67,7 @@ const Editor = props => {
                             onChange={onChangeTerritory}
                             options={territories}
                             placeholder="Select Territory ..."
+                            styles={customReactSelectStyles}
                         />
                     </Card.Form.Item>
                     {validator.message('territory', selectedTerritory, 'required')}
@@ -71,15 +83,25 @@ const Editor = props => {
                     </Card.Form.Item>
                     {validator.message('coefficient', coefficient, 'required')}
                     <Card.Form.Item>
-                        <Card.Form.Label htmlFor="coefficient">Date Issue - Date Maturity</Card.Form.Label>
-                        <DateRangePicker
-                            startDate={moment(dateIssue)}
-                            startDateId="date_issue_id"
-                            endDate={moment(dateMaturity)}
-                            endDateId="date_maturity_id"
-                            onDatesChange={onChangeDates}
-                            focusedInput={focusedInput}
-                            onFocusChange={onFocusedInput}
+                        <Card.Form.Label htmlFor="coefficient">Date Issue</Card.Form.Label>
+                        <SingleDatePicker
+                            date={moment(dateIssue)}
+                            id="date_issue_id"
+                            onDateChange={onChangeDateIssue}
+                            focused={focusedDateIssue}
+                            firstDayOfWeek={1}
+                            onFocusChange={onFocusedDateIssue}
+                        />
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="coefficient">Date Maturity</Card.Form.Label>
+                        <SingleDatePicker
+                            date={moment(dateMaturity)}
+                            id="date_maturity_id"
+                            onDateChange={onChangeDateMaturity}
+                            focused={focusedDateMaturity}
+                            firstDayOfWeek={1}
+                            onFocusChange={onFocusedDateMaturity}
                         />
                     </Card.Form.Item>
                     <Card.Form.Item>
@@ -117,10 +139,12 @@ Editor.defaultProps = {
         ),
         totalRepaymentAmount: '',
     }),
-    onChangeDates: PropTypes.func,
+    onChangeDateIssue: PropTypes.func,
+    onChangeDateMaturity: PropTypes.func,
     onChangeInput: PropTypes.func,
     onChangeTerritory: PropTypes.func,
-    onFocusedInput: PropTypes.func,
+    onFocusedDateIssue: PropTypes.func,
+    onFocusedDateMaturity: PropTypes.func,
     onSave: PropTypes.func,
     validator: PropTypes.shape(),
 };
@@ -131,7 +155,8 @@ Editor.propTypes = {
         coefficient: PropTypes.number,
         dateIssue: PropTypes.string,
         dateMaturity: PropTypes.string,
-        focusedInput: PropTypes.shape(),
+        focusedDateIssue: PropTypes.shape(),
+        focusedDateMaturity: PropTypes.shape(),
         selectedTerritory: PropTypes.shape(
             {
                 label: PropTypes.string,
@@ -146,10 +171,12 @@ Editor.propTypes = {
         ),
         totalRepaymentAmount: PropTypes.number,
     }),
-    onChangeDates: PropTypes.func,
+    onChangeDateMaturity: PropTypes.func,
+    onChangeDateIssue: PropTypes.func,
     onChangeInput: PropTypes.func,
+    onFocusedDateIssue: PropTypes.func,
+    onFocusedDateMaturity: PropTypes.func,
     onChangeTerritory: PropTypes.func,
-    onFocusedInput: PropTypes.func,
     onSave: PropTypes.func,
     validator: PropTypes.shape(),
 };

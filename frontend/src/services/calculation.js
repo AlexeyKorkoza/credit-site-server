@@ -1,27 +1,37 @@
-import subtractDates from "../utils";
+import {
+    compareDates,
+    subtractDates,
+} from "../utils";
 
-export default (startDate, endDate, state) => {
+export default (dateIssue, dateMaturity, state) => {
     const {
         amount: surchargeFactor,
         selectedTerritory,
         territories,
     } = state;
 
-    if (startDate && endDate) {
-        const territory = territories.find(e => +e.value === +selectedTerritory.value);
-        const { value: territoryValue } = territory;
-        const duration = subtractDates(startDate, endDate);
-        const totalRepaymentAmount = (duration * +territoryValue) + +surchargeFactor;
-
+    if (!dateIssue || !dateMaturity) {
         return {
-            dateIssue: startDate,
-            dateMaturity: endDate,
-            totalRepaymentAmount,
+            dateIssue,
+            dateMaturity,
         };
     }
 
+    if (!compareDates(dateIssue, dateMaturity)) {
+        return {
+            dateIssue,
+            dateMaturity,
+        };
+    }
+
+    const territory = territories.find(e => +e.value === +selectedTerritory.value);
+    const { value: territoryValue } = territory;
+    const duration = subtractDates(dateIssue, dateMaturity);
+    const totalRepaymentAmount = (duration * +territoryValue) + +surchargeFactor;
+
     return {
-        dateIssue: startDate,
-        dateMaturity: endDate,
+        dateIssue,
+        dateMaturity,
+        totalRepaymentAmount,
     };
 };

@@ -23,6 +23,8 @@ class Editor extends Component {
         coefficient: '',
         dateIssue: '',
         dateMaturity: '',
+        focusedDateMaturity: null,
+        focusedDateIssue: null,
         totalRepaymentAmount: '',
         territories: [
             {
@@ -86,8 +88,18 @@ class Editor extends Component {
         });
     };
 
-    onChangeDates = ({ startDate, endDate }) => {
-        const result = calculateTotalRepaymentAmount(startDate, endDate, this.state);
+    onChangeDateIssue = dateIssue => {
+        const { dateMaturity } = this.state;
+
+        const result = calculateTotalRepaymentAmount(dateIssue, dateMaturity, this.state);
+
+        this.setState(result);
+    };
+
+    onChangeDateMaturity = dateMaturity => {
+        const { dateIssue } = this.state;
+
+        const result = calculateTotalRepaymentAmount(dateIssue, dateMaturity, this.state);
 
         this.setState(result);
     };
@@ -140,9 +152,15 @@ class Editor extends Component {
         });
     };
 
-    onFocusedInput = focusedInput => {
+    onFocusedDateIssue = ({ focused }) => {
         this.setState({
-            focusedInput,
+            focusedDateIssue: focused,
+        });
+    };
+
+    onFocusedDateMaturity = ({ focused }) => {
+        this.setState({
+            focusedDateMaturity: focused,
         });
     };
 
@@ -152,10 +170,12 @@ class Editor extends Component {
                 <ReactNotification ref={this.notificationDOMRef}/>
                 <EditorComponent
                     data={this.state}
-                    onChangeDates={this.onChangeDates}
+                    onChangeDateIssue={this.onChangeDateIssue}
+                    onChangeDateMaturity={this.onChangeDateMaturity}
                     onChangeInput={this.onChangeInput}
                     onChangeTerritory={this.onChangeTerritory}
-                    onFocusedInput={this.onFocusedInput}
+                    onFocusedDateIssue={this.onFocusedDateIssue}
+                    onFocusedDateMaturity={this.onFocusedDateMaturity}
                     onSave={this.onSave}
                     validator={this.validator}
                 />
