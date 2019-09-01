@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router';
 import SimpleReactValidator from 'simple-react-validator';
 import ReactNotification from 'react-notifications-component';
 
@@ -20,6 +21,7 @@ const components = {
 
 class Add extends Component {
     notificationDOMRef = React.createRef();
+    timer = null;
     validator = new SimpleReactValidator({
         element: message => <Validator>{message}</Validator>
     });
@@ -41,7 +43,6 @@ class Add extends Component {
         dateIssue: null,
         dateMaturity: null,
         totalRepaymentAmount: 0,
-
         territories: [
             {
                 label: '0.5 %',
@@ -98,6 +99,10 @@ class Add extends Component {
         }
 
         this.setState({ ...newStateData });
+    }
+
+    componentWillMount() {
+        clearTimeout(this.timer);
     }
 
     onBack = () => {
@@ -192,6 +197,10 @@ class Add extends Component {
                 if (notification) {
                     this.notificationDOMRef.current.addNotification(notification);
                 }
+
+                this.timer = setTimeout(() => {
+                    this.props.history.push('/clients');
+                }, 3000);
             })
             .catch(error => {
                 const { message } = error;
@@ -255,4 +264,4 @@ class Add extends Component {
     }
 }
 
-export default Add;
+export default withRouter(Add);

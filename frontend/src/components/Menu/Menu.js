@@ -22,7 +22,7 @@ const menuItems = [
         link: '/loans',
         label: 'Loans',
         icon: Loan,
-        roles: ['admin', 'manager'],
+        roles: ['admin'],
     },
     {
         link: '/managers',
@@ -30,13 +30,11 @@ const menuItems = [
         icon: Manager,
         roles: ['admin'],
     },
-];
-
-const dropdownItems = [
     {
         link: '/profile',
         label: 'Profile',
         icon: Profile,
+        roles: ['admin', 'manager'],
     },
 ];
 
@@ -48,7 +46,7 @@ const MenuComponent = props => {
 
     return (
         <Menu>
-            <Menu.List>
+            <Menu.Container>
                 <Menu.Navigation>
                     {menuItems.map((item, index) => {
                         const { icon: Icon, roles } = item;
@@ -64,24 +62,11 @@ const MenuComponent = props => {
                             );
                         }
                     })}
-                </Menu.Navigation>
-                <Menu.Dropdown>
-                    {dropdownItems.map((item, index) => {
-                        const { icon: Icon } = item;
-
-                        return (
-                            <Menu.Dropdown.Item>
-                                <Link key={index} to={item.link}>
-                                    <Icon />
-                                </Link>
-                            </Menu.Dropdown.Item>
-                        );
-                    })}
-                    <Menu.Dropdown.Item onClick={onLogOut}>
+                    <Menu.Navigation.Item onClick={onLogOut}>
                         <Logout />
-                    </Menu.Dropdown.Item>
-                </Menu.Dropdown>
-            </Menu.List>
+                    </Menu.Navigation.Item>
+                </Menu.Navigation>
+            </Menu.Container>
         </Menu>
     );
 };
