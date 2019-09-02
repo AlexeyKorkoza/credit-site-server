@@ -1,24 +1,23 @@
 import styled, { createGlobalStyle } from 'styled-components';
 
-const Wrapper = styled.div`
-  display: flex;
-  height: 100vh;
-`;
-
 const Page = styled.div`
   display: flex;
-  width: 100%;
   background: #6B5B95;
+  margin-left: 70px;
 `;
 
 const GlobalStyle = createGlobalStyle`
+  html, body {
+    height: 100%;
+  }
+  
   body {
     margin: 0;
+    background: #6B5B95;
   }
 `;
 
 export {
     GlobalStyle,
     Page,
-    Wrapper,
 };
