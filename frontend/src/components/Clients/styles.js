@@ -36,7 +36,7 @@ List.Link = styled(LinkStyled)`
 List.Link.Add = styled(List.Link)`
    display: flex;
    justify-content: space-around;
-   width: 50px; 
+   width: 50px;
    background: #27293d;
    margin: 10px 0 0;
 `;

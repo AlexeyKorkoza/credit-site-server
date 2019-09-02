@@ -5,18 +5,43 @@ import dateFns from 'date-fns';
 import { Table } from '../../../shared';
 import List from '../styles';
 
+const headers = [
+    {
+        content: 'Amount',
+        key: 'amount',
+    },
+    {
+        content: 'Coefficient',
+        key: 'coefficient',
+    },
+    {
+        content: 'Date Issue',
+        key: 'dateIssue',
+    },
+    {
+        content: 'Date Maturity',
+        key: 'dateMaturity',
+    },
+    {
+        content: 'Total Repayment Amount',
+        key: 'totalRepaymentAmount',
+    },
+];
+
 const LoansTable = props => {
     const { loans, outputProperties, role } = props;
 
     return (
         <Table>
             <Table.Header>
-                <Table.List.Row.Column>Amount</Table.List.Row.Column>
-                <Table.List.Row.Column>Coefficient</Table.List.Row.Column>
-                <Table.List.Row.Column>Date Issue</Table.List.Row.Column>
-                <Table.List.Row.Column>Date Maturity</Table.List.Row.Column>
-                <Table.List.Row.Column>Total Repayment Amount</Table.List.Row.Column>
-                <Table.List.Row.Column />
+                {headers
+                    .filter(e => outputProperties.includes(e.key))
+                    .map(item => {
+                        const { content, key} = item;
+
+                        return <Table.List.Row.Column key={key}>{content}</Table.List.Row.Column>
+                })}
+                {role === 'admin' && <Table.List.Row.Column /> }
             </Table.Header>
             <Table.List>
                 {loans.map(loan => {
