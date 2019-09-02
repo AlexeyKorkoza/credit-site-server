@@ -2,6 +2,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 
 const Wrapper = styled.div`
   display: flex;
+  height: 100vh;
 `;
 
 const Page = styled.div`
