@@ -1,12 +1,20 @@
 import React from 'react';
-import ReactSelect from "react-select";
 import PropTypes from "prop-types";
 
 import {
     Button,
     Card,
     Input,
+    ReactSelect,
 } from '../../shared';
+
+const customReactSelectStyles = {
+    valueContainer: () => ({
+        padding: 3,
+        paddingLeft: 7,
+        width: 128,
+    }),
+};
 
 const Editor = props => {
     const {
@@ -58,6 +66,7 @@ const Editor = props => {
                                     onChange={onChangeTerritory}
                                     options={territories}
                                     placeholder="Select Territory ..."
+                                    styles={customReactSelectStyles}
                                 />
                             </Card.Form.Item>
                         )}
