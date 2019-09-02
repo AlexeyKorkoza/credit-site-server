@@ -12,11 +12,14 @@ import {
 } from '../../api/clients';
 import { getDataAuthUser } from '../../services/localDb';
 import buildNotification from "../../services/notification";
+import Validator from "../../shared/Validator";
 
 class Editor extends Component {
     notificationDOMRef = React.createRef();
     timer = null;
-    validator = new SimpleReactValidator();
+    validator = new SimpleReactValidator({
+        element: message => <Validator>{message}</Validator>
+    });
 
     state = {
         action: '',

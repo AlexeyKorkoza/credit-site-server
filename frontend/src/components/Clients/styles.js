@@ -10,7 +10,8 @@ const List = styled.div`
 `;
 
 List.Link = styled(LinkStyled)`
-    padding: 0.5em;
+    padding: 0.5em 0;
+    margin: 7px 0;
     text-align: center;
     font-size: 14pt;
     border-radius: 5px;
@@ -35,7 +36,7 @@ List.Link = styled(LinkStyled)`
 List.Link.Add = styled(List.Link)`
    display: flex;
    justify-content: space-around;
-   width: 50px; 
+   width: 50px;
    background: #27293d;
    margin: 10px 0 0;
 `;

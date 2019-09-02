@@ -1,11 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactSelect from "react-select";
-import { DateRangePicker } from 'react-dates';
 
 import LoansTable from '../Table';
 import List from '../styles';
-import { Button, Card, Input } from "../../../shared";
+import {
+    Button,
+    Card,
+    Input,
+    ReactSelect,
+    SingleDatePicker,
+} from '../../../shared';
+
+const customReactSelectStyles = {
+    valueContainer: () => ({
+        padding: 3,
+        paddingLeft: 7,
+        width: 129,
+    }),
+};
 
 const outputProperties = ['dateMaturity'];
 
@@ -16,17 +28,20 @@ const Step2 = props => {
             clientName,
             dateIssue,
             dateMaturity,
-            focusedInput,
+            focusedDateMaturity,
+            focusedDateIssue,
             loans,
             role,
             selectedTerritory,
             territories,
             totalRepaymentAmount,
         },
-        onChangeDates,
+        onChangeDateIssue,
+        onChangeDateMaturity,
         onChangeInput,
         onCreateLoan,
-        onFocusedInput,
+        onFocusedDateIssue,
+        onFocusedDateMaturity,
         validator,
     } = props;
 
@@ -36,7 +51,9 @@ const Step2 = props => {
 
     return (
         <div>
-            <h1>{clientName} loans</h1>
+            <h1 style={{
+                "text-align": "center",
+                "color": "#3f4357"}}>{clientName} loans</h1>
             {loans && loans.length > 0
                 ? <List>
                     <LoansTable
@@ -48,55 +65,69 @@ const Step2 = props => {
                 : <h1>No loans</h1>
             }
             <Card.List>
-                <Card noValidate>
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="amount">Amount</Card.Item.Label>
-                        <Input
-                            name='amount'
-                            placeholder='Amount ...'
-                            onChange={onChangeInput}
-                            value={amount}
-                            disabled={true}
-                        />
+                <Card.List.Item>
+                    <Card.Form noValidate>
+                        <Card.Form.Item>
+                            <Card.Form.Label htmlFor="amount">Amount</Card.Form.Label>
+                            <Input
+                                name='amount'
+                                placeholder='Amount ...'
+                                onChange={onChangeInput}
+                                value={amount}
+                                disabled={true}
+                            />
+                        </Card.Form.Item>
                         {validator.message('amount', amount, 'required')}
-                    </Card.Item>
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
-                        <ReactSelect
-                            value={selectedTerritory}
-                            options={territories}
-                            placeholder="Select Territory ..."
-                            isDisabled={true}
-                        />
+                        <Card.Form.Item>
+                            <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
+                            <ReactSelect
+                                value={selectedTerritory}
+                                options={territories}
+                                placeholder="Select Territory ..."
+                                isDisabled={true}
+                                styles={customReactSelectStyles}
+                            />
+                        </Card.Form.Item>
                         {validator.message('territory', selectedTerritory, 'required')}
-                    </Card.Item>
-                    <Card.Item>
-                        <DateRangePicker
-                            startDate={dateIssue}
-                            startDateId="date_issue_id"
-                            endDate={dateMaturity}
-                            endDateId="date_maturity_id"
-                            onDatesChange={onChangeDates}
-                            focusedInput={focusedInput}
-                            onFocusChange={onFocusedInput}
-                        />
-                    </Card.Item>
-                    <Card.Item>
-                        <Card.Item.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Item.Label>
-                        <Input
-                            type="number"
-                            name="totalRepaymentAmount"
-                            value={totalRepaymentAmount}
-                            onChange={onChangeInput}
-                            placeholder='Total Repayment Amount...'
-                            disabled={true}
-                        />
+                        <Card.Form.Item>
+                            <Card.Form.Label htmlFor="coefficient">Date Issue</Card.Form.Label>
+                            <SingleDatePicker
+                                date={dateIssue}
+                                id="date_issue_id"
+                                onDateChange={onChangeDateIssue}
+                                focused={focusedDateIssue}
+                                firstDayOfWeek={1}
+                                onFocusChange={onFocusedDateIssue}
+                            />
+                        </Card.Form.Item>
+                        <Card.Form.Item>
+                            <Card.Form.Label htmlFor="coefficient">Date Maturity</Card.Form.Label>
+                            <SingleDatePicker
+                                date={dateMaturity}
+                                id="date_maturity_id"
+                                onDateChange={onChangeDateMaturity}
+                                focused={focusedDateMaturity}
+                                firstDayOfWeek={1}
+                                onFocusChange={onFocusedDateMaturity}
+                            />
+                        </Card.Form.Item>
+                        <Card.Form.Item>
+                            <Card.Form.Label htmlFor="totalRepaymentAmount">Total Repayment Amount</Card.Form.Label>
+                            <Input
+                                type="number"
+                                name="totalRepaymentAmount"
+                                value={totalRepaymentAmount}
+                                onChange={onChangeInput}
+                                placeholder='Total Repayment Amount...'
+                                disabled={true}
+                            />
+                        </Card.Form.Item>
                         {validator.message('totalRepaymentAmount', totalRepaymentAmount, 'required')}
-                    </Card.Item>
-                    <Card.Item>
-                        <Button onClick={onCreateLoan}>Create loan</Button>
-                    </Card.Item>
-                </Card>
+                        <Card.Form.Item>
+                            <Button onClick={onCreateLoan}>Create loan</Button>
+                        </Card.Form.Item>
+                    </Card.Form>
+                </Card.List.Item>
             </Card.List>
         </div>
     );
@@ -120,10 +151,12 @@ Step2.defaultProps = {
         ),
         totalRepaymentAmount: 0,
     }),
-    onChangeDates: PropTypes.func,
+    onChangeDateIssue: PropTypes.func,
+    onChangeDateMaturity: PropTypes.func,
     onChangeInput: PropTypes.func,
     onCreateLoan: PropTypes.func,
-    onFocusedInput: PropTypes.func,
+    onFocusedDateIssue: PropTypes.func,
+    onFocusedDateMaturity: PropTypes.func,
     validator: PropTypes.shape,
 };
 
@@ -133,7 +166,8 @@ Step2.propTypes = {
         clientName: PropTypes.string,
         dateIssue: PropTypes.shape(),
         dateMaturity: PropTypes.shape(),
-        focusedInput: PropTypes.shape(),
+        focusedDateIssue: PropTypes.shape(),
+        focusedDateMaturity: PropTypes.shape(),
         loans: PropTypes.arrayOf(
             PropTypes.shape({
                 amount: PropTypes.number,
@@ -157,10 +191,12 @@ Step2.propTypes = {
         ),
         totalRepaymentAmount: 0,
     }),
-    onChangeDates: PropTypes.func,
+    onChangeDateMaturity: PropTypes.func,
+    onChangeDateIssue: PropTypes.func,
     onChangeInput: PropTypes.func,
     onCreateLoan: PropTypes.func,
-    onFocusedInput: PropTypes.func,
+    onFocusedDateIssue: PropTypes.func,
+    onFocusedDateMaturity: PropTypes.func,
     validator: PropTypes.shape(),
 };
 

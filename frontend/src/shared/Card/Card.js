@@ -1,6 +1,13 @@
 import styled from 'styled-components';
 
-const Card = styled.form`
+const Card = {};
+
+Card.List = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+Card.List.Item = styled.div`
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -10,23 +17,20 @@ const Card = styled.form`
     box-shadow: 0 1px 20px 0 rgba(0,0,0,.1);
     border: none;
     border-radius: .2857rem;
-    
-    
-    `;
-
-Card.List = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 50%;
 `;
 
-Card.Item = styled.div`
+Card.Form = styled.form`
+  width: 100%;   
+`;
+
+Card.Form.Item = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: baseline;
-  margin: 5px 0;
+  margin: 10px 0;
 `;
 
-Card.Item.Label = styled.label`
+Card.Form.Label = styled.label`
   color: grey;
   margin-right: 10px;
 `;

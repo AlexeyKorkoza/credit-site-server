@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactSelect from 'react-select';
 
 import Login from './Login';
 import Passwords from './Passwords';
@@ -8,7 +7,16 @@ import {
     Button,
     Card,
     Input,
+    ReactSelect,
 } from '../../shared';
+
+const customReactSelectStyles = {
+    valueContainer: () => ({
+        padding: 3,
+        paddingLeft: 7,
+        width: 129,
+    }),
+};
 
 const Manager = props => {
     const {
@@ -37,72 +45,75 @@ const Manager = props => {
     }
 
     return (
-      <Card.List>
-        <Card noValidate>
-          <Card.Item>
-            <Card.Item.Label htmlFor="fullName">Full name</Card.Item.Label>
-            <Input
-              name='fullName'
-              placeholder='Full name...'
-              onChange={onChangeInput}
-              value={fullName}
-              required
+        <Card.List>
+            <Card.List.Item>
+                <Card.Form noValidate>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="fullName">Full name</Card.Form.Label>
+                        <Input
+                            name='fullName'
+                            placeholder='Full name...'
+                            onChange={onChangeInput}
+                            value={fullName}
+                            required
+                        />
+                    </Card.Form.Item>
+                    {validatorProfile.message('fullName', fullName, 'required')}
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
+                        <ReactSelect
+                            value={selectedTerritory}
+                            onChange={onChangeTerritory}
+                            options={territories}
+                            placeholder={'Select Territory ...'}
+                            styles={customReactSelectStyles}
+                        />
+                    </Card.Form.Item>
+                    {validatorProfile.message('territory', selectedTerritory, 'required')}
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="phone">Phone</Card.Form.Label>
+                        <Input
+                            type="phone"
+                            name='phone'
+                            placeholder='Phone...'
+                            onChange={onChangeInput}
+                            value={phone}
+                            required
+                        />
+                    </Card.Form.Item>
+                    {validatorProfile.message('phone', phone, 'required')}
+                    <Login
+                        login={login}
+                        onChangeInput={onChangeInput}
+                        validatorProfile={validatorProfile}
+                    />
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="email">Email</Card.Form.Label>
+                        <Input
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={onChangeInput}
+                            placeholder='Email...'
+                            required
+                        />
+                    </Card.Form.Item>
+                    {validatorProfile.message('email', email, 'required')}
+                    <Card.Form.Item>
+                        <Button onClick={onSave}>Save</Button>
+                    </Card.Form.Item>
+                </Card.Form>
+            </Card.List.Item>
+            <Passwords
+                onChangeInput={onChangeInput}
+                onChangePassword={onChangePassword}
+                oldPassword={oldPassword}
+                newPassword={newPassword}
+                confirmNewPassword={confirmNewPassword}
+                isEmptyPasswordsFields={isEmptyPasswordsFields}
+                isEqualNewPasswords={isEqualNewPasswords}
             />
-              {validatorProfile.message('fullName', fullName, 'required')}
-          </Card.Item>
-          <Card.Item>
-            <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
-            <ReactSelect
-                  value={selectedTerritory}
-                  onChange={onChangeTerritory}
-                  options={territories}
-                  placeholder={'Select Territory ...'}
-            />
-              {validatorProfile.message('territory', selectedTerritory, 'required')}
-          </Card.Item>
-          <Card.Item>
-            <Card.Item.Label htmlFor="phone">Phone</Card.Item.Label>
-            <Input
-              type="phone"
-              name='phone'
-              placeholder='Phone...'
-              onChange={onChangeInput}
-              value={phone}
-              required
-            />
-              {validatorProfile.message('phone', phone, 'required')}
-          </Card.Item>
-          <Login
-            login={login}
-            onChangeInput={onChangeInput}
-            validatorProfile={validatorProfile}
-          />
-          <Card.Item>
-            <Card.Item.Label htmlFor="email">Email</Card.Item.Label>
-            <Input
-              type="email"
-              name="email"
-              value={email}
-              onChange={onChangeInput}
-              placeholder='Email...'
-              required
-            />
-              {validatorProfile.message('email', email, 'required')}
-          </Card.Item>
-          <Card.Item>
-            <Button onClick={onSave}>Save</Button>
-          </Card.Item>
-        </Card>
-        <Passwords
-          onChangeInput={onChangeInput}
-          onChangePassword={onChangePassword}
-          oldPassword={oldPassword}
-          newPassword={newPassword}
-          confirmNewPassword={confirmNewPassword}
-          isEmptyPasswordsFields={isEmptyPasswordsFields}
-          isEqualNewPasswords={isEqualNewPasswords}
-        />
-      </Card.List>
+        </Card.List>
     );
 };
 

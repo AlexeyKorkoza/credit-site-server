@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import Login from './Login';
@@ -29,27 +29,31 @@ const Admin = props => {
     }
 
     return (
-      <Card.List>
-        <Card noValidate>
-            <Login
-                login={login}
+        <Card.List>
+            <Card.List.Item>
+                <Card.Form noValidate>
+                    <Card.List>
+                        <Login
+                            login={login}
+                            onChangeInput={onChangeInput}
+                            validatorProfile={validatorProfile}
+                        />
+                        <Card.Form.Item>
+                            <Button onClick={onSave}>Save</Button>
+                        </Card.Form.Item>
+                    </Card.List>
+                </Card.Form>
+            </Card.List.Item>
+            <Passwords
                 onChangeInput={onChangeInput}
-                validatorProfile={validatorProfile}
+                onChangePassword={onChangePassword}
+                oldPassword={oldPassword}
+                newPassword={newPassword}
+                confirmNewPassword={confirmNewPassword}
+                isEmptyPasswordsFields={isEmptyPasswordsFields}
+                isEqualNewPasswords={isEqualNewPasswords}
             />
-          <Card.Item>
-            <Button onClick={onSave}>Save</Button>
-          </Card.Item>
-        </Card>
-          <Passwords
-              onChangeInput={onChangeInput}
-              onChangePassword={onChangePassword}
-              oldPassword={oldPassword}
-              newPassword={newPassword}
-              confirmNewPassword={confirmNewPassword}
-              isEmptyPasswordsFields={isEmptyPasswordsFields}
-              isEqualNewPasswords={isEqualNewPasswords}
-          />
-      </Card.List>
+        </Card.List>
     );
 };
 

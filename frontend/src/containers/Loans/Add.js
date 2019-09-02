@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router';
 import SimpleReactValidator from 'simple-react-validator';
 import ReactNotification from 'react-notifications-component';
 
@@ -8,8 +9,9 @@ import { getDataAuthUser } from "../../services/localDb";
 import { getClient, getClientLoans } from "../../api/clients";
 import { createClientCard } from "../../api/client_card";
 import { saveLoan } from '../../api/loans';
-import { convertToDays, subtractDates } from "../../utils";
 import buildNotification from "../../services/notification";
+import Validator from "../../shared/Validator";
+import calculateTotalRepaymentAmount from "../../services/calculation";
 
 const { Step1, Step2 } = Steps;
 const components = {
@@ -19,7 +21,10 @@ const components = {
 
 class Add extends Component {
     notificationDOMRef = React.createRef();
-    validator = new SimpleReactValidator();
+    timer = null;
+    validator = new SimpleReactValidator({
+        element: message => <Validator>{message}</Validator>
+    });
 
     state = {
         email: '',
@@ -38,7 +43,6 @@ class Add extends Component {
         dateIssue: null,
         dateMaturity: null,
         totalRepaymentAmount: 0,
-
         territories: [
             {
                 label: '0.5 %',
@@ -56,7 +60,8 @@ class Add extends Component {
 
         loans: [],
         role: '',
-        focusedInput: null,
+        focusedDateMaturity: null,
+        focusedDateIssue: null,
         failureNotificationType: 'FailureCreatingLoan',
         successfulNotificationType: 'SuccessfulCreatingLoan',
     };
@@ -94,6 +99,10 @@ class Add extends Component {
         }
 
         this.setState({ ...newStateData });
+    }
+
+    componentWillMount() {
+        clearTimeout(this.timer);
     }
 
     onBack = () => {
@@ -188,6 +197,10 @@ class Add extends Component {
                 if (notification) {
                     this.notificationDOMRef.current.addNotification(notification);
                 }
+
+                this.timer = setTimeout(() => {
+                    this.props.history.push('/clients');
+                }, 3000);
             })
             .catch(error => {
                 const { message } = error;
@@ -198,35 +211,31 @@ class Add extends Component {
             });
     };
 
-    onChangeDates = ({ startDate, endDate }) => {
-        const {
-            selectedTerritory,
-            surchargeFactor,
-            territories,
-        } = this.state;
+    onChangeDateIssue = dateIssue => {
+        const { dateMaturity } = this.state;
 
-        if (startDate && endDate) {
-            const territory = territories.find(e => +e.value === +selectedTerritory.value);
-            const { value: territoryValue } = territory;
-            const duration = subtractDates(startDate, endDate);
-            const totalRepaymentAmount = (convertToDays(duration) * +territoryValue) + +surchargeFactor;
+        const result = calculateTotalRepaymentAmount(dateIssue, dateMaturity, this.state);
 
-            this.setState({
-                dateIssue: startDate,
-                dateMaturity: endDate,
-                totalRepaymentAmount,
-            });
-        } else {
-            this.setState({
-                dateIssue: startDate,
-                dateMaturity: endDate,
-            });
-        }
+        this.setState(result);
     };
 
-    onFocusedInput = focusedInput => {
+    onChangeDateMaturity = dateMaturity => {
+        const { dateIssue } = this.state;
+
+        const result = calculateTotalRepaymentAmount(dateIssue, dateMaturity, this.state);
+
+        this.setState(result);
+    };
+
+    onFocusedDateIssue = ({ focused }) => {
         this.setState({
-            focusedInput,
+            focusedDateIssue: focused,
+        });
+    };
+
+    onFocusedDateMaturity = ({ focused }) => {
+        this.setState({
+            focusedDateMaturity: focused,
         });
     };
 
@@ -240,12 +249,14 @@ class Add extends Component {
                 <CurrentComponent
                     data={this.state}
                     onBack={this.onBack}
+                    onChangeDateIssue={this.onChangeDateIssue}
+                    onChangeDateMaturity={this.onChangeDateMaturity}
                     onCreateClientCard={this.onCreateClientCard}
                     onCreateLoan={this.onCreateLoan}
-                    onChangeDates={this.onChangeDates}
                     onChangeInput={this.onChangeInput}
                     onChangeTerritory={this.onChangeTerritory}
-                    onFocusedInput={this.onFocusedInput}
+                    onFocusedDateIssue={this.onFocusedDateIssue}
+                    onFocusedDateMaturity={this.onFocusedDateMaturity}
                     validator={this.validator}
                 />
             </Fragment>
@@ -253,4 +264,4 @@ class Add extends Component {
     }
 }
 
-export default Add;
+export default withRouter(Add);

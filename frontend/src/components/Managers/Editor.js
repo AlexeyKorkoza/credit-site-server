@@ -42,98 +42,102 @@ const Editor = props => {
 
     return (
         <Card.List>
-            <Card noValidate>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="fullName">Full name</Card.Item.Label>
-                    <Input
-                        name='fullName'
-                        placeholder='Full name...'
-                        onChange={onChangeInput}
-                        value={fullName}
-                        required
-                    />
+            <Card.List.Item>
+                <Card.Form noValidate>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="fullName">Full name</Card.Form.Label>
+                        <Input
+                            name='fullName'
+                            placeholder='Full name...'
+                            onChange={onChangeInput}
+                            value={fullName}
+                            required
+                        />
+                    </Card.Form.Item>
                     {validator.message('fullName', fullName, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
-                    <ReactSelect
-                        value={selectedTerritory}
-                        onChange={onChangeTerritory}
-                        options={territories}
-                        placeholder={'Select Territory ...'}
-                    />
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
+                        <ReactSelect
+                            value={selectedTerritory}
+                            onChange={onChangeTerritory}
+                            options={territories}
+                            placeholder={'Select Territory ...'}
+                        />
+                    </Card.Form.Item>
                     {validator.message('territory', selectedTerritory, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="phone">Phone</Card.Item.Label>
-                    <Input
-                        type="phone"
-                        name='phone'
-                        placeholder='Phone...'
-                        onChange={onChangeInput}
-                        value={phone}
-                        required
-                    />
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="phone">Phone</Card.Form.Label>
+                        <Input
+                            type="phone"
+                            name='phone'
+                            placeholder='Phone...'
+                            onChange={onChangeInput}
+                            value={phone}
+                            required
+                        />
+                    </Card.Form.Item>
                     {validator.message('phone', phone, 'required')}
-                </Card.Item>
-                <Login
-                    login={login}
-                    onChangeInput={onChangeInput}
-                    validatorProfile={validator}
-                />
-                {action === 'add' && <Card.Item>
-                    <Card.Item.Label htmlFor="password">Password</Card.Item.Label>
-                    <Input
-                        type="password"
-                        name="password"
-                        placeholder="Password ..."
-                        value={password}
-                        onChange={onChangeInput}
-                        required
+                    <Login
+                        login={login}
+                        onChangeInput={onChangeInput}
+                        validatorProfile={validator}
                     />
-                    {validator.message('password', password, 'required|min:8')}
-                </Card.Item>
-                }
-                <Card.Item>
-                    <Card.Item.Label htmlFor="email">Email</Card.Item.Label>
-                    <Input
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={onChangeInput}
-                        placeholder='Email...'
-                        required
-                    />
+                    {action === 'add' && <Card.Form.Item>
+                        <Card.Form.Label htmlFor="password">Password</Card.Form.Label>
+                        <Input
+                            type="password"
+                            name="password"
+                            placeholder="Password ..."
+                            value={password}
+                            onChange={onChangeInput}
+                            required
+                        />
+                    </Card.Form.Item>
+                    }
+                    {action === 'add' && validator.message('password', password, 'required|min:8')}
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="email">Email</Card.Form.Label>
+                        <Input
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={onChangeInput}
+                            placeholder='Email...'
+                            required
+                        />
+                    </Card.Form.Item>
                     {validator.message('email', email, 'required|email')}
-                </Card.Item>
-                <Card.Item>
-                    <Button onClick={onSave}>Save</Button>
-                </Card.Item>
-            </Card>
-            {action === 'edit' && <Passwords
-                onChangeInput={onChangeInput}
-                onChangePassword={onChangePassword}
-                oldPassword={oldPassword}
-                newPassword={newPassword}
-                confirmNewPassword={confirmNewPassword}
-                isEmptyPasswordsFields={isEmptyPasswordsFields}
-                isEqualNewPasswords={isEqualNewPasswords}
-            />
-            }
-            <Card noValidate>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="isBlocked">Is Blocked</Card.Item.Label>
-                    <Input
-                        type='checkbox'
-                        name='isBlocked'
-                        onChange={onChangeInput}
-                        checked={isBlocked}
-                    />
-                </Card.Item>
-                <Card.Item>
-                    <Button onClick={onBlockManager}>Block</Button>
-                </Card.Item>
-            </Card>
+                    <Card.Form.Item>
+                        <Button onClick={onSave}>Save</Button>
+                    </Card.Form.Item>
+                </Card.Form>
+            </Card.List.Item>
+                {action === 'edit' && <Passwords
+                    onChangeInput={onChangeInput}
+                    onChangePassword={onChangePassword}
+                    oldPassword={oldPassword}
+                    newPassword={newPassword}
+                    confirmNewPassword={confirmNewPassword}
+                    isEmptyPasswordsFields={isEmptyPasswordsFields}
+                    isEqualNewPasswords={isEqualNewPasswords}
+                />
+                }
+            <Card.List.Item>
+                <Card.Form noValidate>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="isBlocked">Is Blocked</Card.Form.Label>
+                        <Input
+                            type='checkbox'
+                            name='isBlocked'
+                            onChange={onChangeInput}
+                            checked={isBlocked}
+                        />
+                    </Card.Form.Item>
+                    <Card.Form.Item>
+                        <Button onClick={onBlockManager}>Block</Button>
+                    </Card.Form.Item>
+                </Card.Form>
+            </Card.List.Item>
         </Card.List>
     );
 };

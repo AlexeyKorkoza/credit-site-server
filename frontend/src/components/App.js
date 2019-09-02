@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 
-import { GlobalStyle, Page, Wrapper } from "../routing/styles";
+import { GlobalStyle, Page } from "../routing/styles";
 import { Authentication, Clients, Loans, Managers, Profile } from "../containers";
 import { PrivateRouter, PrivateRouterRole } from "../routing";
 import { currentUserSubject, logOut } from '../api/authentication';
-import MenuComponent from "./Menu";
+import Sidebar from "./Sidebar";
 
 class App extends Component {
     constructor(props) {
@@ -37,8 +37,8 @@ class App extends Component {
         const { role } = this.state;
 
         return (
-            <Wrapper>
-                {role && <MenuComponent
+            <Fragment>
+                {role && <Sidebar
                     onLogOut={this.onLogOut}
                     role={role}
                 />
@@ -95,7 +95,7 @@ class App extends Component {
                         />
                     </Switch>
                 </Page>
-            </Wrapper>
+            </Fragment>
         );
     }
 }

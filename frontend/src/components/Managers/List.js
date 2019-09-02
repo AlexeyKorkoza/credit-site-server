@@ -11,6 +11,11 @@ const ListComponent = props => {
       <List>
         <List.Link.Add to="/managers/add">Add</List.Link.Add>
         <Table>
+            <Table.Header>
+                <Table.List.Row.Column>Client's Name</Table.List.Row.Column>
+                <Table.List.Row.Column>Client's email</Table.List.Row.Column>
+                <Table.List.Row.Column/>
+            </Table.Header>
           <Table.List>
             {managers.map(manager => {
                 return (
@@ -21,9 +26,9 @@ const ListComponent = props => {
                     <Table.List.Row.Column>
                       {manager.email}
                     </Table.List.Row.Column>
-                    <Table.List.Row.Column>
+                    <Table.List.Row.LastColumn>
                       <List.Link to={`/managers/${manager.id}`}>Edit</List.Link>
-                    </Table.List.Row.Column>
+                    </Table.List.Row.LastColumn>
                   </Table.List.Row>
                 );
             })}

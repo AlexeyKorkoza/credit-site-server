@@ -1,8 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactSelect from "react-select";
 
-import { Button, Card, Input } from "../../../shared";
+import {
+    Button,
+    Card,
+    Input,
+    ReactSelect,
+} from "../../../shared";
+
+const customReactSelectStyles = {
+    valueContainer: () => ({
+        padding: 3,
+        paddingLeft: 7,
+        width: 128,
+    }),
+};
 
 const Step1 = props => {
     const {
@@ -28,80 +40,83 @@ const Step1 = props => {
 
     return (
         <Card.List>
-            <Card noValidate>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="fullName">Full Name</Card.Item.Label>
-                    <Input
-                        name='fullName'
-                        placeholder='Full Name...'
-                        onChange={onChangeInput}
-                        value={fullName}
-                        required
-                    />
+            <Card.List.Item>
+                <Card.Form noValidate>
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="fullName">Full Name</Card.Form.Label>
+                        <Input
+                            name='fullName'
+                            placeholder='Full Name...'
+                            onChange={onChangeInput}
+                            value={fullName}
+                            required
+                        />
+                    </Card.Form.Item>
                     {validator.message('fullName', fullName, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="territory">Territory</Card.Item.Label>
-                    <ReactSelect
-                        value={selectedTerritory}
-                        onChange={onChangeTerritory}
-                        options={territories}
-                        placeholder="Select Territory ..."
-                    />
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="territory">Territory</Card.Form.Label>
+                        <ReactSelect
+                            value={selectedTerritory}
+                            onChange={onChangeTerritory}
+                            options={territories}
+                            placeholder="Select Territory ..."
+                            styles={customReactSelectStyles}
+                        />
+                    </Card.Form.Item>
                     {validator.message('territory', selectedTerritory, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="phone">Phone</Card.Item.Label>
-                    <Input
-                        type="phone"
-                        name='phone'
-                        placeholder='Phone...'
-                        onChange={onChangeInput}
-                        value={phone}
-                        required
-                    />
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="phone">Phone</Card.Form.Label>
+                        <Input
+                            type="phone"
+                            name='phone'
+                            placeholder='Phone...'
+                            onChange={onChangeInput}
+                            value={phone}
+                            required
+                        />
+                    </Card.Form.Item>
                     {validator.message('phone', phone, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="email">Email</Card.Item.Label>
-                    <Input
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={onChangeInput}
-                        placeholder='Email...'
-                        required
-                    />
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="email">Email</Card.Form.Label>
+                        <Input
+                            type="email"
+                            name="email"
+                            value={email}
+                            onChange={onChangeInput}
+                            placeholder='Email...'
+                            required
+                        />
+                    </Card.Form.Item>
                     {validator.message('email', email, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="passportData">Passport Data</Card.Item.Label>
-                    <Input
-                        name="passportData"
-                        value={passportData}
-                        onChange={onChangeInput}
-                        placeholder='Passport Data...'
-                        required
-                    />
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="passportData">Passport Data</Card.Form.Label>
+                        <Input
+                            name="passportData"
+                            value={passportData}
+                            onChange={onChangeInput}
+                            placeholder='Passport Data...'
+                            required
+                        />
+                    </Card.Form.Item>
                     {validator.message('passportData', passportData, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Card.Item.Label htmlFor="surchargeFactor">Surcharge Factor</Card.Item.Label>
-                    <Input
-                        type="number"
-                        name="surchargeFactor"
-                        value={surchargeFactor}
-                        onChange={onChangeInput}
-                        placeholder='Surcharge Factor...'
-                        required
-                    />
+                    <Card.Form.Item>
+                        <Card.Form.Label htmlFor="surchargeFactor">Surcharge Factor</Card.Form.Label>
+                        <Input
+                            type="number"
+                            name="surchargeFactor"
+                            value={surchargeFactor}
+                            onChange={onChangeInput}
+                            placeholder='Surcharge Factor...'
+                            required
+                        />
+                    </Card.Form.Item>
                     {validator.message('surchargeFactor', surchargeFactor, 'required')}
-                </Card.Item>
-                <Card.Item>
-                    <Button onClick={onBack}>Back</Button>
-                    <Button onClick={onCreateClientCard}>Issue a loan</Button>
-                </Card.Item>
-            </Card>
+                    <Card.Form.Item>
+                        <Button onClick={onBack}>Back</Button>
+                        <Button onClick={onCreateClientCard}>Issue a loan</Button>
+                    </Card.Form.Item>
+                </Card.Form>
+            </Card.List.Item>
         </Card.List>
     );
 };

@@ -11,8 +11,8 @@ const Login = props => {
     } = props;
 
     return (
-        <Card.Item>
-            <Card.Item.Label htmlFor="login">Login</Card.Item.Label>
+        <Card.Form.Item>
+            <Card.Form.Label htmlFor="login">Login</Card.Form.Label>
             <Input
                 name="login"
                 value={login}
@@ -21,7 +21,7 @@ const Login = props => {
                 required
             />
             {validatorProfile.message('login', login, 'required')}
-        </Card.Item>
+        </Card.Form.Item>
     )
 };
 

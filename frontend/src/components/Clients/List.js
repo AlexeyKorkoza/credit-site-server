@@ -11,6 +11,11 @@ const ListComponent = props => {
         <List>
             {role === 'manager' && <List.Link.Add to="/clients/add">Add</List.Link.Add>}
             <Table>
+                <Table.Header>
+                    <Table.List.Row.Column>Client's Name</Table.List.Row.Column>
+                    <Table.List.Row.Column>Client's email</Table.List.Row.Column>
+                    <Table.List.Row.Column />
+                </Table.Header>
                 <Table.List>
                     {clients.map(client => {
                         return (
@@ -21,16 +26,18 @@ const ListComponent = props => {
                                 <Table.List.Row.Column>
                                     {client.email}
                                 </Table.List.Row.Column>
-                                <Table.List.Row.Column>
+                                <Table.List.Row.LastColumn
+                                    flex-direction='column'
+                                >
                                     <List.Link to={`/clients/${client.id}`}>Edit</List.Link>
-                                </Table.List.Row.Column>
-                                {role === 'manager' && <Table.List.Row.Column>
+                                    {role === 'manager' &&
                                     <List.Link
                                         to={{
                                             pathname: `/loans/add`,
                                             state: { clientId: client.id }
                                         }}>Add new loan</List.Link>
-                                </Table.List.Row.Column>}
+                                    }
+                                </Table.List.Row.LastColumn>
                             </Table.List.Row>
                         );
                     })}

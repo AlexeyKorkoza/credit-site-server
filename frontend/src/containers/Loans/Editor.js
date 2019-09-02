@@ -8,17 +8,23 @@ import {
     saveLoan,
 } from '../../api/loans';
 import buildNotification from "../../services/notification";
+import Validator from "../../shared/Validator";
+import calculateTotalRepaymentAmount from '../../services/calculation';
 
 class Editor extends Component {
     notificationDOMRef = React.createRef();
-    validator = new SimpleReactValidator();
+    validator = new SimpleReactValidator({
+        element: message => <Validator>{message}</Validator>
+    });
 
     state = {
         action: '',
-        amount: '',
+        amount: 0, // surchargeFactor
         coefficient: '',
         dateIssue: '',
         dateMaturity: '',
+        focusedDateMaturity: null,
+        focusedDateIssue: null,
         totalRepaymentAmount: '',
         territories: [
             {
@@ -82,6 +88,22 @@ class Editor extends Component {
         });
     };
 
+    onChangeDateIssue = dateIssue => {
+        const { dateMaturity } = this.state;
+
+        const result = calculateTotalRepaymentAmount(dateIssue, dateMaturity, this.state);
+
+        this.setState(result);
+    };
+
+    onChangeDateMaturity = dateMaturity => {
+        const { dateIssue } = this.state;
+
+        const result = calculateTotalRepaymentAmount(dateIssue, dateMaturity, this.state);
+
+        this.setState(result);
+    };
+
     onSave = event => {
         event.preventDefault();
 
@@ -130,14 +152,30 @@ class Editor extends Component {
         });
     };
 
+    onFocusedDateIssue = ({ focused }) => {
+        this.setState({
+            focusedDateIssue: focused,
+        });
+    };
+
+    onFocusedDateMaturity = ({ focused }) => {
+        this.setState({
+            focusedDateMaturity: focused,
+        });
+    };
+
     render() {
         return (
             <Fragment>
                 <ReactNotification ref={this.notificationDOMRef}/>
                 <EditorComponent
                     data={this.state}
+                    onChangeDateIssue={this.onChangeDateIssue}
+                    onChangeDateMaturity={this.onChangeDateMaturity}
                     onChangeInput={this.onChangeInput}
                     onChangeTerritory={this.onChangeTerritory}
+                    onFocusedDateIssue={this.onFocusedDateIssue}
+                    onFocusedDateMaturity={this.onFocusedDateMaturity}
                     onSave={this.onSave}
                     validator={this.validator}
                 />

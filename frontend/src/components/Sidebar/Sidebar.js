@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-import Menu from './styles';
+import Sidebar from './styles';
 import {
     Client,
     Loan,
@@ -11,7 +11,7 @@ import {
     Profile,
 } from './icons';
 
-const menuItems = [
+const sidebarItems = [
     {
         link: '/clients',
         label: 'Clients',
@@ -22,7 +22,7 @@ const menuItems = [
         link: '/loans',
         label: 'Loans',
         icon: Loan,
-        roles: ['admin', 'manager'],
+        roles: ['admin'],
     },
     {
         link: '/managers',
@@ -30,70 +30,55 @@ const menuItems = [
         icon: Manager,
         roles: ['admin'],
     },
-];
-
-const dropdownItems = [
     {
         link: '/profile',
         label: 'Profile',
         icon: Profile,
+        roles: ['admin', 'manager'],
     },
 ];
 
-const MenuComponent = props => {
+const SidebarComponent = props => {
     const {
         onLogOut,
         role,
     } = props;
 
     return (
-        <Menu>
-            <Menu.List>
-                <Menu.Navigation>
-                    {menuItems.map((item, index) => {
+        <Sidebar>
+            <Sidebar.Container>
+                <Sidebar.Navigation>
+                    {sidebarItems.map((item, index) => {
                         const { icon: Icon, roles } = item;
                         const isAccess = roles.includes(role);
 
                         if (isAccess) {
                             return (
-                                <Menu.Navigation.Item>
+                                <Sidebar.Navigation.Item>
                                     <Link key={index} to={item.link}>
                                         <Icon />
                                     </Link>
-                                </Menu.Navigation.Item>
+                                </Sidebar.Navigation.Item>
                             );
                         }
                     })}
-                </Menu.Navigation>
-                <Menu.Dropdown>
-                    {dropdownItems.map((item, index) => {
-                        const { icon: Icon } = item;
-
-                        return (
-                            <Menu.Dropdown.Item>
-                                <Link key={index} to={item.link}>
-                                    <Icon />
-                                </Link>
-                            </Menu.Dropdown.Item>
-                        );
-                    })}
-                    <Menu.Dropdown.Item onClick={onLogOut}>
+                    <Sidebar.Navigation.Item onClick={onLogOut}>
                         <Logout />
-                    </Menu.Dropdown.Item>
-                </Menu.Dropdown>
-            </Menu.List>
-        </Menu>
+                    </Sidebar.Navigation.Item>
+                </Sidebar.Navigation>
+            </Sidebar.Container>
+        </Sidebar>
     );
 };
 
-MenuComponent.defaultProps = {
+SidebarComponent.defaultProps = {
     onLogOut: PropTypes.func,
     role: PropTypes.string,
 };
 
-MenuComponent.propTypes = {
+SidebarComponent.propTypes = {
     onLogOut: PropTypes.func,
     role: PropTypes.string,
 };
 
-export default MenuComponent;
+export default SidebarComponent;
