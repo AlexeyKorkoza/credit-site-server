@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {
     ErrorContainer,
+    Header,
     LinkContainer,
     ProfileLink,
     ScreenReaderText,
@@ -11,6 +12,7 @@ import {
 const NoMatch = () => {
     return (
         <Wrapper>
+            <Header>No Page Found</Header>
             <ErrorContainer>
                 <span>4</span>
                 <span>
