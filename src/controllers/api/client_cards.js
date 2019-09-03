@@ -3,6 +3,7 @@ import {
     makeUpdatingClientCard,
     makeUpdatingTerritorialCoefficient,
 } from '../../business/api/client_cards';
+import { responses } from "../../utils";
 
 /**
  * @param req
@@ -12,13 +13,13 @@ import {
 const createClientCard = (req, res) => {
     return addClientCard(req.body)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client card was created',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'createClientCard');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -32,13 +33,13 @@ const updateClientCard = (req, res) => {
     // TODO Add validation
     return makeUpdatingClientCard(id, req.body)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client card was updated',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'updateClientCard');
+
+            return responses.send500(res);
+        });
 };
 
 const updateTerritorialCoefficient = (req, res) => {
@@ -47,13 +48,13 @@ const updateTerritorialCoefficient = (req, res) => {
 
     return makeUpdatingTerritorialCoefficient(id, surchargeFactor)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Territorial coefficient was updated',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'updateTerritorialCoefficient');
+
+            return responses.send500(res);
+        });
 };
 
 export {

@@ -7,6 +7,7 @@ import {
     findClientLoans,
     findAllClients,
 } from '../../business/api/clients';
+import { responses } from "../../utils";
 
 /**
  * @param req
@@ -20,13 +21,13 @@ const addClient = (req, res) => {
 
     return makeCreatingOfClient(req.body, managerId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client was created',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'addClient');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -46,7 +47,6 @@ const editClient = (req, res) => {
         .then(result => {
             if (!result) {
                 return res.status(400).json({
-                    ok: 0,
                     message: 'Client was not created by this manager',
                 });
             }
@@ -54,13 +54,13 @@ const editClient = (req, res) => {
             return makeUpdatingOfClient(userId, clientId, client, role);
         })
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client was updated',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'editClient');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -76,13 +76,13 @@ const markDeletionClient = (req, res) => {
 
     return makeMarkingDeletionOfClient(id, managerId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client was marked for deletion',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'markDeletionClient');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -95,13 +95,13 @@ const removeClient = (req, res) => {
 
     return makeRemovingOfClient(clientId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client was removed',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'removeClient');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -112,13 +112,13 @@ const removeClient = (req, res) => {
 const getAllClients = (req, res) => {
     return findAllClients()
         .then(clients => res.status(200).json({
-            ok: 1,
             clients,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getAllClients');
+
+            return responses.send500(res);
+        });
 };
 
 const getClient = (req, res) => {
@@ -127,13 +127,13 @@ const getClient = (req, res) => {
 
     return findClient(clientId, userId, role)
         .then(client => res.status(200).json({
-            ok: 1,
             client,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getClient');
+
+            return responses.send500(res);
+        });
 };
 
 const getClientLoans = (req, res) => {
@@ -142,13 +142,13 @@ const getClientLoans = (req, res) => {
 
     return findClientLoans(userId, clientId)
         .then(loans => res.status(200).json({
-            ok: 1,
             loans,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getClientLoans');
+
+            return responses.send500(res);
+        });
 };
 
 export {

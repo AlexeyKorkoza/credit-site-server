@@ -2,11 +2,12 @@ import { validationResult } from 'express-validator/check';
 
 import { Admin, Manager, Client } from '../../models';
 import { makeCreatingUser } from '../../business/api/users';
+import { responses } from "../../utils";
 
 const createUser = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({ ok: 0, errors: errors.array() });
+        return res.status(422).json({ errors: errors.array() });
     }
 
     const models = {
@@ -19,7 +20,6 @@ const createUser = (req, res) => {
     const model = models[role.toLowerCase()];
     if (!model) {
         return res.status(400).json({
-            ok: 0,
             message: `Unknown ${role}`,
         });
     }
@@ -28,20 +28,19 @@ const createUser = (req, res) => {
         .then(result => {
             if (result) {
                 return res.status(201).json({
-                    ok: 1,
                     message: `${req.body.role} is created`,
                 });
             }
 
             return res.status(400).json({
-                ok: 0,
                 message: `${req.body.role} is not created`,
             });
         })
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'createUser');
+
+            return responses.send500(res);
+        });
 };
 
 export {

@@ -3,8 +3,7 @@ const authMiddleware = {
         const { role } = req.user;
         if (!role) {
             return res.status(401).json({
-                ok: 0,
-                err: 'You are not logged in',
+                message: 'You are not logged in',
             });
         }
         return next();
@@ -16,8 +15,7 @@ const authMiddleware = {
         }
 
         return res.status(403).json({
-            ok: 0,
-            err: 'Access is forbidden',
+            message: 'Access is forbidden',
         });
     },
     isAdmin: (req, res, next) => {
@@ -26,8 +24,7 @@ const authMiddleware = {
             return next();
         }
         return res.status(403).json({
-            ok: 0,
-            err: 'Access is forbidden',
+            message: 'Access is forbidden',
         });
     },
     isUser: (req, res, next) => {
@@ -36,8 +33,7 @@ const authMiddleware = {
             return next();
         }
         return res.status(403).json({
-            ok: 0,
-            err: 'Access is forbidden',
+            message: 'Access is forbidden',
         });
     },
     isManagerOrAdmin: (req, res, next) => {
@@ -47,8 +43,7 @@ const authMiddleware = {
         }
 
         return res.status(403).json({
-            ok: 0,
-            err: 'Access is forbidden',
+            message: 'Access is forbidden',
         });
     },
 };

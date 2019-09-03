@@ -12,6 +12,7 @@ import {
     findAllManagers,
 } from '../../business/api/managers';
 import { findAllClients } from "../../business/api/clients";
+import { responses } from "../../utils";
 
 /**
  * @param req
@@ -25,13 +26,13 @@ const createNewManager = (req, res) => {
 
     return makeCreatingOfManager(admin_id, req.body)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Manager was created',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'createNewManager');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -45,13 +46,13 @@ const updateAttributesManager = (req, res) => {
 
     return makeUpdatingManagerAttributes(id, body)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Manager`s attributes is updated',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'updateAttributesManager');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -70,20 +71,19 @@ const updateProfileManager = (req, res) => {
         .then(result => {
             if (result) {
                 return res.status(200).json({
-                    ok: 1,
                     message: `${role} is updated`,
                 });
             }
 
             return res.status(400).json({
-                ok: 0,
                 message: `${role} is not updated`,
             });
         })
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'updateProfileManager');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -103,7 +103,6 @@ const changePassword = (req, res) => {
         .then(result => {
             if (!result) {
                 return res.status(400).json({
-                    ok: 0,
                     message: `${role} is not found`,
                 });
             }
@@ -112,7 +111,6 @@ const changePassword = (req, res) => {
             const isCompare = comparePasswords(password, oldPassword);
             if (!isCompare) {
                 return res.status(400).json({
-                    ok: 0,
                     message: 'Old password is incorrect',
                 });
             }
@@ -126,20 +124,19 @@ const changePassword = (req, res) => {
         .then(result => {
             if (result) {
                 return res.status(200).json({
-                    ok: 1,
                     message: 'Password is updated',
                 });
             }
 
             return res.status(400).json({
-                ok: 0,
                 message: 'Password is not updated',
             });
         })
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'changePassword');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -153,13 +150,13 @@ const blockManager = (req, res) => {
 
     return makeBlockingOfManager(adminId, managerId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Manager was blocked',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'blockManager');
+
+            return responses.send500(res);
+        });
 };
 
 const getManagerData = (req, res) => {
@@ -168,13 +165,13 @@ const getManagerData = (req, res) => {
 
     return findManager(managerId)
         .then(manager => res.status(200).json({
-            ok: 1,
             data: manager,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getManagerData');
+
+            return responses.send500(res);
+        });
 };
 
 const getManagersData = (req, res) => {
@@ -182,13 +179,13 @@ const getManagersData = (req, res) => {
 
     return findAllManagers(limit, offset)
         .then(managers => res.status(200).json({
-            ok: 1,
             managers,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getManagersData');
+
+            return responses.send500(res);
+        });
 };
 
 const getManagerClients = (req, res) => {
@@ -196,13 +193,13 @@ const getManagerClients = (req, res) => {
 
     return findAllClients(managerId)
         .then(clients => res.status(200).json({
-            ok: 1,
             clients,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getManagerClients');
+
+            return responses.send500(res);
+        });
 };
 
 export {
