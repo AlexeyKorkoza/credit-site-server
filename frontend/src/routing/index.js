@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import { getDataAuthUser } from '../services/localDb';
+import { Forbidden } from '../components/ErrorPages';
 
 const accessRoles = ['admin', 'manager'];
 
@@ -30,7 +31,7 @@ const PrivateRouterRole = ({ component: Component, accessRole, ...rest }) => {
 
     if (!isCompare) {
         return (
-          <Redirect to='/profile' />
+          <Forbidden />
         );
     }
 

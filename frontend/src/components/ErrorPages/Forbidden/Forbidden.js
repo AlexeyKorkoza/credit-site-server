@@ -9,16 +9,16 @@ import {
     Wrapper,
 } from "../styles";
 
-const NoMatch = () => {
+const Forbidden = () => {
     return (
         <Wrapper>
-            <Header>No Page Found</Header>
+            <Header>Forbidden Page</Header>
             <ErrorContainer>
                 <span>4</span>
                 <span>
                     <ScreenReaderText>0</ScreenReaderText>
                 </span>
-                <span>4</span>
+                <span>3</span>
             </ErrorContainer>
             <LinkContainer>
                 <ProfileLink to="/profile">Go to Profile Page</ProfileLink>
@@ -27,4 +27,4 @@ const NoMatch = () => {
     )
 };
 
-export default NoMatch;
+export default Forbidden;

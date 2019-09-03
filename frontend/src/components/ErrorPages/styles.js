@@ -154,3 +154,13 @@ export const Wrapper = styled.div`
   align-items: center;
   width: 100%;
 `;
+
+export const Header = styled.h1`
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  text-align: center;
+  color: #ffb485;
+  line-height: 1.5;
+  margin: 50px 5px 5px 0;
+  letter-spacing: 1px;
+`;
