@@ -20,7 +20,6 @@ const addClient = (req, res) => {
 
     return makeCreatingOfClient(req.body, managerId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client was created',
         }))
         .catch(err => res.status(500).json({
@@ -54,7 +53,6 @@ const editClient = (req, res) => {
             return makeUpdatingOfClient(userId, clientId, client, role);
         })
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client was updated',
         }))
         .catch(err => res.status(500).json({
@@ -76,7 +74,6 @@ const markDeletionClient = (req, res) => {
 
     return makeMarkingDeletionOfClient(id, managerId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client was marked for deletion',
         }))
         .catch(err => res.status(500).json({
@@ -95,7 +92,6 @@ const removeClient = (req, res) => {
 
     return makeRemovingOfClient(clientId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client was removed',
         }))
         .catch(err => res.status(500).json({
@@ -112,7 +108,6 @@ const removeClient = (req, res) => {
 const getAllClients = (req, res) => {
     return findAllClients()
         .then(clients => res.status(200).json({
-            ok: 1,
             clients,
         }))
         .catch(err => res.status(500).json({
@@ -127,7 +122,6 @@ const getClient = (req, res) => {
 
     return findClient(clientId, userId, role)
         .then(client => res.status(200).json({
-            ok: 1,
             client,
         }))
         .catch(err => res.status(500).json({
@@ -142,7 +136,6 @@ const getClientLoans = (req, res) => {
 
     return findClientLoans(userId, clientId)
         .then(loans => res.status(200).json({
-            ok: 1,
             loans,
         }))
         .catch(err => res.status(500).json({

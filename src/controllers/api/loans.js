@@ -11,7 +11,6 @@ const getLoan = (req, res) => {
 
     return findLoan(id)
         .then(loan => res.status(200).json({
-            ok: 1,
             loan,
         }))
         .catch(err => res.status(500).json({
@@ -23,7 +22,6 @@ const getLoan = (req, res) => {
 const getLoans = (req, res) => {
     return findAllLoans()
         .then(loans => res.status(200).json({
-            ok: 1,
             loans,
         }))
         .catch(err => res.status(500).json({
@@ -39,7 +37,6 @@ const createLoan = (req, res) => {
 
     return makeCreating(req.body, managerId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Loan was created',
         }))
         .catch(err => res.status(500).json({
@@ -57,7 +54,6 @@ const updateLoan = (req, res) => {
 
     return makeUpdating(id, data, adminId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Loan was updated',
         }))
         .catch(err => res.status(500).json({
@@ -75,7 +71,6 @@ const updateIssueLoan = (req, res) => {
 
     return makeUpdatingIssueLoan(id, data, adminId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Date issue was updated',
         }))
         .catch(err => res.status(500).json({

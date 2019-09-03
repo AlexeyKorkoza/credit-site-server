@@ -12,7 +12,6 @@ import {
 const createClientCard = (req, res) => {
     return addClientCard(req.body)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client card was created',
         }))
         .catch(err => res.status(500).json({
@@ -32,7 +31,6 @@ const updateClientCard = (req, res) => {
     // TODO Add validation
     return makeUpdatingClientCard(id, req.body)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Client card was updated',
         }))
         .catch(err => res.status(500).json({
@@ -47,7 +45,6 @@ const updateTerritorialCoefficient = (req, res) => {
 
     return makeUpdatingTerritorialCoefficient(id, surchargeFactor)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Territorial coefficient was updated',
         }))
         .catch(err => res.status(500).json({

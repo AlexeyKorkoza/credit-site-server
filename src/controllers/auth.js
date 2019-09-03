@@ -76,7 +76,6 @@ const logIn = (req, res) => {
                 return authManager(user, login)
                     .then(() => makeUpdatingRefreshToken(user, '', refreshToken, role))
                     .then(() => res.status(200).json({
-                        ok: 1,
                         id: user.id,
                         accessToken,
                         refreshToken,
@@ -92,7 +91,6 @@ const logIn = (req, res) => {
             return makeUpdatingRefreshToken(user, '', refreshToken, role)
                 .then(() => {
                     return res.status(200).json({
-                        ok: 1,
                         id: user.id,
                         accessToken,
                         refreshToken,
@@ -124,7 +122,6 @@ const updateRefreshToken = (req, res) => {
 
             return makeUpdatingRefreshToken(user, refreshToken, newRefreshToken, role)
                 .then(() => res.status(200).json({
-                    ok: 1,
                     refreshToken: newRefreshToken,
                     accessToken: newAccessToken,
                     expiresIn,
@@ -148,7 +145,6 @@ const logOut = (req, res) => {
 
     return updateUserRecord(id, role)
         .then(() => res.status(200).json({
-            ok: 1,
             message: `${role} is logged out`,
         }))
         .catch(err => res.status(500).json({

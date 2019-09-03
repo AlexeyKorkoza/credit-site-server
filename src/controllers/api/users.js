@@ -28,7 +28,6 @@ const createUser = (req, res) => {
         .then(result => {
             if (result) {
                 return res.status(201).json({
-                    ok: 1,
                     message: `${req.body.role} is created`,
                 });
             }

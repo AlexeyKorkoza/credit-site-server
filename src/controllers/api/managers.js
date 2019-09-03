@@ -25,7 +25,6 @@ const createNewManager = (req, res) => {
 
     return makeCreatingOfManager(admin_id, req.body)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Manager was created',
         }))
         .catch(err => res.status(500).json({
@@ -45,7 +44,6 @@ const updateAttributesManager = (req, res) => {
 
     return makeUpdatingManagerAttributes(id, body)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Manager`s attributes is updated',
         }))
         .catch(err => res.status(500).json({
@@ -70,7 +68,6 @@ const updateProfileManager = (req, res) => {
         .then(result => {
             if (result) {
                 return res.status(200).json({
-                    ok: 1,
                     message: `${role} is updated`,
                 });
             }
@@ -126,7 +123,6 @@ const changePassword = (req, res) => {
         .then(result => {
             if (result) {
                 return res.status(200).json({
-                    ok: 1,
                     message: 'Password is updated',
                 });
             }
@@ -153,7 +149,6 @@ const blockManager = (req, res) => {
 
     return makeBlockingOfManager(adminId, managerId)
         .then(() => res.status(200).json({
-            ok: 1,
             message: 'Manager was blocked',
         }))
         .catch(err => res.status(500).json({
@@ -168,7 +163,6 @@ const getManagerData = (req, res) => {
 
     return findManager(managerId)
         .then(manager => res.status(200).json({
-            ok: 1,
             data: manager,
         }))
         .catch(err => res.status(500).json({
@@ -182,7 +176,6 @@ const getManagersData = (req, res) => {
 
     return findAllManagers(limit, offset)
         .then(managers => res.status(200).json({
-            ok: 1,
             managers,
         }))
         .catch(err => res.status(500).json({
@@ -196,7 +189,6 @@ const getManagerClients = (req, res) => {
 
     return findAllClients(managerId)
         .then(clients => res.status(200).json({
-            ok: 1,
             clients,
         }))
         .catch(err => res.status(500).json({

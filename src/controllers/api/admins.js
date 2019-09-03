@@ -18,7 +18,6 @@ const getAdminData = (req, res) => {
     return findAdminData(adminId)
         .then(admin => res.status(200)
             .json({
-                ok: 1,
                 data: admin,
             }))
         .catch(err => res.status(500)
@@ -52,7 +51,6 @@ const updateAdminData = (req, res) => {
     return makeUpdatingAdmin(adminId, data)
         .then(admin => res.status(200)
             .json({
-                ok: 1,
                 admin,
             }))
         .catch(err => res.status(500)
@@ -108,7 +106,6 @@ const changeAdminPassword = (req, res) => {
             return makeUpdatingAdmin(adminId, data)
                 .then(() => res.status(200)
                     .json({
-                        ok: 1,
                         message: 'Password was changes successfully',
                     }))
                 .catch(err => res.status(500)
