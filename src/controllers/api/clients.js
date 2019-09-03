@@ -7,6 +7,7 @@ import {
     findClientLoans,
     findAllClients,
 } from '../../business/api/clients';
+import { responses } from "../../utils";
 
 /**
  * @param req
@@ -22,10 +23,11 @@ const addClient = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Client was created',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'addClient');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -45,7 +47,6 @@ const editClient = (req, res) => {
         .then(result => {
             if (!result) {
                 return res.status(400).json({
-                    ok: 0,
                     message: 'Client was not created by this manager',
                 });
             }
@@ -55,10 +56,11 @@ const editClient = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Client was updated',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'editClient');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -76,10 +78,11 @@ const markDeletionClient = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Client was marked for deletion',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'markDeletionClient');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -94,10 +97,11 @@ const removeClient = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Client was removed',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'removeClient');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -110,10 +114,11 @@ const getAllClients = (req, res) => {
         .then(clients => res.status(200).json({
             clients,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getAllClients');
+
+            return responses.send500(res);
+        });
 };
 
 const getClient = (req, res) => {
@@ -124,10 +129,11 @@ const getClient = (req, res) => {
         .then(client => res.status(200).json({
             client,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getClient');
+
+            return responses.send500(res);
+        });
 };
 
 const getClientLoans = (req, res) => {
@@ -138,10 +144,11 @@ const getClientLoans = (req, res) => {
         .then(loans => res.status(200).json({
             loans,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getClientLoans');
+
+            return responses.send500(res);
+        });
 };
 
 export {

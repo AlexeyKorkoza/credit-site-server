@@ -3,6 +3,7 @@ import {
     makeUpdatingClientCard,
     makeUpdatingTerritorialCoefficient,
 } from '../../business/api/client_cards';
+import { responses } from "../../utils";
 
 /**
  * @param req
@@ -14,10 +15,11 @@ const createClientCard = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Client card was created',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'createClientCard');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -33,10 +35,11 @@ const updateClientCard = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Client card was updated',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'updateClientCard');
+
+            return responses.send500(res);
+        });
 };
 
 const updateTerritorialCoefficient = (req, res) => {
@@ -47,10 +50,11 @@ const updateTerritorialCoefficient = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Territorial coefficient was updated',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'updateTerritorialCoefficient');
+
+            return responses.send500(res);
+        });
 };
 
 export {

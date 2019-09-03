@@ -5,6 +5,7 @@ import {
     makeUpdating,
     makeUpdatingIssueLoan,
 } from '../../business/api/loans';
+import { responses } from "../../utils";
 
 const getLoan = (req, res) => {
     const { id } = req.params;
@@ -13,10 +14,11 @@ const getLoan = (req, res) => {
         .then(loan => res.status(200).json({
             loan,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getLoan');
+
+            return responses.send500(res);
+        });
 };
 
 const getLoans = (req, res) => {
@@ -24,10 +26,11 @@ const getLoans = (req, res) => {
         .then(loans => res.status(200).json({
             loans,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'getLoans');
+
+            return responses.send500(res);
+        });
 };
 
 const createLoan = (req, res) => {
@@ -39,10 +42,11 @@ const createLoan = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Loan was created',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'createLoan');
+
+            return responses.send500(res);
+        });
 };
 
 const updateLoan = (req, res) => {
@@ -56,10 +60,11 @@ const updateLoan = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Loan was updated',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'updateLoan');
+
+            return responses.send500(res);
+        });
 };
 
 const updateIssueLoan = (req, res) => {
@@ -73,10 +78,11 @@ const updateIssueLoan = (req, res) => {
         .then(() => res.status(200).json({
             message: 'Date issue was updated',
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'updateIssueLoan');
+
+            return responses.send500(res);
+        });
 };
 
 export {

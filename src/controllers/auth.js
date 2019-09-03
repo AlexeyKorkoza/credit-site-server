@@ -13,11 +13,12 @@ import {
     makeUpdatingRefreshToken,
     updateUserRecord,
 } from '../business/auth';
+import { responses } from "../utils";
 
 const logIn = (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({ ok: 0, errors: errors.array() });
+        return res.status(422).json({  errors: errors.array() });
     }
 
     const { login, password, role } = req.body;
@@ -26,14 +27,12 @@ const logIn = (req, res) => {
         .then(user => {
             if (!user) {
                 return res.status(400).json({
-                    ok: 0,
                     message: `${role} is not found`,
                 });
             }
 
             if (role === 'manager' && user.is_blocked === true) {
                 return res.status(400).json({
-                    ok: 0,
                     message: 'Record was blocked',
                 });
             }
@@ -49,24 +48,22 @@ const logIn = (req, res) => {
                             if (inputCount === 5) {
                                 return makeBlockingOfManager(null, id)
                                     .then(() => res.status(400).json({
-                                        ok: 0,
                                         message: 'Record has just been blocked',
                                     }));
                             }
 
                             return res.status(400).json({
-                                ok: 0,
                                 message: 'Password are not compared',
                             })
                         })
-                        .catch(err => res.status(500).json({
-                            ok: 0,
-                            message: err.message,
-                        }));
+                        .catch(err => {
+                            console.error(err.message, 'logIn');
+
+                            return responses.send500(res);
+                        });
                 }
 
                 return res.status(400).json({
-                    ok: 0,
                     message: 'Password are not compared',
                 });
             }
@@ -83,7 +80,7 @@ const logIn = (req, res) => {
                         role,
                     }))
                     .catch(err => res.status(500).json({
-                        ok: 0,
+
                         message: err.message,
                     }));
             }
@@ -99,10 +96,11 @@ const logIn = (req, res) => {
                     });
                 });
         })
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'logIn');
+
+            return responses.send500(res);
+        });
 };
 
 const updateRefreshToken = (req, res) => {
@@ -113,7 +111,6 @@ const updateRefreshToken = (req, res) => {
         .then(result => {
             if (!result) {
                 return res.status(404).json({
-                    ok: 0,
                     message: `${role} is not found`,
                 });
             }
@@ -128,10 +125,11 @@ const updateRefreshToken = (req, res) => {
                 })
             );
         })
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'updateRefreshToken');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -147,10 +145,11 @@ const logOut = (req, res) => {
         .then(() => res.status(200).json({
             message: `${role} is logged out`,
         }))
-        .catch(err => res.status(500).json({
-            ok: 0,
-            message: err.message,
-        }));
+        .catch(err => {
+            console.error(err.message, 'logOut');
+
+            return responses.send500(res);
+        });
 };
 
 export {

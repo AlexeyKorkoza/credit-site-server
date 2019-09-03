@@ -6,6 +6,7 @@ import {
 } from '../../business/api/admins';
 import { encryptor } from '../../core/crypto';
 import { comparePasswords } from '../../utils/passwords';
+import { responses } from "../../utils";
 
 /**
  * @param req
@@ -19,12 +20,13 @@ const getAdminData = (req, res) => {
         .then(admin => res.status(200)
             .json({
                 data: admin,
-            }))
-        .catch(err => res.status(500)
-            .json({
-                ok: 0,
-                message: err.message,
-            }));
+            })
+        )
+        .catch(err => {
+            console.error(err.message, 'getAdminData');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -39,7 +41,6 @@ const updateAdminData = (req, res) => {
     if (!login) {
         return res.status(422)
             .json({
-                ok: 0,
                 message: 'Enter your login',
             });
     }
@@ -53,11 +54,11 @@ const updateAdminData = (req, res) => {
             .json({
                 admin,
             }))
-        .catch(err => res.status(500)
-            .json({
-                ok: 0,
-                message: err.message,
-            }));
+        .catch(err => {
+            console.error(err.message, 'updateAdminData');
+
+            return responses.send500(res);
+        });
 };
 
 /**
@@ -75,13 +76,12 @@ const changeAdminPassword = (req, res) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        return res.status(422).json({ ok: 0, errors: errors.array() });
+        return res.status(422).json({ errors: errors.array() });
     }
 
     if (newPassword !== confirmNewPassword) {
         return res.status(400)
             .json({
-                ok: 0,
                 message: 'New Password and Confirmation New Password are different',
             });
     }
@@ -94,7 +94,6 @@ const changeAdminPassword = (req, res) => {
             if (!isComparedPasswords) {
                 return res.status(400)
                     .json({
-                        ok: 0,
                         message: 'Old Password is incorrect',
                     });
             }
@@ -108,11 +107,11 @@ const changeAdminPassword = (req, res) => {
                     .json({
                         message: 'Password was changes successfully',
                     }))
-                .catch(err => res.status(500)
-                    .json({
-                        ok: 0,
-                        message: err.message,
-                    }));
+                .catch(err => {
+                    console.error(err.message, 'changeAdminPassword');
+
+                    return responses.send500(res);
+                });
         });
 };
 
