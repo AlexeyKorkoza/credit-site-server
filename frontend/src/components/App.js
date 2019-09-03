@@ -6,6 +6,7 @@ import { Authentication, Clients, Loans, Managers, Profile } from "../containers
 import { PrivateRouter, PrivateRouterRole } from "../routing";
 import { currentUserSubject, logOut } from '../api/authentication';
 import Sidebar from "./Sidebar";
+import { NoMatch } from "./ErrorPages";
 
 class App extends Component {
     constructor(props) {
@@ -93,6 +94,7 @@ class App extends Component {
                             path="/loans/:id"
                             component={Loans.Editor}
                         />
+                        <Route component={NoMatch} />
                     </Switch>
                 </Page>
             </Fragment>
