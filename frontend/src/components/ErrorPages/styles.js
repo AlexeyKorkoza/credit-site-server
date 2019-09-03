@@ -154,14 +154,3 @@ export const Wrapper = styled.div`
   align-items: center;
   width: 100%;
 `;
-// /* demo stuff */
-// body {
-//     background-color: #416475;
-//     margin-bottom: 50px;
-// }
-// html, button, input, select, textarea {
-//     font-family: 'Montserrat', Helvetica, sans-serif;
-//     color: #92a4ad;
-// }
-
-
