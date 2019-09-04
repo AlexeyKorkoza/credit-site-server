@@ -1,9 +1,6 @@
-import {
-    compareDates,
-    subtractDates,
-} from "../utils";
+import dates from "../utils";
 
-export default (dateIssue, dateMaturity, state) => {
+const calculateTotalRepaymentAmount = (dateIssue, dateMaturity, state) => {
     const {
         amount: surchargeFactor,
         selectedTerritory,
@@ -17,7 +14,7 @@ export default (dateIssue, dateMaturity, state) => {
         };
     }
 
-    if (!compareDates(dateIssue, dateMaturity)) {
+    if (!dates.compareDates(dateIssue, dateMaturity)) {
         return {
             dateIssue,
             dateMaturity,
@@ -26,7 +23,7 @@ export default (dateIssue, dateMaturity, state) => {
 
     const territory = territories.find(e => +e.value === +selectedTerritory.value);
     const { value: territoryValue } = territory;
-    const duration = subtractDates(dateIssue, dateMaturity);
+    const duration = dates.subtractDates(dateIssue, dateMaturity);
     const totalRepaymentAmount = (duration * +territoryValue) + +surchargeFactor;
 
     return {
@@ -34,4 +31,8 @@ export default (dateIssue, dateMaturity, state) => {
         dateMaturity,
         totalRepaymentAmount,
     };
+};
+
+export default {
+    calculateTotalRepaymentAmount,
 };

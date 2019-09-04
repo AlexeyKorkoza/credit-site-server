@@ -1,18 +1,18 @@
-import { getItem, setItem, removeItem } from '../core/localStorage';
+import localStorage from '../core';
 
 const userKey = 'user';
 
-const getDataAuthUser = () => getItem(userKey, true);
+const getDataAuthUser = () => localStorage.getItem(userKey, true);
 
 const authUser = data => {
-    setItem(userKey, data, true);
+    localStorage.setItem(userKey, data, true);
 };
 
 const logoutUser = () => {
-    removeItem(userKey);
+    localStorage.removeItem(userKey);
 };
 
-export {
+export default {
     getDataAuthUser,
     authUser,
     logoutUser,

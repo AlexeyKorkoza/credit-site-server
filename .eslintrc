@@ -6,7 +6,10 @@
     "jest": true
   },
   "globals": {
+    "API_URL": true,
+    "Headers": true,
     "document": true,
+    "fetch": true,
     "localStorage": true,
     "window": true
   },

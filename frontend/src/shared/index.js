@@ -1,26 +1,11 @@
-import Button from './Button';
-import Card from './Card';
-import Input from './Input';
-import { Modal, ModalContainer, ModalContent, ModalItem } from './Modal';
-import { H1 } from './Headers';
-import Error from './Error';
-import SingleDatePicker from './SingleDatePicker';
-import ReactSelect from './ReactSelect';
-import Table from './Table';
-import Validator from "./Validator";
-
-export {
-    Button,
-    Card,
-    Input,
-    Modal,
-    ModalContainer,
-    ModalContent,
-    ModalItem,
-    H1,
-    Error,
-    ReactSelect,
-    SingleDatePicker,
-    Table,
-    Validator,
-};
+export { default as Button } from './Button';
+export { default as Card } from './Card';
+export { default as Input } from './Input';
+export * from './Modal';
+export { default as H1 } from './Headers';
+export { default as Error } from './Error';
+export { default as SingleDatePicker } from './SingleDatePicker';
+export { default as ReactSelect } from './ReactSelect';
+export { default as Table } from './Table';
+export { default as Validator } from "./Validator";
+export { default as devices } from './devices';

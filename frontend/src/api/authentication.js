@@ -1,10 +1,10 @@
 import { BehaviorSubject } from 'rxjs';
 
-import sender from './sender';
-import { getItem } from "../core/localStorage";
-import { logoutUser } from "../services/localDb";
+import fetch from './fetch';
+import localStorage from "../core";
+import { localDb } from "../services";
 
-const currentUserSubject = new BehaviorSubject(getItem('user', true));
+const currentUserSubject = new BehaviorSubject(localStorage.getItem('user', true));
 
 /**
  * @param body {Object}
@@ -13,7 +13,7 @@ const currentUserSubject = new BehaviorSubject(getItem('user', true));
 const logIn = body => {
     const url = `${API_URL}/auth/login`;
 
-    return sender(url, 'post', body)
+    return fetch(url, 'post', body)
         .then(result => {
             currentUserSubject.next(result);
 
@@ -28,15 +28,15 @@ const logIn = body => {
 const logOut = () => {
     const url = `${API_URL}/auth/logout`;
 
-    return sender(url, 'get')
+    return fetch(url, 'get')
         .then(() => {
-            logoutUser('key');
+            localDb.logoutUser('key');
             currentUserSubject.next({});
         })
         .catch(err => console.error(err.message, 'logOut'));
 };
 
-export {
+export default {
     currentUserSubject,
     logIn,
     logOut,

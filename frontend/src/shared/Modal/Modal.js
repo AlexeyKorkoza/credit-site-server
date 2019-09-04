@@ -38,7 +38,7 @@ const ModalItem = styled.div`
     justify-content: space-around;
 `;
 
-export {
+export default {
     Modal,
     ModalContainer,
     ModalContent,

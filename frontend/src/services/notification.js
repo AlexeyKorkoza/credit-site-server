@@ -117,4 +117,6 @@ const buildNotification = (message, type) => {
     return notification ? notification.builder(message) : null;
 };
 
-export default buildNotification;
+export default {
+    buildNotification
+};

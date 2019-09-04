@@ -22,9 +22,9 @@ const getItem = (key, isJson = false) => {
 const setItem = (key, data, isJson = false) => {
     localStorage.setItem(key,
         isJson
-        ? JSON.stringify(data)
-        : data
-        );
+            ? JSON.stringify(data)
+            : data
+    );
 };
 
 /**
@@ -34,7 +34,7 @@ const removeItem = key => {
     localStorage.removeItem(key);
 };
 
-export {
+export default {
     getItem,
     setItem,
     removeItem,
