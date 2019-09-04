@@ -1,19 +1,7 @@
 import { validationResult } from 'express-validator/check';
 
-import { buildTokens } from '../utils/jwt';
-import { comparePasswords } from '../utils/passwords';
-import {
-    makeBlockingOfManager,
-    authManager,
-    increaseInputCount,
-} from '../business/api/managers';
-import {
-    findRecordOnLogin,
-    findRecordOnRefreshToken,
-    makeUpdatingRefreshToken,
-    updateUserRecord,
-} from '../business/auth';
-import { responses } from "../utils";
+import { auth, managers } from '../business';
+import { jwt, logger, passwords, responses } from "../utils";
 
 const logIn = (req, res) => {
     const errors = validationResult(req);
@@ -23,7 +11,7 @@ const logIn = (req, res) => {
 
     const { login, password, role } = req.body;
 
-    return findRecordOnLogin(login, role)
+    return auth.findRecordOnLogin(login, role)
         .then(user => {
             if (!user) {
                 return res.status(400).json({
@@ -37,16 +25,16 @@ const logIn = (req, res) => {
                 });
             }
 
-            const isPasswordCompare = comparePasswords(user.password, password);
+            const isPasswordCompare = passwords.comparePasswords(user.password, password);
             if (!isPasswordCompare) {
                 if (role === 'manager') {
-                    return increaseInputCount(login, user)
+                    return managers.increaseInputCount(login, user)
                         .then(result => {
                             const data = result[1].dataValues;
                             const { input_count: inputCount, id } = data;
 
                             if (inputCount === 5) {
-                                return makeBlockingOfManager(null, id)
+                                return managers.makeBlockingOfManager(null, id)
                                     .then(() => res.status(400).json({
                                         message: 'Record has just been blocked',
                                     }));
@@ -57,7 +45,7 @@ const logIn = (req, res) => {
                             })
                         })
                         .catch(err => {
-                            console.error(err.message, 'logIn');
+                            logger.error(err.message, 'logIn');
 
                             return responses.send500(res);
                         });
@@ -68,10 +56,10 @@ const logIn = (req, res) => {
                 });
             }
 
-            const { accessToken, expiresIn, refreshToken } = buildTokens(user, role);
+            const { accessToken, expiresIn, refreshToken } = jwt.buildTokens(user, role);
             if (role === 'manager') {
-                return authManager(user, login)
-                    .then(() => makeUpdatingRefreshToken(user, '', refreshToken, role))
+                return managers.authManager(user, login)
+                    .then(() => auth.makeUpdatingRefreshToken(user, '', refreshToken, role))
                     .then(() => res.status(200).json({
                         id: user.id,
                         accessToken,
@@ -85,7 +73,7 @@ const logIn = (req, res) => {
                     }));
             }
 
-            return makeUpdatingRefreshToken(user, '', refreshToken, role)
+            return auth.makeUpdatingRefreshToken(user, '', refreshToken, role)
                 .then(() => {
                     return res.status(200).json({
                         id: user.id,
@@ -97,7 +85,7 @@ const logIn = (req, res) => {
                 });
         })
         .catch(err => {
-            console.error(err.message, 'logIn');
+            logger.error(err.message, 'logIn');
 
             return responses.send500(res);
         });
@@ -107,7 +95,7 @@ const updateRefreshToken = (req, res) => {
     const user = req.user;
     const { role, refreshToken } = req.body;
 
-    return findRecordOnRefreshToken(user, refreshToken, role)
+    return auth.findRecordOnRefreshToken(user, refreshToken, role)
         .then(result => {
             if (!result) {
                 return res.status(404).json({
@@ -115,9 +103,9 @@ const updateRefreshToken = (req, res) => {
                 });
             }
 
-            const { accessToken: newAccessToken, expiresIn, refreshToken: newRefreshToken } = buildTokens(user, role);
+            const { accessToken: newAccessToken, expiresIn, refreshToken: newRefreshToken } = jwt.buildTokens(user, role);
 
-            return makeUpdatingRefreshToken(user, refreshToken, newRefreshToken, role)
+            return auth.makeUpdatingRefreshToken(user, refreshToken, newRefreshToken, role)
                 .then(() => res.status(200).json({
                     refreshToken: newRefreshToken,
                     accessToken: newAccessToken,
@@ -126,7 +114,7 @@ const updateRefreshToken = (req, res) => {
             );
         })
         .catch(err => {
-            console.error(err.message, 'updateRefreshToken');
+            logger.error(err.message, 'updateRefreshToken');
 
             return responses.send500(res);
         });
@@ -141,18 +129,18 @@ const updateRefreshToken = (req, res) => {
 const logOut = (req, res) => {
     const { user_id: id, role } = req.user;
 
-    return updateUserRecord(id, role)
+    return auth.updateUserRecord(id, role)
         .then(() => res.status(200).json({
             message: `${role} is logged out`,
         }))
         .catch(err => {
-            console.error(err.message, 'logOut');
+            logger.error(err.message, 'logOut');
 
             return responses.send500(res);
         });
 };
 
-export {
+export default {
     logIn,
     updateRefreshToken,
     logOut,

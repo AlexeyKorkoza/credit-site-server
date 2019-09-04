@@ -1,8 +1,8 @@
 import { validationResult } from 'express-validator/check';
 
 import { Admin, Manager, Client } from '../../models';
-import { makeCreatingUser } from '../../business/api/users';
-import { responses } from "../../utils";
+import { users } from '../../business';
+import { logger, responses } from "../../utils";
 
 const createUser = (req, res) => {
     const errors = validationResult(req);
@@ -24,7 +24,7 @@ const createUser = (req, res) => {
         });
     }
 
-    return makeCreatingUser(req.body)
+    return users.makeCreatingUser(req.body)
         .then(result => {
             if (result) {
                 return res.status(201).json({
@@ -37,12 +37,12 @@ const createUser = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err.message, 'createUser');
+            logger.error(err.message, 'createUser');
 
             return responses.send500(res);
         });
 };
 
-export {
+export default {
     createUser,
 };

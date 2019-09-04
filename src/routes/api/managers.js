@@ -1,58 +1,48 @@
 import { Router } from 'express';
 
-import {
-    createNewManager,
-    updateAttributesManager,
-    updateProfileManager,
-    changePassword,
-    blockManager,
-    getManagerClients,
-    getManagerData,
-    getManagersData,
-} from '../../controllers/api/managers';
-import { jwtMiddleware } from '../../middlewares/jwt';
-import authMiddleware from '../../middlewares/auth';
+import { managers } from '../../controllers';
+import { authMiddleware, jwtMiddleware } from '../../middlewares';
 
 const router = Router();
 
 router.get('/managers',
     jwtMiddleware,
     authMiddleware.isAdmin,
-    getManagersData);
+    managers.getManagersData);
 
 router.get('/managers/:id',
     jwtMiddleware,
     authMiddleware.isManagerOrAdmin,
-    getManagerData);
+    managers.getManagerData);
 
 router.get('/managers/:id/clients',
     jwtMiddleware,
     authMiddleware.isManager,
-    getManagerClients);
+    managers.getManagerClients);
 
 router.post('/managers',
     jwtMiddleware,
     authMiddleware.isAdmin,
-    createNewManager);
+    managers.createNewManager);
 
 router.put('/managers/:id',
     jwtMiddleware,
     authMiddleware.isManager,
-    updateAttributesManager);
+    managers.updateAttributesManager);
 
 router.put('/managers/:id/update-profile',
     jwtMiddleware,
     authMiddleware.isAdmin,
-    updateProfileManager);
+    managers.updateProfileManager);
 
 router.put('/managers/:id/change-password',
     jwtMiddleware,
     authMiddleware.isManagerOrAdmin,
-    changePassword);
+    managers.changePassword);
 
 router.put('/managers/:id/block-manager',
     jwtMiddleware,
     authMiddleware.isAdmin,
-    blockManager);
+    managers.blockManager);
 
 export default router;

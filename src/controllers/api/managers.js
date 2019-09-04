@@ -1,18 +1,5 @@
-import {
-    comparePasswords,
-    encryptPassword,
-} from '../../utils/passwords';
-import {
-    makeCreatingOfManager,
-    makeBlockingOfManager,
-    makeUpdatingManagerAttributes,
-    findManager,
-    updateManagerPassword,
-    makeUpdatingProfileManager,
-    findAllManagers,
-} from '../../business/api/managers';
-import { findAllClients } from "../../business/api/clients";
-import { responses } from "../../utils";
+import { clients, managers } from "../../business";
+import { logger, passwords, responses } from "../../utils";
 
 /**
  * @param req
@@ -24,12 +11,12 @@ const createNewManager = (req, res) => {
 
     const { user_id: admin_id } = req.user;
 
-    return makeCreatingOfManager(admin_id, req.body)
+    return managers.makeCreatingOfManager(admin_id, req.body)
         .then(() => res.status(200).json({
             message: 'Manager was created',
         }))
         .catch(err => {
-            console.error(err.message, 'createNewManager');
+            logger.error(err.message, 'createNewManager');
 
             return responses.send500(res);
         });
@@ -44,12 +31,12 @@ const updateAttributesManager = (req, res) => {
     const { id } = req.params;
     const body = req.body;
 
-    return makeUpdatingManagerAttributes(id, body)
+    return managers.makeUpdatingManagerAttributes(id, body)
         .then(() => res.status(200).json({
             message: 'Manager`s attributes is updated',
         }))
         .catch(err => {
-            console.error(err.message, 'updateAttributesManager');
+            logger.error(err.message, 'updateAttributesManager');
 
             return responses.send500(res);
         });
@@ -67,7 +54,7 @@ const updateProfileManager = (req, res) => {
 
     // @TODO Add validation
 
-    return makeUpdatingProfileManager(data, managerId)
+    return managers.makeUpdatingProfileManager(data, managerId)
         .then(result => {
             if (result) {
                 return res.status(200).json({
@@ -80,7 +67,7 @@ const updateProfileManager = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err.message, 'updateProfileManager');
+            logger.error(err.message, 'updateProfileManager');
 
             return responses.send500(res);
         });
@@ -99,7 +86,7 @@ const changePassword = (req, res) => {
     // @TODO Add validation
     // @Todo Fix this error as password is bad: Can't set headers after they are sent.
 
-    return findManager(managerId, true)
+    return managers.findManager(managerId, true)
         .then(result => {
             if (!result) {
                 return res.status(400).json({
@@ -108,7 +95,7 @@ const changePassword = (req, res) => {
             }
 
             const { password } = result;
-            const isCompare = comparePasswords(password, oldPassword);
+            const isCompare = passwords.comparePasswords(password, oldPassword);
             if (!isCompare) {
                 return res.status(400).json({
                     message: 'Old password is incorrect',
@@ -116,10 +103,10 @@ const changePassword = (req, res) => {
             }
 
             const data = {
-                password: encryptPassword(newPassword),
+                password: passwords.encryptPassword(newPassword),
             };
 
-            return updateManagerPassword(data, managerId);
+            return managers.updateManagerPassword(data, managerId);
         })
         .then(result => {
             if (result) {
@@ -133,7 +120,7 @@ const changePassword = (req, res) => {
             });
         })
         .catch(err => {
-            console.error(err.message, 'changePassword');
+            logger.error(err.message, 'changePassword');
 
             return responses.send500(res);
         });
@@ -148,12 +135,12 @@ const blockManager = (req, res) => {
     const { id: adminId } = req.user;
     const { id: managerId } = req.params;
 
-    return makeBlockingOfManager(adminId, managerId)
+    return managers.makeBlockingOfManager(adminId, managerId)
         .then(() => res.status(200).json({
             message: 'Manager was blocked',
         }))
         .catch(err => {
-            console.error(err.message, 'blockManager');
+            logger.error(err.message, 'blockManager');
 
             return responses.send500(res);
         });
@@ -163,12 +150,12 @@ const getManagerData = (req, res) => {
     // const { id: managerId } = req.user;
     const { id: managerId } = req.params;
 
-    return findManager(managerId)
+    return managers.findManager(managerId)
         .then(manager => res.status(200).json({
             data: manager,
         }))
         .catch(err => {
-            console.error(err.message, 'getManagerData');
+            logger.error(err.message, 'getManagerData');
 
             return responses.send500(res);
         });
@@ -177,12 +164,12 @@ const getManagerData = (req, res) => {
 const getManagersData = (req, res) => {
     const { limit, offset } = req.query;
 
-    return findAllManagers(limit, offset)
+    return managers.findAllManagers(limit, offset)
         .then(managers => res.status(200).json({
             managers,
         }))
         .catch(err => {
-            console.error(err.message, 'getManagersData');
+            logger.error(err.message, 'getManagersData');
 
             return responses.send500(res);
         });
@@ -191,18 +178,18 @@ const getManagersData = (req, res) => {
 const getManagerClients = (req, res) => {
     const { id: managerId } = req.params;
 
-    return findAllClients(managerId)
+    return clients.findAllClients(managerId)
         .then(clients => res.status(200).json({
             clients,
         }))
         .catch(err => {
-            console.error(err.message, 'getManagerClients');
+            logger.error(err.message, 'getManagerClients');
 
             return responses.send500(res);
         });
 };
 
-export {
+export default {
     createNewManager,
     updateAttributesManager,
     updateProfileManager,

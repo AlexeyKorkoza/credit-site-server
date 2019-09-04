@@ -1,28 +1,23 @@
 import { Router } from 'express';
 
-import {
-    createClientCard,
-    updateClientCard,
-    updateTerritorialCoefficient,
-} from '../../controllers/api/client_cards';
-import { jwtMiddleware } from '../../middlewares/jwt';
-import authMiddleware from '../../middlewares/auth';
+import { client_cards } from '../../controllers';
+import { authMiddleware, jwtMiddleware } from '../../middlewares';
 
 const router = Router();
 
 router.post('/clients-cards',
     jwtMiddleware,
     authMiddleware.isManager,
-    createClientCard);
+    client_cards.createClientCard);
 
 router.put('/client-cards/:id/',
     jwtMiddleware,
     authMiddleware.isManager,
-    updateClientCard);
+    client_cards.updateClientCard);
 
 router.put('/client-cards/:id/coefficient',
     jwtMiddleware,
     authMiddleware.isAdmin,
-    updateTerritorialCoefficient);
+    client_cards.updateTerritorialCoefficient);
 
 export default router;

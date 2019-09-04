@@ -197,7 +197,7 @@ const findClientLoans = (managerId, clientId) => {
         })));
 };
 
-export {
+export default {
     makeCreatingOfClient,
     makeUpdatingOfClient,
     makeMarkingDeletionOfClient,

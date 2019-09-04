@@ -1,8 +1,7 @@
 import { Router } from 'express';
 
-import { createUser } from '../../controllers/api/users';
-import { jwtMiddleware } from '../../middlewares/jwt';
-import authMiddleware from '../../middlewares/auth';
+import { users } from '../../controllers';
+import { authMiddleware, jwtMiddleware } from '../../middlewares';
 import validator from '../../validator';
 
 const router = Router();
@@ -11,6 +10,6 @@ router.post('/users',
     jwtMiddleware,
     authMiddleware.isAdmin,
     validator.newUser,
-    createUser);
+    users.createUser);
 
 export default router;

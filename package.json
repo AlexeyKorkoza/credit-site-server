@@ -2,13 +2,9 @@
   "name": "credit-site-root",
   "version": "0.0.0",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev:watch": "babel-watch ./src",
     "eslint:backend": "eslint src",
-    "eslint:frontend": "eslint frontend/src",
-    "migrate": "sequelize db:migrate",
-    "migrate:undo": "sequelize db:migrate:undo",
-    "migrate:create": "sequelize migration:create"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -24,32 +20,33 @@
   },
   "homepage": "https://github.com/AlexeyKorkoza/credit-site#readme",
   "dependencies": {
-    "@babel/runtime": "^7.4.4",
+    "@babel/runtime": "^7.5.5",
     "body-parser": "^1.19.0",
     "bunyan": "^1.8.12",
-    "config": "^3.1.0",
+    "config": "^3.2.2",
     "cors": "^2.8.5",
-    "ejs": "^2.6.1",
-    "express": "^4.16.4",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
     "express-validator": "^5.3.1",
     "jsonwebtoken": "^8.5.1",
-    "pg": "^7.10.0",
-    "sequelize": "^5.8.5"
+    "pg": "^7.12.1",
+    "sequelize": "^5.18.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
-    "@babel/plugin-transform-runtime": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-export-default-from": "^7.5.2",
+    "@babel/plugin-proposal-object-rest-spread": "^7.5.5",
+    "@babel/plugin-transform-runtime": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
-    "babel-eslint": "^10.0.1",
-    "babel-loader": "^8.0.5",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.6",
     "babel-watch": "^7.0.0",
     "eslint": "^5.16.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.17.2",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.13.0"
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3"
   }
 }

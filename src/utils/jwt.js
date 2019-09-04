@@ -32,6 +32,6 @@ const buildTokens = (user, role) => {
     };
 };
 
-export {
+export default {
     buildTokens,
 };

@@ -150,7 +150,7 @@ const makeUpdatingIssueLoan = (id, body, adminId) => {
     return Loan.update(data, query);
 };
 
-export {
+export default {
     findAllLoans,
     findLoan,
     makeCreating,

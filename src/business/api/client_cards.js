@@ -69,7 +69,7 @@ const makeUpdatingTerritorialCoefficient = (id, surchargeFactor) => {
     return ClientCard.update(data, query);
 };
 
-export {
+export default {
     addClientCard,
     makeUpdatingClientCard,
     makeUpdatingTerritorialCoefficient,

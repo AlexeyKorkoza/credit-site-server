@@ -1,5 +1,5 @@
 import { Admin, Manager, Client } from '../../models';
-import { encryptor } from '../../core/crypto';
+import { crypto } from '../../utils';
 
 const models = {
     admin: Admin,
@@ -9,7 +9,7 @@ const models = {
 
 const makeCreatingUser = body => {
     const { role, password, login } = body;
-    const encryptedPassword = encryptor(password);
+    const encryptedPassword = crypto.encryptor(password);
     const model = models[role.toLowerCase()];
     let data = Object.assign({}, { login, password: encryptedPassword });
 
@@ -20,6 +20,6 @@ const makeCreatingUser = body => {
     return model.create(data);
 };
 
-export {
+export default {
     makeCreatingUser,
 };

@@ -1,5 +1,5 @@
 import { Manager } from '../../models';
-import { encryptor } from '../../core/crypto';
+import { crypto } from '../../utils';
 
 /**
  * @param adminId
@@ -25,7 +25,7 @@ const makeCreatingOfManager = (adminId, body) => {
         admin_id: adminId,
     };
 
-    data.password = encryptor(data.password);
+    data.password = crypto.encryptor(data.password);
 
     return Manager.create(data);
 };
@@ -226,7 +226,7 @@ const findAllManagers = (limit = 25, offset = 0) => {
     return Manager.findAll(query);
 };
 
-export {
+export default {
     makeCreatingOfManager,
     makeUpdatingManagerAttributes,
     makeBlockingOfManager,
