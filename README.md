@@ -1,5 +1,72 @@
 # credit-site
 
+# How to run
+
+## Database
+
+First you must go to the `db` folder and install all the packages:
+```
+$ npm run install
+```
+Then you must create `local.json` near `default.json` and set your databases credentials into it. 
+
+Example:
+```json
+{
+  "database": {
+    "credit_site": {
+      "urn": "postgres://postgres:linux@127.0.0.1:5432/credit_site"
+    }
+  }
+}
+```
+
+After that you must enter two commands in a console one by one to create new tables and insert some data into some tables.
+
+```
+$ npm run migrate
+```
+
+```
+$ npm run seed
+```
+
+## Backend
+
+Now, you can install all the packages to run the backend. So, you must install them from the root of the project
+```
+$ npm run install
+```
+
+Before launching the backend you must create `local.json` near `default.json`. This file must be situated in `config` folder in the root of the project.
+Please, check `default.json` to set all necessary credentials correctly.
+
+## Frontend
+
+You must go to the `frontend` folder and install all the packages
+```
+$ npm run install
+```
+
+Before launching the frontend you must create `local.json` near `default.json`. This file must be situated in the `config` folder.
+Please, check `default.json` to set all necessary credentials correctly.
+
+At last, you must enter two commands in a console in order to run the project.
+
+## Run backend
+
+You must go to the root of the project and enter the following command:
+```
+$ npm run dev:watch
+```
+
+## Run frontend
+
+You must go to the `frontend` folder and enter the following command:
+```
+$ npm run webpack:watch
+```
+
 # Description
 
 #### 1. The application must support authentication by a pair of username and password.
@@ -91,11 +158,3 @@
   Loan amount * coefficient + 1 calendar day of loan (equal to 1% of the premium to the total loan amount)
 
   Example: 10 000 (loan) * 0.5% (amount) + 105 (days loan) = total
-
-#### 10. In case of delay of one day of the loan, and the delay is considered from the moment when the principal maturity of 30 calendar days has expired
-
-  Total will be:
-
-  Loan amount * coefficient + 1 calendar day of delay (equal to 15% of the total loan amount)
-
-  Example: 10 000 (loan) * 0.5% (amount) + 1507.5 (calendar day of delay) = total
