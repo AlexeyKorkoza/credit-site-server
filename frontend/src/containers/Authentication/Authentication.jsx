@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import SimpleReactValidator from 'simple-react-validator';
 import ReactNotification from 'react-notifications-component';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { authentication } from '../../api';
 import AuthenticationForm from '../../components/Authentication';
@@ -30,6 +31,10 @@ class Authentication extends Component {
         ],
         isActiveModal: false,
         notificationType: "Sign In"
+    };
+
+    static propTypes = {
+        history: ReactRouterPropTypes.history.isRequired,
     };
 
     componentDidMount() {
@@ -77,7 +82,9 @@ class Authentication extends Component {
         authentication.logIn(data)
             .then(result => {
                 localDb.authUser(result);
-                this.props.history.push('/profile');
+
+                const { history } = this.props;
+                history.push('/profile');
             })
             .catch(error => {
                 const { message } = error;

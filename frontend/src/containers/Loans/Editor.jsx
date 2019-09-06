@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import ReactNotification from 'react-notifications-component';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Editor as EditorComponent } from '../../components/Loans';
 import { loans } from '../../api';
@@ -40,6 +41,10 @@ class Editor extends Component {
         selectedTerritory: {},
         failureNotificationType: 'FailureEditingLoan',
         successfulNotificationType: 'SuccessfulEditingLoan',
+    };
+
+    static propTypes = {
+        match: ReactRouterPropTypes.match.isRequired,
     };
 
     componentDidMount() {

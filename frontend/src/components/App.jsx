@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { GlobalStyle, Page } from "./styles";
 import { Authentication, Clients, Loans, Managers, Profile } from "../containers";
@@ -11,6 +12,10 @@ import { NoMatch } from "./ErrorPages";
 class App extends Component {
     state = {
         role: '',
+    };
+
+    static propTypes = {
+        history: ReactRouterPropTypes.history.isRequired,
     };
 
     componentDidMount() {
@@ -27,7 +32,10 @@ class App extends Component {
     }
 
     onLogOut = () => {
-        authentication.logOut().then(() => this.props.history.push('/auth'));
+        authentication.logOut().then(() => {
+            const { history } = this.props;
+            history.push('/auth')
+        });
     };
 
     render() {

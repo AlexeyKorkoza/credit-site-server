@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router';
 import SimpleReactValidator from 'simple-react-validator';
 import ReactNotification from 'react-notifications-component';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Editor as EditorComponent } from '../../components/Clients';
 import { clients } from '../../api';
@@ -41,6 +42,11 @@ class Editor extends Component {
         ],
         failureNotificationType: 'FailureEditingClient',
         successfulNotificationType: 'SuccessfulEditingClient',
+    };
+
+    static propTypes = {
+        history: ReactRouterPropTypes.history.isRequired,
+        match: ReactRouterPropTypes.match.isRequired,
     };
 
     componentDidMount() {
@@ -114,7 +120,8 @@ class Editor extends Component {
                   this.notificationDOMRef.current.addNotification(builtNotification);
               }
               this.timer = setTimeout(() => {
-                  this.props.history.push('/clients');
+                  const { history } = this.props;
+                  history.push('/clients');
               }, 3000);
           })
           .catch(error => {
@@ -205,7 +212,8 @@ class Editor extends Component {
                     this.notificationDOMRef.current.addNotification(builtNotification);
                 }
                 this.timer = setTimeout(() => {
-                    this.props.history.push('/clients');
+                    const { history } = this.props;
+                    history.push('/clients');
                 }, 3000);
             })
             .catch(error => {

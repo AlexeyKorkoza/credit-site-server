@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router";
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { loans } from '../../api';
 import { List } from '../../components/Loans';
@@ -11,11 +12,16 @@ class LoansList extends Component{
         role: null,
     };
 
+    static propTypes = {
+        history: ReactRouterPropTypes.history.isRequired,
+    };
+
     componentDidMount() {
         const { role } = localDb.getDataAuthUser();
 
         if (role === 'manager') {
-            this.props.history.push('/loans/add');
+            const { history } = this.props;
+            history.push('/loans/add');
 
             return;
         }
