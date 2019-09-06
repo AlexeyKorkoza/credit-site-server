@@ -5,7 +5,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Editor as EditorComponent } from '../../components/Managers';
 import { managers, profile } from '../../api';
-import { notification } from "../../services";
+import { notification, passwords } from "../../services";
 import { Validator } from "../../shared";
 
 class Editor extends Component {
@@ -166,22 +166,8 @@ class Editor extends Component {
             successfulNotificationType,
         } = this.state;
 
-        if (!oldPassword || !newPassword || !confirmNewPassword) {
-            const builtNotification = notification.buildNotification('Please, enter fill in all fields', failureNotificationType);
-            this.notificationDOMRef.current.addNotification(builtNotification);
-
-            return;
-        }
-
-        if (oldPassword.length < 8 || newPassword.length < 8 || confirmNewPassword.length < 8) {
-            const builtNotification = notification.buildNotification('Passwords length must be as minimum 8 symbols', failureNotificationType);
-            this.notificationDOMRef.current.addNotification(builtNotification);
-
-            return;
-        }
-
-        if (newPassword !== confirmNewPassword) {
-            const builtNotification = notification.buildNotification('Passwords are not equal', failureNotificationType);
+        const builtNotification = passwords.validatePasswords(oldPassword, newPassword, confirmNewPassword);
+        if (builtNotification) {
             this.notificationDOMRef.current.addNotification(builtNotification);
 
             return;

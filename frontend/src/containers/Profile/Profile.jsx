@@ -4,7 +4,7 @@ import ReactNotification from 'react-notifications-component';
 
 import { Admin, Manager } from '../../components/Profile';
 import { profile } from '../../api';
-import { localDb, notification } from '../../services';
+import { localDb, notification, passwords } from '../../services';
 import { Validator } from "../../shared";
 
 const rolesComponents = {
@@ -117,22 +117,8 @@ export default class Profile extends Component {
             confirmNewPassword,
         } = this.state;
 
-        if (!oldPassword || !newPassword || !confirmNewPassword) {
-            const builtNotification = notification.buildNotification('Please, enter fill in all fields', failureNotification);
-            this.notificationDOMRef.current.addNotification(builtNotification);
-
-            return;
-        }
-
-        if (oldPassword.length < 8 || newPassword.length < 8 || confirmNewPassword.length < 8) {
-            const builtNotification = notification.buildNotification('Passwords length must be as minimum 8 symbols', failureNotification);
-            this.notificationDOMRef.current.addNotification(builtNotification);
-
-            return;
-        }
-
-        if (newPassword !== confirmNewPassword) {
-            const builtNotification = notification.buildNotification('Passwords are not equal', failureNotification);
+        const builtNotification = passwords.validatePasswords(oldPassword, newPassword, confirmNewPassword);
+        if (builtNotification) {
             this.notificationDOMRef.current.addNotification(builtNotification);
 
             return;
