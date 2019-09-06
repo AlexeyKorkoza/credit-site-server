@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { SingleDatePicker } from "react-dates";
 import styled from "styled-components";
 
@@ -26,9 +26,9 @@ const Wrapper = styled.div`
 
 const singleDatePicker = props => {
     return (
-        <Wrapper>
-            <SingleDatePicker {...props} />
-        </Wrapper>
+      <Wrapper>
+        <SingleDatePicker {...props} />
+      </Wrapper>
     )
 };
 
