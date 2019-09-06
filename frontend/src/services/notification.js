@@ -18,6 +18,11 @@ const successNotificationSettings = {
     dismissable: { click: true }
 };
 
+const executeBuildingNotification = (message, title, isSuccess) =>
+    isSuccess
+        ? buildSuccessNotificationSettings(message, title)
+        : buildFailureNotificationSettings(message, title);
+
 const buildFailureNotificationSettings = (message, title) => {
     return Object.assign({}, failureNotificationSettings, { message, title });
 };
@@ -28,79 +33,57 @@ const buildSuccessNotificationSettings = (message, title) => {
 
 const types = [
     {
-        builder(message) {
-            return buildFailureNotificationSettings(message, this.title);
-        },
+        isSuccess: false,
         title: "You could not sign in",
         type: "Sign In",
     },
     {
-        builder(message) {
-            return buildFailureNotificationSettings(message, this.title);
-        },
+        isSuccess: false,
         title: "Passwords validation",
         type: "FailureChangingPassword",
     },
     {
-        builder(message) {
-            return buildSuccessNotificationSettings(message, this.title);
-        },
+        isSuccess: true,
         title: "Passwords validation",
         type: "SuccessfulChangingPassword",
     },
     {
-        builder(message) {
-            return buildFailureNotificationSettings(message, this.title);
-        },
+        isSuccess: false,
         title: "Manager validation",
         type: "FailureEditingManager",
     },
     {
-        builder(message) {
-            return buildSuccessNotificationSettings(message, this.title);
-        },
+        isSuccess: true,
         title: "Manager validation",
         type: "SuccessfulEditingManager",
     },
     {
-        builder(message) {
-            return buildFailureNotificationSettings(message, this.title);
-        },
+        isSuccess: false,
         title: "Client validation",
         type: "FailureEditingClient",
     },
     {
-        builder(message) {
-            return buildSuccessNotificationSettings(message, this.title);
-        },
+        isSuccess: true,
         title: "Client validation",
         type: "SuccessfulEditingClient",
     },
     {
-        builder(message) {
-            return buildFailureNotificationSettings(message, this.title);
-        },
+        isSuccess: false,
         title: "Loan validation",
         type: "FailureCreatingLoan",
     },
     {
-        builder(message) {
-            return buildSuccessNotificationSettings(message, this.title);
-        },
+        isSuccess: true,
         title: "Loan validation",
         type: "SuccessfulCreatingLoan",
     },
     {
-        builder(message) {
-            return buildFailureNotificationSettings(message, this.title);
-        },
+        isSuccess: false,
         title: "Loan validation",
         type: "FailureEditingLoan",
     },
     {
-        builder(message) {
-            return buildSuccessNotificationSettings(message, this.title);
-        },
+        isSuccess: true,
         title: "Loan validation",
         type: "SuccessfulEditingLoan",
     },
@@ -114,7 +97,9 @@ const types = [
 const buildNotification = (message, type) => {
     const notification = types.find(e => e.type === type);
 
-    return notification ? notification.builder(message) : null;
+    return notification
+        ? executeBuildingNotification(message, notification.title, notification.isSuccess)
+        : null;
 };
 
 export default {
