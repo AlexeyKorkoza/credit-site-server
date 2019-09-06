@@ -48,20 +48,20 @@ const SidebarComponent = props => {
       <Sidebar>
         <Sidebar.Container>
           <Sidebar.Navigation>
-              {sidebarItems.map((item, index) => {
-                  const { icon: Icon, roles } = item;
-                  const isAccess = roles.includes(role);
+            {sidebarItems
+                .filter(e => e.roles.includes(role))
+                .map((item, index) => {
+                  const { icon: Icon } = item;
 
-                  if (isAccess) {
-                      return (
-                        <Sidebar.Navigation.Item>
-                          <Link key={index} to={item.link}>
-                            <Icon />
-                          </Link>
-                        </Sidebar.Navigation.Item>
-                      );
-                  }
-              })}
+                  return (
+                    <Sidebar.Navigation.Item key={index.toString()}>
+                      <Link to={item.link}>
+                        <Icon />
+                      </Link>
+                    </Sidebar.Navigation.Item>
+                  );
+              })
+            }
             <Sidebar.Navigation.Item onClick={onLogOut}>
               <Logout />
             </Sidebar.Navigation.Item>

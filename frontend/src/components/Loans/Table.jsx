@@ -35,42 +35,44 @@ const LoansTable = props => {
       <Table>
         <Table.Header>
           {headers
-                .filter(e => outputProperties.includes(e.key))
-                .map(item => {
-                    const { content, key } = item;
+              .filter(e => outputProperties.includes(e.key))
+              .map(item => {
+                  const { content, key } = item;
 
-                    return <Table.List.Row.Column key={key}>{content}</Table.List.Row.Column>
-                })}
+                  return <Table.List.Row.Column key={key}>{content}</Table.List.Row.Column>
+              })
+          }
           {role === 'admin' && <Table.List.Row.Column />}
         </Table.Header>
         <Table.List>
-            {loans.map(loan => {
-                return (
-                    <Table.List.Row>
-                        {outputProperties.map(item => {
-                            if (item === 'dateMaturity' || item === 'dateIssue') {
-                                return (
-                                    <Table.List.Row.Column>
-                                        {dateFns.format(loan[item], 'MM/DD/YYYY')}
-                                    </Table.List.Row.Column>
-                                );
-                            }
+          {loans.map(loan => {
+             return (
+               <Table.List.Row key={loan.id}>
+                 {outputProperties.map(item => {
+                     if (item === 'dateMaturity' || item === 'dateIssue') {
+                         return (
+                           <Table.List.Row.Column key={item}>
+                             {dateFns.format(loan[item], 'MM/DD/YYYY')}
+                           </Table.List.Row.Column>
+                         );
+                     }
 
-                            return (
-                                <Table.List.Row.Column>
-                                    {loan[item]}
-                                </Table.List.Row.Column>
-                            );
-                        })}
-                        {role === 'admin' && (
-                            <Table.List.Row.LastColumn>
-                                <List.Link to={`/loans/${loan.id}`}>Edit</List.Link>
-                            </Table.List.Row.LastColumn>
-                        )
-                        }
-                    </Table.List.Row>
-                );
-            })}
+                     return (
+                       <Table.List.Row.Column key={item}>
+                         {loan[item]}
+                       </Table.List.Row.Column>
+                       );
+                     })
+                 }
+                 {role === 'admin' && (
+                 <Table.List.Row.LastColumn>
+                   <List.Link to={`/loans/${loan.id}`}>Edit</List.Link>
+                 </Table.List.Row.LastColumn>
+                 )}
+               </Table.List.Row>
+             );
+             })
+          }
         </Table.List>
       </Table>
     );
