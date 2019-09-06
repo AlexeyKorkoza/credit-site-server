@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import ReactNotification from 'react-notifications-component';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Editor as EditorComponent } from '../../components/Managers';
 import { managers, profile } from '../../api';
@@ -19,7 +20,7 @@ class Editor extends Component {
         fullName: '',
         login: '',
         phone: '',
-        isBlocked: null,
+        isBlocked: false,
         password: '',
         oldPassword: '',
         newPassword: '',
@@ -42,6 +43,10 @@ class Editor extends Component {
         selectedTerritory: {},
         failureNotificationType: 'FailureEditingManager',
         successfulNotificationType: 'SuccessfulEditingManager',
+    };
+
+    static propTypes = {
+        match: ReactRouterPropTypes.match.isRequired,
     };
 
     componentDidMount() {
@@ -78,9 +83,12 @@ class Editor extends Component {
     onBlockManager = event => {
         event.preventDefault();
 
-        const { managerId } = this.state;
+        const { isBlocked, managerId } = this.state;
 
-        return managers.blockManager(managerId);
+        return managers.blockManager(managerId)
+            .then(() => {
+                this.setState({ isBlocked: !isBlocked });
+            });
     };
 
     onChangeInput = event => {

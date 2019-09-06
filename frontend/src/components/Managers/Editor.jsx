@@ -1,13 +1,21 @@
 import React from 'react';
-import ReactSelect from "react-select";
 import PropTypes from "prop-types";
 
 import {
     Button,
     Card,
     Input,
+    ReactSelect,
 } from '../../shared';
 import { Login, Passwords } from '../Profile';
+
+const customReactSelectStyles = {
+    valueContainer: () => ({
+        padding: 3,
+        paddingLeft: 7,
+        width: 129,
+    }),
+};
 
 const Editor = props => {
     const {
@@ -61,6 +69,7 @@ const Editor = props => {
                 onChange={onChangeTerritory}
                 options={territories}
                 placeholder="Select Territory ..."
+                styles={customReactSelectStyles}
               />
             </Card.Form.Item>
             {validator.message('territory', selectedTerritory, 'required')}
@@ -93,8 +102,7 @@ const Editor = props => {
                   required
                 />
               </Card.Form.Item>
-)
-                    }
+            )}
             {action === 'add' && validator.message('password', password, 'required|min:8')}
             <Card.Form.Item>
               <Card.Form.Label htmlFor="email">Email</Card.Form.Label>
@@ -123,8 +131,7 @@ const Editor = props => {
             isEmptyPasswordsFields={isEmptyPasswordsFields}
             isEqualNewPasswords={isEqualNewPasswords}
           />
-)
-                }
+        )}
         <Card.List.Item>
           <Card.Form noValidate>
             <Card.Form.Item>
