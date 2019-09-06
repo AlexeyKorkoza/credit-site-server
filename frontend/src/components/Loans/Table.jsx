@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import dateFns from 'date-fns';
+import moment from 'moment';
 
 import { Table } from '../../shared';
 import List from './styles';
@@ -52,7 +52,7 @@ const LoansTable = props => {
                      if (item === 'dateMaturity' || item === 'dateIssue') {
                          return (
                            <Table.List.Row.Column key={item}>
-                             {dateFns.format(loan[item], 'MM/DD/YYYY')}
+                             {moment(loan[item]).format('MM/DD/YYYY')}
                            </Table.List.Row.Column>
                          );
                      }
