@@ -12,14 +12,14 @@ const Modal = styled.div`
     background-color: #1e1e2e;
     `;
 
-const ModalContainer = styled.div`
+Modal.Container = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
 `;
 
-const ModalContent = styled.div`
+Modal.Content = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -32,15 +32,10 @@ const ModalContent = styled.div`
     border-radius: 5px;
     `;
 
-const ModalItem = styled.div`
+Modal.Item = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 `;
 
-export default {
-    Modal,
-    ModalContainer,
-    ModalContent,
-    ModalItem,
-};
+export default Modal;

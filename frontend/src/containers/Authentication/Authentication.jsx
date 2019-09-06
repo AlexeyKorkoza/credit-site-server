@@ -9,72 +9,56 @@ import { localDb, notification } from '../../services';
 import { Validator } from "../../shared";
 
 class Authentication extends Component {
-    constructor(props) {
-        super(props);
+    notificationDOMRef = React.createRef();
+    validator = new SimpleReactValidator({
+        element: message => <Validator>{message}</Validator>
+    });
 
-        this.validator = new SimpleReactValidator({
-            element: message => <Validator>{message}</Validator>
-        });
-
-        this.state = {
-            login: '',
-            message: '',
-            password: '',
-            selectedRole: null,
-            roles: [
-                {
-                    label: 'admin',
-                    value: 'admin',
-                },
-                {
-                    label: 'manager',
-                    value: 'manager',
-                },
-            ],
-            isActiveModal: false,
-            isShowErrorMessages: false,
-            notificationType: "Sign In"
-        };
-
-        this.onInputChange = this.onInputChange.bind(this);
-        this.onSelectChange = this.onSelectChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.notificationDOMRef = React.createRef();
-    }
+    state = {
+        login: '',
+        password: '',
+        selectedRole: null,
+        roles: [
+            {
+                label: 'admin',
+                value: 'admin',
+            },
+            {
+                label: 'manager',
+                value: 'manager',
+            },
+        ],
+        isActiveModal: false,
+        notificationType: "Sign In"
+    };
 
     componentDidMount() {
         this.isAuthUser();
     }
 
-    onInputChange(e) {
+    onInputChange = e => {
         const target = e.target;
         const { value, name } = target;
 
         this.setState({
             [name]: value,
-            message: '',
         });
-    }
+    };
 
-    onSelectChange(selectedRole) {
+    onSelectChange = selectedRole => {
         this.setState({
             selectedRole,
-            message: '',
         });
-    }
+    };
 
-    onSubmit() {
+    onSubmit = event => {
+        event.preventDefault();
+
         if (!this.validator.allValid()) {
             this.validator.showMessages();
-            this.setState({
-                isShowErrorMessages: true,
-            });
+
             return;
         }
-
-        this.setState({
-            isShowErrorMessages: false,
-        });
 
         const {
             login,
@@ -102,9 +86,9 @@ class Authentication extends Component {
                     this.notificationDOMRef.current.addNotification(builtNotification);
                 }
             });
-    }
+    };
 
-    isAuthUser() {
+    isAuthUser = () => {
         const data = localDb.getDataAuthUser();
 
         if (!data) {
@@ -112,13 +96,11 @@ class Authentication extends Component {
                 isActiveModal: true,
             });
         }
-    }
+    };
 
     render() {
         const {
             login,
-            message,
-            notificationType,
             password,
             selectedRole,
             roles,
@@ -130,7 +112,6 @@ class Authentication extends Component {
             <ReactNotification ref={this.notificationDOMRef} />
             <AuthenticationForm
               login={login}
-              message={message}
               password={password}
               selectedRole={selectedRole}
               roles={roles}
