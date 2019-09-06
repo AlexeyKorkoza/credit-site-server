@@ -12,36 +12,36 @@ const ListComponent = props => {
         {role === 'manager' && <List.Link.Add to="/clients/add">Add</List.Link.Add>}
         <Table>
           <Table.Header>
-            <Table.List.Row.Column>Client's Name</Table.List.Row.Column>
-            <Table.List.Row.Column>Client's email</Table.List.Row.Column>
+            <Table.List.Row.Column>Client&apos;s Name</Table.List.Row.Column>
+            <Table.List.Row.Column>Client&apos;s email</Table.List.Row.Column>
             <Table.List.Row.Column />
           </Table.Header>
           <Table.List>
-              {clients.map(client => {
+            {clients.map(client => {
                   return (
-                      <Table.List.Row>
-                          <Table.List.Row.Column>
-                              {client.name}
-                          </Table.List.Row.Column>
-                          <Table.List.Row.Column>
-                              {client.email}
-                          </Table.List.Row.Column>
-                          <Table.List.Row.LastColumn
-                              flex-direction='column'
+                    <Table.List.Row key={client.id}>
+                      <Table.List.Row.Column>
+                        {client.name}
+                      </Table.List.Row.Column>
+                      <Table.List.Row.Column>
+                        {client.email}
+                      </Table.List.Row.Column>
+                      <Table.List.Row.LastColumn
+                        flex-direction='column'
+                      >
+                        <List.Link to={`/clients/${client.id}`}>Edit</List.Link>
+                        {role === 'manager' && (
+                          <List.Link
+                            to={{
+                                pathname: `/loans/add`,
+                                state: { clientId: client.id }
+                            }}
                           >
-                              <List.Link to={`/clients/${client.id}`}>Edit</List.Link>
-                              {role === 'manager' && (
-                                  <List.Link
-                                      to={{
-                                          pathname: `/loans/add`,
-                                          state: { clientId: client.id }
-                                      }}
-                                  >
-                                      Add new loan
-                                  </List.Link>
-                              )}
-                          </Table.List.Row.LastColumn>
-                      </Table.List.Row>
+                              Add new loan
+                          </List.Link>
+                        )}
+                      </Table.List.Row.LastColumn>
+                    </Table.List.Row>
                   );
               })}
           </Table.List>

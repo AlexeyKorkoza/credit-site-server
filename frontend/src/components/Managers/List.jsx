@@ -19,7 +19,7 @@ const ListComponent = props => {
           <Table.List>
             {managers.map(manager => {
                 return (
-                  <Table.List.Row>
+                  <Table.List.Row key={manager.id}>
                     <Table.List.Row.Column>
                       {manager.login}
                     </Table.List.Row.Column>
