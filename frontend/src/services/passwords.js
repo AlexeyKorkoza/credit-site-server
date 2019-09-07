@@ -7,6 +7,8 @@ import buildNotification from './notification';
  * @return {null|*}
  */
 const validatePasswords = (oldPassword, newPassword, confirmNewPassword) => {
+    const failureNotificationType = 'FailureChangingPassword';
+
     if (!oldPassword || !newPassword || !confirmNewPassword) {
         return buildNotification('Please, enter fill in all fields', failureNotificationType);
     }
