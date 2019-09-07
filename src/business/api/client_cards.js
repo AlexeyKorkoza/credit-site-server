@@ -1,4 +1,4 @@
-import { ClientCard } from '../../models/index';
+import { ClientCard } from '../../models';
 
 /**
  * @param body

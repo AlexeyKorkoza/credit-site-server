@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator/check';
 
 import { admins } from '../../business';
-import { crypto, logger, passwords, responses } from "../../utils";
+import { crypto, logger, passwords, responses } from '../../utils';
 
 /**
  * @param req

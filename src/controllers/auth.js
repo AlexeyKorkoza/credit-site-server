@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator/check';
 
 import { auth, managers } from '../business';
-import { jwt, logger, passwords, responses } from "../utils";
+import { jwt, logger, passwords, responses } from '../utils';
 
 const logIn = (req, res) => {
     const errors = validationResult(req);

@@ -2,7 +2,7 @@ import { validationResult } from 'express-validator/check';
 
 import { Admin, Manager, Client } from '../../models';
 import { users } from '../../business';
-import { logger, responses } from "../../utils";
+import { logger, responses } from '../../utils';
 
 const createUser = (req, res) => {
     const errors = validationResult(req);

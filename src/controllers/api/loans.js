@@ -1,5 +1,5 @@
 import { loans } from '../../business';
-import { logger, responses } from "../../utils";
+import { logger, responses } from '../../utils';
 
 const getLoan = (req, res) => {
     const { id } = req.params;
