@@ -169,7 +169,7 @@ class Add extends Component {
 
         const body = {
             amount,
-            coefficient: territory,
+            coefficient: +territory.value,
             clientId,
             dateIssue,
             dateMaturity,

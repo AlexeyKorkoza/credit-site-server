@@ -19,12 +19,12 @@ class Editor extends Component {
     state = {
         action: '',
         amount: 0, // surchargeFactor
-        coefficient: '',
+        coefficient: 0,
         dateIssue: null,
         dateMaturity: null,
         focusedDateMaturity: false,
         focusedDateIssue: false,
-        totalRepaymentAmount: '',
+        totalRepaymentAmount: 0,
         territories: TERRITORIES,
         loanId: '',
         selectedTerritory: {},

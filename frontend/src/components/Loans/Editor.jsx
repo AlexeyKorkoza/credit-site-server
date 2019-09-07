@@ -126,8 +126,8 @@ const Editor = props => {
 
 Editor.defaultProps = {
     data: PropTypes.shape({
-        amount: '',
-        coefficient: '',
+        amount: 0,
+        coefficient: 0,
         dateIssue: PropTypes.shape(),
         dateMaturity: PropTypes.shape(),
         focusedDateIssue: false,
@@ -139,7 +139,7 @@ Editor.defaultProps = {
                 value: PropTypes.string,
             }),
         ),
-        totalRepaymentAmount: '',
+        totalRepaymentAmount: 0,
     }),
     onChangeDateIssue: PropTypes.func,
     onChangeDateMaturity: PropTypes.func,
