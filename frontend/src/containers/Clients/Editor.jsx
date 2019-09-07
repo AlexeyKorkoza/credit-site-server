@@ -21,7 +21,6 @@ class Editor extends Component {
         action: '',
         clientId: null,
         email: '',
-        isRemoved: null,
         name: '',
         passportData: '',
         phone: '',
