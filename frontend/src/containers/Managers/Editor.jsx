@@ -5,8 +5,8 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Editor as EditorComponent } from '../../components/Managers';
 import { managers, profile } from '../../api';
-import { notification, passwords } from "../../services";
-import { Validator } from "../../shared";
+import { notification, passwords } from '../../services';
+import { Validator } from '../../shared';
 import TERRITORIES from '../../constants';
 
 class Editor extends Component {

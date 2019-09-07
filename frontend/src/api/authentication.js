@@ -1,8 +1,8 @@
 import { BehaviorSubject } from 'rxjs';
 
 import fetch from './fetch';
-import localStorage from "../core";
-import { localDb } from "../services";
+import localStorage from '../core';
+import { localDb } from '../services';
 
 const currentUserSubject = new BehaviorSubject(localStorage.getItem('user', true));
 

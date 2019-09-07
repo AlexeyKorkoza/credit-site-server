@@ -1,4 +1,4 @@
-import dates from "../utils";
+import dates from '../utils';
 
 const calculateTotalRepaymentAmount = (dateIssue, dateMaturity, state) => {
     const {

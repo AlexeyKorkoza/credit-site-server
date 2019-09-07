@@ -7,7 +7,7 @@ import ReactRouterPropTypes from 'react-router-prop-types';
 import { authentication } from '../../api';
 import AuthenticationForm from '../../components/Authentication';
 import { localDb, notification } from '../../services';
-import { Validator } from "../../shared";
+import { Validator } from '../../shared';
 
 class Authentication extends Component {
     notificationDOMRef = React.createRef();

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router';
 
 import { List } from '../../components/Clients';
 import { clients, managers } from '../../api';

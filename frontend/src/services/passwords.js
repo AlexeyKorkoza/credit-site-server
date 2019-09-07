@@ -1,4 +1,4 @@
-import buildNotification from "./notification";
+import buildNotification from './notification';
 
 /**
  * @param {String} oldPassword

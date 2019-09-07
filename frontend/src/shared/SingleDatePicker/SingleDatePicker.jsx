@@ -1,6 +1,6 @@
 import React from 'react';
-import { SingleDatePicker } from "react-dates";
-import styled from "styled-components";
+import { SingleDatePicker } from 'react-dates';
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   .DateRangePickerInput {

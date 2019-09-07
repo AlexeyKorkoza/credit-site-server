@@ -1,4 +1,4 @@
-import fetch from "./fetch";
+import fetch from './fetch';
 
 /**
  * @param id {Number}

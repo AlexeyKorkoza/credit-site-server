@@ -6,7 +6,7 @@ import {
     Card,
     Input,
     ReactSelect,
-} from "../../../shared";
+} from '../../../shared';
 
 const customReactSelectStyles = {
     valueContainer: () => ({

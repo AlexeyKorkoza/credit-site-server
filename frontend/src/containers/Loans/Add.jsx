@@ -4,9 +4,9 @@ import SimpleReactValidator from 'simple-react-validator';
 import ReactNotification from 'react-notifications-component';
 
 import { Add as Steps } from '../../components/Loans';
-import { calculation, localDb, notification } from "../../services";
-import { client_card, clients, loans } from "../../api";
-import { Validator } from "../../shared";
+import { calculation, localDb, notification } from '../../services';
+import { client_card, clients, loans } from '../../api';
+import { Validator } from '../../shared';
 import TERRITORIES from '../../constants';
 
 const {

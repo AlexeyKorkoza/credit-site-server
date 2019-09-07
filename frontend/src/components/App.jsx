@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { Switch, Route, withRouter } from 'react-router-dom';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
-import { GlobalStyle, Page } from "./styles";
-import { Authentication, Clients, Loans, Managers, Profile } from "../containers";
-import Private from "../routing";
+import { GlobalStyle, Page } from './styles';
+import { Authentication, Clients, Loans, Managers, Profile } from '../containers';
+import Private from '../routing';
 import { authentication } from '../api';
-import Sidebar from "./Sidebar";
-import { NoMatch } from "./ErrorPages";
+import Sidebar from './Sidebar';
+import { NoMatch } from './ErrorPages';
 
 class App extends Component {
     state = {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter } from "react-router";
+import { withRouter } from 'react-router';
 import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { loans } from '../../api';
 import { List } from '../../components/Loans';
-import { localDb } from "../../services";
+import { localDb } from '../../services';
 
 class LoansList extends Component{
     state = {

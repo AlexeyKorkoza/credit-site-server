@@ -7,7 +7,7 @@ import {
     ProfileLink,
     ScreenReaderText,
     Wrapper,
-} from "../styles";
+} from '../styles';
 
 const NoMatch = () => {
     return (

@@ -2,12 +2,12 @@ import React, { Component, Fragment } from 'react';
 import SimpleReactValidator from 'simple-react-validator';
 import ReactNotification from 'react-notifications-component';
 import ReactRouterPropTypes from 'react-router-prop-types';
-import moment from "moment";
+import moment from 'moment';
 
 import { Editor as EditorComponent } from '../../components/Loans';
 import { loans } from '../../api';
-import { calculation, notification } from "../../services";
-import { Validator } from "../../shared";
+import { calculation, notification } from '../../services';
+import { Validator } from '../../shared';
 import TERRITORIES from '../../constants';
 
 class Editor extends Component {

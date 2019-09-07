@@ -5,7 +5,7 @@ import ReactNotification from 'react-notifications-component';
 import { Admin, Manager } from '../../components/Profile';
 import { profile } from '../../api';
 import { localDb, notification, passwords } from '../../services';
-import { Validator } from "../../shared";
+import { Validator } from '../../shared';
 import TERRITORIES from '../../constants';
 
 const rolesComponents = {
