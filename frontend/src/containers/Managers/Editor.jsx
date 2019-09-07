@@ -7,6 +7,7 @@ import { Editor as EditorComponent } from '../../components/Managers';
 import { managers, profile } from '../../api';
 import { notification, passwords } from "../../services";
 import { Validator } from "../../shared";
+import TERRITORIES from '../../constants';
 
 class Editor extends Component {
     notificationDOMRef = React.createRef();
@@ -25,20 +26,7 @@ class Editor extends Component {
         oldPassword: '',
         newPassword: '',
         confirmNewPassword: '',
-        territories: [
-            {
-                label: '0.5 %',
-                value: '0.5',
-            },
-            {
-                label: '1 %',
-                value: '1',
-            },
-            {
-                label: '1.5 %',
-                value: '1.5',
-            },
-        ],
+        territories: TERRITORIES,
         managerId: null,
         selectedTerritory: {},
         failureNotificationType: 'FailureEditingManager',

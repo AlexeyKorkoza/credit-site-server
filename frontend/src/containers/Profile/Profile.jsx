@@ -6,6 +6,7 @@ import { Admin, Manager } from '../../components/Profile';
 import { profile } from '../../api';
 import { localDb, notification, passwords } from '../../services';
 import { Validator } from "../../shared";
+import TERRITORIES from '../../constants';
 
 const rolesComponents = {
     'admin': Admin,
@@ -29,20 +30,7 @@ export default class Profile extends Component {
         successfulNotification: 'SuccessfulChangingPassword',
         failureNotification: 'FailureChangingPassword',
         confirmNewPassword: '',
-        territories: [
-            {
-                label: '0.5 %',
-                value: '0.5',
-            },
-            {
-                label: '1 %',
-                value: '1',
-            },
-            {
-                label: '1.5 %',
-                value: '1.5',
-            },
-        ],
+        territories: TERRITORIES,
         selectedTerritory: {},
     };
 

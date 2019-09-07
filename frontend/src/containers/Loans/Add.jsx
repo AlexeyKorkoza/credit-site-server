@@ -7,6 +7,7 @@ import { Add as Steps } from '../../components/Loans';
 import { calculation, localDb, notification } from "../../services";
 import { client_card, clients, loans } from "../../api";
 import { Validator } from "../../shared";
+import TERRITORIES from '../../constants';
 
 const {
     Step1,
@@ -41,20 +42,7 @@ class Add extends Component {
         dateIssue: null,
         dateMaturity: null,
         totalRepaymentAmount: 0,
-        territories: [
-            {
-                label: '0.5 %',
-                value: '0.5',
-            },
-            {
-                label: '1 %',
-                value: '1',
-            },
-            {
-                label: '1.5 %',
-                value: '1.5',
-            },
-        ],
+        territories: TERRITORIES,
 
         loans: [],
         role: '',

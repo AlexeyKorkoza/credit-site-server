@@ -8,6 +8,7 @@ import { Editor as EditorComponent } from '../../components/Clients';
 import { clients } from '../../api';
 import { localDb, notification } from '../../services';
 import { Validator } from "../../shared";
+import TERRITORIES from '../../constants';
 
 class Editor extends Component {
     notificationDOMRef = React.createRef();
@@ -26,20 +27,7 @@ class Editor extends Component {
         phone: '',
         role: '',
         selectedTerritory: {},
-        territories: [
-            {
-                label: '0.5 %',
-                value: '0.5',
-            },
-            {
-                label: '1 %',
-                value: '1',
-            },
-            {
-                label: '1.5 %',
-                value: '1.5',
-            },
-        ],
+        territories: TERRITORIES,
         failureNotificationType: 'FailureEditingClient',
         successfulNotificationType: 'SuccessfulEditingClient',
     };
