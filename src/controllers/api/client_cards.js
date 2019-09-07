@@ -1,9 +1,5 @@
-import {
-    addClientCard,
-    makeUpdatingClientCard,
-    makeUpdatingTerritorialCoefficient,
-} from '../../business/api/client_cards';
-import { responses } from "../../utils";
+import { client_cards } from '../../business';
+import { logger, responses } from '../../utils';
 
 /**
  * @param req
@@ -11,12 +7,12 @@ import { responses } from "../../utils";
  * @return {*}
  */
 const createClientCard = (req, res) => {
-    return addClientCard(req.body)
+    return client_cards.addClientCard(req.body)
         .then(() => res.status(200).json({
             message: 'Client card was created',
         }))
         .catch(err => {
-            console.error(err.message, 'createClientCard');
+            logger.error(err.message, 'createClientCard');
 
             return responses.send500(res);
         });
@@ -31,12 +27,12 @@ const updateClientCard = (req, res) => {
     const { id } = req.params;
 
     // TODO Add validation
-    return makeUpdatingClientCard(id, req.body)
+    return client_cards.makeUpdatingClientCard(id, req.body)
         .then(() => res.status(200).json({
             message: 'Client card was updated',
         }))
         .catch(err => {
-            console.error(err.message, 'updateClientCard');
+            logger.error(err.message, 'updateClientCard');
 
             return responses.send500(res);
         });
@@ -46,18 +42,18 @@ const updateTerritorialCoefficient = (req, res) => {
     const { id } = req.params;
     const { surcharge_factor: surchargeFactor } = req.body;
 
-    return makeUpdatingTerritorialCoefficient(id, surchargeFactor)
+    return client_cards.makeUpdatingTerritorialCoefficient(id, surchargeFactor)
         .then(() => res.status(200).json({
             message: 'Territorial coefficient was updated',
         }))
         .catch(err => {
-            console.error(err.message, 'updateTerritorialCoefficient');
+            logger.error(err.message, 'updateTerritorialCoefficient');
 
             return responses.send500(res);
         });
 };
 
-export {
+export default {
     createClientCard,
     updateClientCard,
     updateTerritorialCoefficient,

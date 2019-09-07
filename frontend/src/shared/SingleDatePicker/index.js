@@ -1,3 +1,1 @@
-import SingleDatePicker from './SingleDatePicker';
-
-export default SingleDatePicker;
+export default from './SingleDatePicker';

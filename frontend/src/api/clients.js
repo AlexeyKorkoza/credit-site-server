@@ -1,11 +1,11 @@
-import sender from './sender';
+import fetch from './fetch';
 
 /**
  * @param id {Number}
  * @return {Promise|Q.Promise<void>|*|Promise<T | void>}
  */
 const deleteClient = id => {
-    return sender(`${API_URL}/api/v1/clients/${id}`, 'delete')
+    return fetch(`${API_URL}/api/v1/clients/${id}`, 'delete')
         .catch(err => console.error(err.message, 'deleteClient'));
 };
 
@@ -13,7 +13,7 @@ const deleteClient = id => {
  * @return {Promise|Q.Promise<void>|*|Promise<T | void>}
  */
 const getAllClients = () => {
-  return sender(`${API_URL}/api/v1/clients`, 'get')
+  return fetch(`${API_URL}/api/v1/clients`, 'get')
       .catch(err => console.error(err.message, 'getAllClients'));
 };
 
@@ -22,7 +22,7 @@ const getAllClients = () => {
  * @return {Promise|Q.Promise<void>|*|Promise<T | void>}
  */
 const getClient = id => {
-    return sender(`${API_URL}/api/v1/clients/${id}`, 'get')
+    return fetch(`${API_URL}/api/v1/clients/${id}`, 'get')
         .catch(err => console.error(err.message, 'getClient'));
 };
 
@@ -31,12 +31,12 @@ const getClient = id => {
  * @return {Promise<any | void>}
  */
 const getClientLoans = id => {
-    return sender(`${API_URL}/api/v1/clients/${id}/loans`, 'get')
+    return fetch(`${API_URL}/api/v1/clients/${id}/loans`, 'get')
         .catch(err => console.error(err.message, 'getClientLoans'));
 };
 
 const markClientForDeletion = id => {
-    return sender(`${API_URL}/api/v1/clients/${id}/deletion`, 'put', {})
+    return fetch(`${API_URL}/api/v1/clients/${id}/deletion`, 'put', {})
         .catch(err => console.error(err.message, 'markClientForDeletion'));
 };
 
@@ -47,15 +47,15 @@ const markClientForDeletion = id => {
  */
 const saveClient = (body, id = null) => {
     if (id) {
-        return sender(`${API_URL}/api/v1/clients/${id}`, 'put', body)
+        return fetch(`${API_URL}/api/v1/clients/${id}`, 'put', body)
             .catch(err => console.error(err.message, 'saveClient'));
     }
 
-    return sender(`${API_URL}/api/v1/clients`, 'post', body)
+    return fetch(`${API_URL}/api/v1/clients`, 'post', body)
         .catch(err => console.error(err.message, 'saveClient'));
 };
 
-export {
+export default {
     deleteClient,
     getAllClients,
     getClient,

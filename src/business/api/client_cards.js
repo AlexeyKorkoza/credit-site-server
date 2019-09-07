@@ -1,4 +1,4 @@
-import { ClientCard } from '../../models/index';
+import { ClientCard } from '../../models';
 
 /**
  * @param body
@@ -69,7 +69,7 @@ const makeUpdatingTerritorialCoefficient = (id, surchargeFactor) => {
     return ClientCard.update(data, query);
 };
 
-export {
+export default {
     addClientCard,
     makeUpdatingClientCard,
     makeUpdatingTerritorialCoefficient,

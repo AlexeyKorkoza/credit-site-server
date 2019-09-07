@@ -1,10 +1,10 @@
-import sender from './sender';
+import fetch from './fetch';
 
 /**
  * @return {Promise|Q.Promise<void>|*|Promise<T | void>}
  */
 const getAllLoans = () => {
-    return sender(`${API_URL}/api/v1/loans`, 'get')
+    return fetch(`${API_URL}/api/v1/loans`, 'get')
         .catch(err => console.error(err.message, 'getAllLoans'));
 };
 
@@ -13,7 +13,7 @@ const getAllLoans = () => {
  * @return {Promise|Q.Promise<void>|*|Promise<T | void>}
  */
 const getLoan = id => {
-    return sender(`${API_URL}/api/v1/loans/${id}`, 'get')
+    return fetch(`${API_URL}/api/v1/loans/${id}`, 'get')
         .catch(err => console.error(err.message, 'getLoan'));
 };
 
@@ -24,15 +24,15 @@ const getLoan = id => {
  */
 const saveLoan = (body, id = null) => {
     if (id) {
-        return sender(`${API_URL}/api/v1/loans/${id}`, 'put', body)
+        return fetch(`${API_URL}/api/v1/loans/${id}`, 'put', body)
             .catch(err => console.error(err.message, 'saveLoan'));
     }
 
-    return sender(`${API_URL}/api/v1/loans`, 'post', body)
+    return fetch(`${API_URL}/api/v1/loans`, 'post', body)
         .catch(err => console.error(err.message, 'saveLoan'));
 };
 
-export {
+export default {
     getAllLoans,
     getLoan,
     saveLoan,

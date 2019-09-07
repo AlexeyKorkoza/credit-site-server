@@ -1,4 +1,4 @@
-import sender from './sender';
+import fetch from './fetch';
 
 const routes = {
     'admin': '/admins',
@@ -17,7 +17,7 @@ const getProfileUser = (role, id) => {
 
     const route = routes[role];
 
-    return sender(`${API_URL}/api/v1${route}/${id}`, 'get')
+    return fetch(`${API_URL}/api/v1${route}/${id}`, 'get')
         .catch(err => console.error(err.message, 'getProfileUser'));
 };
 
@@ -34,7 +34,7 @@ const updateProfileUser = (role, id, body) => {
 
     const route = routes[role];
 
-    return sender(`${API_URL}/api/v1${route}/${id}`, 'put', body)
+    return fetch(`${API_URL}/api/v1${route}/${id}`, 'put', body)
         .catch(err => console.error(err.message, 'updateProfileUser'));
 };
 
@@ -51,13 +51,13 @@ const updatePasswordsProfileUser = (role, id, body) => {
 
     const route = routes[role];
 
-    return sender(`${API_URL}/api/v1${route}/${id}/change-password`, 'put', body)
+    return fetch(`${API_URL}/api/v1${route}/${id}/change-password`, 'put', body)
         .catch(err => {
             throw new Error(err.message);
         });
 };
 
-export {
+export default {
     getProfileUser,
     updateProfileUser,
     updatePasswordsProfileUser,

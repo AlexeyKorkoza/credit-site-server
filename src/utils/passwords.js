@@ -1,15 +1,15 @@
-import { encryptor } from '../core/crypto';
+import crypto from './crypto';
 
 /**
  * @param oldPasswordFromDb {String}
  * @param oldPassword {String}
  * @return {boolean}
  */
-const comparePasswords = (oldPasswordFromDb, oldPassword) => oldPasswordFromDb === encryptor(oldPassword);
+const comparePasswords = (oldPasswordFromDb, oldPassword) => oldPasswordFromDb === crypto.encryptor(oldPassword);
 
-const encryptPassword = password => encryptor(password);
+const encryptPassword = password => crypto.encryptor(password);
 
-export {
+export default {
     comparePasswords,
     encryptPassword,
 };

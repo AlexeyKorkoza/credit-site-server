@@ -24,6 +24,4 @@ const jwtMiddleware = (req, res, next) => {
     });
 };
 
-export {
-    jwtMiddleware,
-};
+export default jwtMiddleware;

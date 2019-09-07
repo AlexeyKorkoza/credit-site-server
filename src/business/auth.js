@@ -70,7 +70,7 @@ const updateUserRecord = (id, role) => {
     return model.update(data, query);
 };
 
-export {
+export default {
     findRecordOnLogin,
     findRecordOnRefreshToken,
     makeUpdatingRefreshToken,

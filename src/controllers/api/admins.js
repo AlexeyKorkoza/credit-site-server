@@ -1,12 +1,7 @@
 import { validationResult } from 'express-validator/check';
 
-import {
-    findAdminData,
-    makeUpdatingAdmin,
-} from '../../business/api/admins';
-import { encryptor } from '../../core/crypto';
-import { comparePasswords } from '../../utils/passwords';
-import { responses } from "../../utils";
+import { admins } from '../../business';
+import { crypto, logger, passwords, responses } from '../../utils';
 
 /**
  * @param req
@@ -16,14 +11,14 @@ import { responses } from "../../utils";
 const getAdminData = (req, res) => {
     const { id: adminId } = req.params;
 
-    return findAdminData(adminId)
+    return admins.findAdminData(adminId)
         .then(admin => res.status(200)
             .json({
                 data: admin,
             })
         )
         .catch(err => {
-            console.error(err.message, 'getAdminData');
+            logger.error(err.message, 'getAdminData');
 
             return responses.send500(res);
         });
@@ -49,13 +44,13 @@ const updateAdminData = (req, res) => {
         login,
     };
 
-    return makeUpdatingAdmin(adminId, data)
+    return admins.makeUpdatingAdmin(adminId, data)
         .then(admin => res.status(200)
             .json({
                 admin,
             }))
         .catch(err => {
-            console.error(err.message, 'updateAdminData');
+            logger.error(err.message, 'updateAdminData');
 
             return responses.send500(res);
         });
@@ -86,11 +81,11 @@ const changeAdminPassword = (req, res) => {
             });
     }
 
-    return findAdminData(adminId, true)
+    return admins.findAdminData(adminId, true)
         .then(admin => {
             const { password } = admin;
 
-            const isComparedPasswords = comparePasswords(password, oldPassword);
+            const isComparedPasswords = passwords.comparePasswords(password, oldPassword);
             if (!isComparedPasswords) {
                 return res.status(400)
                     .json({
@@ -99,23 +94,23 @@ const changeAdminPassword = (req, res) => {
             }
 
             const data = {
-                password: encryptor(newPassword),
+                password: crypto.encryptor(newPassword),
             };
 
-            return makeUpdatingAdmin(adminId, data)
+            return admins.makeUpdatingAdmin(adminId, data)
                 .then(() => res.status(200)
                     .json({
                         message: 'Password was changes successfully',
                     }))
                 .catch(err => {
-                    console.error(err.message, 'changeAdminPassword');
+                    logger.error(err.message, 'changeAdminPassword');
 
                     return responses.send500(res);
                 });
         });
 };
 
-export {
+export default {
     getAdminData,
     updateAdminData,
     changeAdminPassword,

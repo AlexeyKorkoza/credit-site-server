@@ -1,40 +1,33 @@
 import { Router } from 'express';
 
-import {
-    getLoan,
-    getLoans,
-    createLoan,
-    updateLoan,
-    updateIssueLoan,
-} from '../../controllers/api/loans';
-import { jwtMiddleware } from '../../middlewares/jwt';
-import authMiddleware from '../../middlewares/auth';
+import { loans } from '../../controllers';
+import { authMiddleware, jwtMiddleware } from '../../middlewares';
 
 const router = Router();
 
 router.get('/loans',
     jwtMiddleware,
     authMiddleware.isManagerOrAdmin,
-    getLoans);
+    loans.getLoans);
 
 router.get('/loans/:id',
     jwtMiddleware,
     authMiddleware.isAdmin,
-    getLoan);
+    loans.getLoan);
 
 router.post('/loans',
     jwtMiddleware,
     authMiddleware.isManager,
-    createLoan);
+    loans.createLoan);
 
 router.put('/loans/:id',
     jwtMiddleware,
     authMiddleware.isAdmin,
-    updateLoan);
+    loans.updateLoan);
 
 router.put('/loans/:id/issue',
     jwtMiddleware,
     authMiddleware.isAdmin,
-    updateIssueLoan);
+    loans.updateIssueLoan);
 
 export default router;

@@ -1,10 +1,10 @@
-import sender from './sender';
+import fetch from './fetch';
 
 const createClientCard = data => {
-    return sender(`${API_URL}/api/v1/clients-cards`, 'post', data)
+    return fetch(`${API_URL}/api/v1/clients-cards`, 'post', data)
         .catch(err => console.error(err.message, 'createClientCard'));
 };
 
-export {
+export default {
     createClientCard,
 };

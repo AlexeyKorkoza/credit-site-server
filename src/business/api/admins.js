@@ -50,7 +50,7 @@ const makeUpdatingAdmin = (id, data) => {
     return Admin.update(data, adminQuery);
 };
 
-export {
+export default {
     findAdminData,
     makeUpdatingAdmin,
 };
