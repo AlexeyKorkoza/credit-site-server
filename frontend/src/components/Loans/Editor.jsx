@@ -85,7 +85,7 @@ const Editor = props => {
             <Card.Form.Item>
               <Card.Form.Label htmlFor="coefficient">Date Issue</Card.Form.Label>
               <SingleDatePicker
-                date={moment(dateIssue)}
+                date={dateIssue ? moment(dateIssue) : null}
                 id="date_issue_id"
                 onDateChange={onChangeDateIssue}
                 focused={focusedDateIssue}
@@ -96,7 +96,7 @@ const Editor = props => {
             <Card.Form.Item>
               <Card.Form.Label htmlFor="coefficient">Date Maturity</Card.Form.Label>
               <SingleDatePicker
-                date={moment(dateMaturity)}
+                date={dateMaturity ? moment(dateMaturity) : null}
                 id="date_maturity_id"
                 onDateChange={onChangeDateMaturity}
                 focused={focusedDateMaturity}
@@ -128,8 +128,10 @@ Editor.defaultProps = {
     data: PropTypes.shape({
         amount: '',
         coefficient: '',
-        dateIssue: '',
-        dateMaturity: '',
+        dateIssue: PropTypes.shape(),
+        dateMaturity: PropTypes.shape(),
+        focusedDateIssue: false,
+        focusedDateMaturity: false,
         selectedTerritory: '',
         territories: PropTypes.arrayOf(
             PropTypes.shape({
@@ -153,10 +155,10 @@ Editor.propTypes = {
     data: PropTypes.shape({
         amount: PropTypes.number,
         coefficient: PropTypes.number,
-        dateIssue: PropTypes.string,
-        dateMaturity: PropTypes.string,
-        focusedDateIssue: PropTypes.shape(),
-        focusedDateMaturity: PropTypes.shape(),
+        dateIssue: PropTypes.shape(),
+        dateMaturity: PropTypes.shape(),
+        focusedDateIssue: PropTypes.bool,
+        focusedDateMaturity: PropTypes.bool,
         selectedTerritory: PropTypes.shape(
             {
                 label: PropTypes.string,

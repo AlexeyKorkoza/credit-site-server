@@ -7,6 +7,7 @@ import { Editor as EditorComponent } from '../../components/Loans';
 import { loans } from '../../api';
 import { calculation, notification } from "../../services";
 import { Validator } from "../../shared";
+import moment from "moment";
 
 class Editor extends Component {
     notificationDOMRef = React.createRef();
@@ -18,10 +19,10 @@ class Editor extends Component {
         action: '',
         amount: 0, // surchargeFactor
         coefficient: '',
-        dateIssue: '',
-        dateMaturity: '',
-        focusedDateMaturity: null,
-        focusedDateIssue: null,
+        dateIssue: null,
+        dateMaturity: null,
+        focusedDateMaturity: false,
+        focusedDateIssue: false,
         totalRepaymentAmount: '',
         territories: [
             {
@@ -37,7 +38,7 @@ class Editor extends Component {
                 value: '1.5',
             },
         ],
-        loanId: null,
+        loanId: '',
         selectedTerritory: {},
         failureNotificationType: 'FailureEditingLoan',
         successfulNotificationType: 'SuccessfulEditingLoan',
@@ -59,15 +60,22 @@ class Editor extends Component {
 
             loans.getLoan(loanId)
                 .then(result => {
-                    const { territory } = result.loan;
+                    const {
+                        dateIssue,
+                        dateMaturity,
+                        territory,
+                        ...rest
+                    } = result.loan;
                     const { territories } = this.state;
                     const selectedTerritory = territories.find(e => +e.value === +territory);
 
                     this.setState({
-                        ...result.loan,
                         action: 'edit',
+                        dateIssue: moment(dateIssue),
+                        dateMaturity: moment(dateMaturity),
                         loanId,
                         selectedTerritory,
+                        ...rest,
                     });
                 })
         } else {
