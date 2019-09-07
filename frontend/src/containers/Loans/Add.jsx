@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router';
 import SimpleReactValidator from 'simple-react-validator';
 import ReactNotification from 'react-notifications-component';
+import ReactRouterPropTypes from 'react-router-prop-types';
 
 import { Add as Steps } from '../../components/Loans';
 import { calculation, localDb, notification } from '../../services';
@@ -52,6 +53,11 @@ class Add extends Component {
         successfulNotificationType: 'SuccessfulCreatingLoan',
     };
 
+    static propTypes = {
+        history: ReactRouterPropTypes.history.isRequired,
+        location: ReactRouterPropTypes.location.isRequired,
+    };
+
     componentWillMount() {
         clearTimeout(this.timer);
     }
@@ -92,7 +98,8 @@ class Add extends Component {
     }
 
     onBack = () => {
-        this.props.history.goBack();
+        const { history } = this.props;
+        history.goBack();
     };
 
     onChangeInput = event => {
@@ -193,7 +200,8 @@ class Add extends Component {
                 }
 
                 this.timer = setTimeout(() => {
-                    this.props.history.push('/clients');
+                    const { history } = this.props;
+                    history.push('/clients');
                 }, 3000);
             })
             .catch(error => {
