@@ -114,6 +114,10 @@ class Add extends Component {
     onCreateClientCard = event => {
         event.preventDefault();
 
+        if (!this.validator.allValid()) {
+            return;
+        }
+
         const {
             email,
             fullName,
@@ -124,6 +128,10 @@ class Add extends Component {
             surchargeFactor,
             territories,
         } = this.state;
+
+        if (surchargeFactor === 0) {
+            return;
+        }
 
         const territory = territories.find(e => +e.value === +selectedTerritory.value).value;
 

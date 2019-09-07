@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import LoansTable from '../Table';
-import List from '../styles';
 import {
     Button,
     Card,
+    H1,
     Input,
     ReactSelect,
     SingleDatePicker,
@@ -51,26 +51,15 @@ const Step2 = props => {
 
     return (
       <div>
-        <h1 style={{
-                "text-align": "center",
-                "color": "#3f4357"}}
-        >
+        <H1 color="#3f4357">
           {clientName}
-          {' '}
-loans
-        </h1>
-        {loans && loans.length > 0
-                ? (
-                  <List>
-                    <LoansTable
-                      loans={loans}
-                      outputProperties={outputProperties}
-                      role={role}
-                    />
-                  </List>
-)
-                : <h1>No loans</h1>
-            }
+          loans
+        </H1>
+        <LoansTable
+          loans={loans}
+          outputProperties={outputProperties}
+          role={role}
+        />
         <Card.List>
           <Card.List.Item>
             <Card.Form noValidate>
@@ -142,7 +131,7 @@ loans
 
 Step2.defaultProps = {
     data: PropTypes.shape({
-        amount: '',
+        amount: 0,
         clientName: '',
         dateIssue: '',
         dateMaturity: '',
@@ -173,8 +162,8 @@ Step2.propTypes = {
         clientName: PropTypes.string,
         dateIssue: PropTypes.shape(),
         dateMaturity: PropTypes.shape(),
-        focusedDateIssue: PropTypes.shape(),
-        focusedDateMaturity: PropTypes.shape(),
+        focusedDateIssue: PropTypes.bool,
+        focusedDateMaturity: PropTypes.bool,
         loans: PropTypes.arrayOf(
             PropTypes.shape({
                 amount: PropTypes.number,
