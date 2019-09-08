@@ -1,70 +1,22 @@
 # credit-site
 
-# How to run
+## Install
 
-## Database
-
-First you must go to the `db` folder and install all the packages:
+You must install all the packages:
 ```
 $ npm run install
 ```
-Then you must create `local.json` near `default.json` and set your databases credentials into it. 
 
-Example:
-```json
-{
-  "database": {
-    "credit_site": {
-      "urn": "postgres://postgres:linux@127.0.0.1:5432/credit_site"
-    }
-  }
-}
-```
-
-After that you must enter two commands in a console one by one to create new tables and insert some data into some tables.
-
-```
-$ npm run migrate
-```
-
-```
-$ npm run seed
-```
-
-## Backend
-
-Now, you can install all the packages to run the backend. So, you must install them from the root of the project
-```
-$ npm run install
-```
+## Configure
 
 Before launching the backend you must create `local.json` near `default.json`. This file must be situated in `config` folder in the root of the project.
 Please, check `default.json` to set all necessary credentials correctly.
-
-## Frontend
-
-You must go to the `frontend` folder and install all the packages
-```
-$ npm run install
-```
-
-Before launching the frontend you must create `local.json` near `default.json`. This file must be situated in the `config` folder.
-Please, check `default.json` to set all necessary credentials correctly.
-
-At last, you must enter two commands in a console in order to run the project.
 
 ## Run backend
 
 You must go to the root of the project and enter the following command:
 ```
 $ npm run dev:watch
-```
-
-## Run frontend
-
-You must go to the `frontend` folder and enter the following command:
-```
-$ npm run webpack:watch
 ```
 
 # Description
