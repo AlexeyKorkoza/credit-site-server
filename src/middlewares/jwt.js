@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import config from 'config';
 
-const jwtMiddleware = (req, res, next) => {
+const verifyJwtToken = (req, res, next) => {
     const secretKey = config.jwt.secretKey;
     const algorithm = config.jwt.algorithm;
     const accessToken = req.headers['access-token'];
@@ -24,4 +24,4 @@ const jwtMiddleware = (req, res, next) => {
     });
 };
 
-export default jwtMiddleware;
+export default verifyJwtToken;

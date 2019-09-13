@@ -1,23 +1,23 @@
 import { Router } from 'express';
 
 import { admins } from '../../controllers';
-import { authMiddleware, jwtMiddleware } from '../../middlewares';
+import { authMiddleware, verifyJwtToken } from '../../middlewares';
 import validators from '../../validator';
 
 const route = Router();
 
 route.get('/admins/:id',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     admins.getAdminData);
 
 route.put('/admins/:id',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     admins.updateAdminData);
 
 route.put('/admins/:id/change-password',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     validators.changePassword,
     admins.changeAdminPassword);

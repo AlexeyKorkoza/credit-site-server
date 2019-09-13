@@ -1,32 +1,32 @@
 import { Router } from 'express';
 
 import { loans } from '../../controllers';
-import { authMiddleware, jwtMiddleware } from '../../middlewares';
+import { authMiddleware, verifyJwtToken } from '../../middlewares';
 
 const router = Router();
 
 router.get('/loans',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManagerOrAdmin,
     loans.getLoans);
 
 router.get('/loans/:id',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     loans.getLoan);
 
 router.post('/loans',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManager,
     loans.createLoan);
 
 router.put('/loans/:id',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     loans.updateLoan);
 
 router.put('/loans/:id/issue',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     loans.updateIssueLoan);
 
