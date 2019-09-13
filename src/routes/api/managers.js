@@ -1,47 +1,47 @@
 import { Router } from 'express';
 
 import { managers } from '../../controllers';
-import { authMiddleware, jwtMiddleware } from '../../middlewares';
+import { authMiddleware, verifyJwtToken } from '../../middlewares';
 
 const router = Router();
 
 router.get('/managers',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     managers.getManagersData);
 
 router.get('/managers/:id',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManagerOrAdmin,
     managers.getManagerData);
 
 router.get('/managers/:id/clients',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManager,
     managers.getManagerClients);
 
 router.post('/managers',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     managers.createNewManager);
 
 router.put('/managers/:id',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManager,
     managers.updateAttributesManager);
 
 router.put('/managers/:id/update-profile',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     managers.updateProfileManager);
 
 router.put('/managers/:id/change-password',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManagerOrAdmin,
     managers.changePassword);
 
 router.put('/managers/:id/block-manager',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     managers.blockManager);
 
