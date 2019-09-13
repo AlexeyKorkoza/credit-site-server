@@ -1,44 +1,44 @@
 import { Router } from 'express';
 
 import { clients } from '../../controllers';
-import { authMiddleware, jwtMiddleware } from '../../middlewares';
+import { authMiddleware, verifyJwtToken } from '../../middlewares';
 
 const router = Router();
 
 router.get('/clients',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     clients.getAllClients,
 );
 
 router.get('/clients/:id',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManagerOrAdmin,
     clients.getClient,
 );
 
 router.get('/clients/:id/loans',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManager,
     clients.getClientLoans);
 
 router.post('/clients',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManager,
     clients.addClient);
 
 router.put('/clients/:id',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManagerOrAdmin,
     clients.editClient);
 
 router.put('/clients/:id/deletion',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManager,
     clients.markDeletionClient);
 
 router.delete('/clients/:id',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     clients.removeClient);
 

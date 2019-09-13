@@ -2,7 +2,7 @@
   "name": "credit-site-root",
   "version": "0.0.0",
   "scripts": {
-    "dev:watch": "babel-watch ./src",
+    "dev:watch": "babel-watch ./src/app",
     "eslint:backend": "eslint ./src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

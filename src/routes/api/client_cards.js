@@ -1,22 +1,22 @@
 import { Router } from 'express';
 
 import { client_cards } from '../../controllers';
-import { authMiddleware, jwtMiddleware } from '../../middlewares';
+import { authMiddleware, verifyJwtToken } from '../../middlewares';
 
 const router = Router();
 
 router.post('/clients-cards',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManager,
     client_cards.createClientCard);
 
 router.put('/client-cards/:id/',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isManager,
     client_cards.updateClientCard);
 
 router.put('/client-cards/:id/coefficient',
-    jwtMiddleware,
+    verifyJwtToken,
     authMiddleware.isAdmin,
     client_cards.updateTerritorialCoefficient);
 
