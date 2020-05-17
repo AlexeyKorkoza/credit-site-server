@@ -62,10 +62,11 @@ const makeUpdatingManagerAttributes = (managerId, body) => {
 };
 
 /**
- * @param adminId
- * @param managerId
+ * @param adminId {Number}
+ * @param managerId {Number}
+ * @param isBlocked {Boolean}
  */
-const makeBlockingOfManager = (adminId = null, managerId) => {
+const makeBlockingOfManager = (adminId, managerId, isBlocked= false) => {
     const query = {
         where: {
             id: managerId,
@@ -73,7 +74,7 @@ const makeBlockingOfManager = (adminId = null, managerId) => {
     };
 
     const data = {
-        is_blocked: true,
+        is_blocked: isBlocked,
     };
 
     if (adminId) {
