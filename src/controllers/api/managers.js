@@ -138,7 +138,7 @@ const blockManager = (req, res) => {
 
     return managers.makeBlockingOfManager(adminId, managerId, isBlocked)
         .then(() => res.status(200).json({
-            message: 'Manager was blocked',
+            message: `Manager was ${isBlocked ? 'blocked' : 'unblocked'}`,
         }))
         .catch(err => {
             logger.error(err.message, 'blockManager');
