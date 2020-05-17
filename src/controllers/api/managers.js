@@ -134,10 +134,11 @@ const changePassword = (req, res) => {
 const blockManager = (req, res) => {
     const { id: adminId } = req.user;
     const { id: managerId } = req.params;
+    const { is_blocked: isBlocked } = req.body;
 
-    return managers.makeBlockingOfManager(adminId, managerId)
+    return managers.makeBlockingOfManager(adminId, managerId, isBlocked)
         .then(() => res.status(200).json({
-            message: 'Manager was blocked',
+            message: `Manager was ${isBlocked ? 'blocked' : 'unblocked'}`,
         }))
         .catch(err => {
             logger.error(err.message, 'blockManager');
