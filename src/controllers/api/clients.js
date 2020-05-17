@@ -63,12 +63,13 @@ const editClient = (req, res) => {
 const markDeletionClient = (req, res) => {
     const { id } = req.params;
     const { user_id: managerId } = req.user;
+    const { is_removed: isRemoved } = req.body;
 
     // TODO validation data
 
-    return clients.makeMarkingDeletionOfClient(id, managerId)
+    return clients.makeMarkingDeletionOfClient(id, managerId, isRemoved)
         .then(() => res.status(200).json({
-            message: 'Client was marked for deletion',
+            message: `Client was ${isRemoved ? 'marked' : 'unmarked'} for deletion`,
         }))
         .catch(err => {
             logger.error(err.message, 'markDeletionClient');
