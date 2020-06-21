@@ -1,4 +1,5 @@
-import { Client, Loan } from '../../models';
+import db, { ClientCard, Client, Loan } from '../../models';
+import { logger } from '../../utils';
 
 /**
  * @return {Promise<T | never>}
@@ -72,6 +73,7 @@ const findLoan = id => {
  * @returns {data}
  */
 const makeCreating = (body, managerId) => {
+    console.log(body);
     const {
         amount,
         coefficient,
@@ -81,7 +83,7 @@ const makeCreating = (body, managerId) => {
         totalRepaymentAmount,
     } = body;
 
-    const data = {
+    const loanData = {
         amount,
         coefficient,
         client_id: clientId,
@@ -91,7 +93,32 @@ const makeCreating = (body, managerId) => {
         manager_id: managerId,
     };
 
-    return Loan.create(data);
+    return db.sequelize.transaction((transaction) => {
+        return Loan.create(loanData, { transaction })
+            .then(() => {
+                const {
+                    email,
+                    fullName: full_name,
+                    phone,
+                    territory,
+                    passportData: passport_data,
+                    clientId: client_id,
+                    surchargeFactor: surcharge_factor,
+                } = body;
+            
+                const clientCardData = {
+                    client_id,
+                    email,
+                    full_name,
+                    passport_data,
+                    phone,
+                    surcharge_factor,
+                    territory,
+                };
+
+                return ClientCard.create(clientCardData, { transaction });
+            });
+    });
 };
 
 /**
