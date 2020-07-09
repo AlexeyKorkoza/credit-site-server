@@ -8,7 +8,7 @@ const verifyJwtToken = (req, res, next) => {
 
     jwt.verify(accessToken, secretKey, algorithm, (err, decoded) => {
         if (err) {
-            return res.status(400).json({
+            return res.status(401).json({
                 message: err.message,
             });
         }
