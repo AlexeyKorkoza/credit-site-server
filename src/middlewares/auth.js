@@ -2,7 +2,7 @@ const authMiddleware = {
     isLogIn: (req, res, next) => {
         const { role } = req.user;
         if (!role) {
-            return res.status(401).json({
+            return res.status(403).json({
                 message: 'You are not logged in',
             });
         }
