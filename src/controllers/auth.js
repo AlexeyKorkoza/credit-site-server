@@ -56,7 +56,7 @@ const logIn = (req, res) => {
                 });
             }
 
-            const { accessToken, expiresIn, refreshToken } = jwt.buildTokens(user, role);
+            const { accessToken, refreshToken } = jwt.buildTokens(user, role);
             if (role === 'manager') {
                 return managers.authManager(user, login)
                     .then(() => auth.makeUpdatingRefreshToken(user, '', refreshToken, role))
@@ -64,7 +64,6 @@ const logIn = (req, res) => {
                         id: user.id,
                         accessToken,
                         refreshToken,
-                        expiresIn,
                         role,
                     }))
                     .catch(err => res.status(500).json({
@@ -79,7 +78,6 @@ const logIn = (req, res) => {
                         id: user.id,
                         accessToken,
                         refreshToken,
-                        expiresIn,
                         role,
                     });
                 });
@@ -103,13 +101,12 @@ const updateRefreshToken = (req, res) => {
                 });
             }
 
-            const { accessToken: newAccessToken, expiresIn, refreshToken: newRefreshToken } = jwt.buildTokens(user, role);
+            const { accessToken: newAccessToken, refreshToken: newRefreshToken } = jwt.buildTokens(user, role);
 
             return auth.makeUpdatingRefreshToken(user, refreshToken, newRefreshToken, role)
                 .then(() => res.status(200).json({
                     refreshToken: newRefreshToken,
                     accessToken: newAccessToken,
-                    expiresIn,
                 })
             );
         })
